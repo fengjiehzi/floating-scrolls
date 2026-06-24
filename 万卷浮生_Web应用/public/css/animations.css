@@ -1,0 +1,329 @@
+/*
+ * 万卷浮生 - 游戏化动效系统
+ * ============================================
+ * 本文件为「万卷浮生」Web 游戏的统一动效系统，包含四大类动效：
+ *   1. 微交互（Micro-interaction）：按钮按压、卡片悬浮、图标弹跳、印章盖落、灯笼摇摆
+ *   2. 状态变化（State Change）：HP 闪烁、数字滚动、Toast 滑入滑出、稀有度脉冲
+ *   3. 场景过渡（Scene Transition）：水墨晕染、卷轴展开、页面进入/离开、导航锁定
+ *   4. 战斗特效（Battle Effect）：屏幕震动、闪光、伤害数字、金光粒子、胜利/败北、太极加载、卡牌翻转
+ *
+ * 所有动效统一使用 :root 中定义的缓动曲线变量，确保整体节奏一致。
+ * 文件末尾提供 prefers-reduced-motion 降级规则，保障无障碍体验。
+ */
+
+/* ====== 统一缓动曲线变量 ====== */
+:root {
+    --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-ink: cubic-bezier(0.445, 0.05, 0.55, 0.95);
+    --ease-power: cubic-bezier(0.77, 0, 0.175, 1);
+    --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* ============================================================
+ * 一、微交互动效（Micro-interaction）
+ * ============================================================ */
+
+/* 按钮按压 */
+@keyframes btn-press {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+}
+
+/* 卡片悬浮上浮 */
+@keyframes card-float {
+    0% { transform: translateY(0) rotateX(0) rotateY(0); }
+    100% { transform: translateY(-4px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)); }
+}
+
+/* 图标弹跳 */
+@keyframes icon-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+/* 印章盖落 */
+@keyframes stamp-drop {
+    0% { transform: scale(2) rotate(-15deg); opacity: 0; }
+    60% { transform: scale(0.9) rotate(2deg); opacity: 1; }
+    80% { transform: scale(1.05) rotate(-1deg); }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* 灯笼摇摆 */
+@keyframes lantern-sway {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+}
+
+/* ============================================================
+ * 二、状态变化动效（State Change）
+ * ============================================================ */
+
+/* HP条减少闪烁 */
+@keyframes hp-flash {
+    0%, 100% { box-shadow: 0 0 0 rgba(255, 74, 61, 0); }
+    50% { box-shadow: 0 0 20px rgba(255, 74, 61, 0.8); }
+}
+
+/* 数字滚动 */
+@keyframes number-roll {
+    0% { transform: translateY(0); opacity: 1; }
+    50% { transform: translateY(-10px); opacity: 0.5; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+/* Toast滑入 */
+@keyframes toast-slide-in {
+    0% { transform: translateX(-50%) translateY(-100px); opacity: 0; }
+    100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+}
+
+/* Toast滑出 */
+@keyframes toast-slide-out {
+    0% { transform: translateX(-50%) translateY(0); opacity: 1; }
+    100% { transform: translateX(-50%) translateY(-100px); opacity: 0; }
+}
+
+/* 稀有度光效脉冲 */
+@keyframes rarity-pulse {
+    0%, 100% { box-shadow: var(--rarity-current-glow, 0 0 12px rgba(255, 215, 0, 0.4)); }
+    50% { box-shadow: var(--rarity-current-glow-strong, 0 0 24px rgba(255, 215, 0, 0.8)); }
+}
+
+/* ============================================================
+ * 三、场景过渡动效（Scene Transition）
+ * ============================================================ */
+
+/* 水墨晕染淡出 */
+@keyframes ink-fade-out {
+    0% { opacity: 1; filter: blur(0); transform: scale(1); }
+    100% { opacity: 0; filter: blur(8px); transform: scale(1.05); }
+}
+
+/* 卷轴展开进入 */
+@keyframes scroll-unfold {
+    0% { opacity: 0; transform: scaleY(0) scaleX(0.8); transform-origin: top center; }
+    60% { opacity: 1; transform: scaleY(1.02) scaleX(1); }
+    100% { opacity: 1; transform: scaleY(1) scaleX(1); }
+}
+
+/* 水墨晕染进入 */
+@keyframes ink-fade-in {
+    0% { opacity: 0; filter: blur(8px); transform: scale(0.95); }
+    100% { opacity: 1; filter: blur(0); transform: scale(1); }
+}
+
+/* 页面离开 */
+.page-leave {
+    animation: ink-fade-out 0.3s var(--ease-ink) forwards;
+}
+
+/* 页面进入 */
+.page-enter {
+    animation: scroll-unfold 0.5s var(--ease-ink) forwards;
+}
+
+/* 导航锁定 */
+.nav-locked {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+/* ============================================================
+ * 四、战斗特效（Battle Effect）
+ * ============================================================ */
+
+/* 屏幕震动 */
+@keyframes screen-shake {
+    0%, 100% { transform: translate(0, 0); }
+    10% { transform: translate(-4px, -2px); }
+    20% { transform: translate(4px, 2px); }
+    30% { transform: translate(-3px, 3px); }
+    40% { transform: translate(3px, -3px); }
+    50% { transform: translate(-2px, 2px); }
+    60% { transform: translate(2px, -2px); }
+    70% { transform: translate(-1px, 1px); }
+    80% { transform: translate(1px, -1px); }
+    90% { transform: translate(-1px, 0); }
+}
+
+.screen-shake {
+    animation: screen-shake 0.2s var(--ease-power);
+}
+
+/* 闪光 */
+@keyframes flash-burst {
+    0% { opacity: 0; transform: scale(0.5); }
+    30% { opacity: 1; transform: scale(1.2); }
+    100% { opacity: 0; transform: scale(2); }
+}
+
+.flash-effect {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.8) 0%, rgba(255, 74, 61, 0.4) 50%, transparent 100%);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9999;
+    animation: flash-burst 0.4s var(--ease-power) forwards;
+}
+
+/* 伤害数字飞出 */
+@keyframes damage-fly {
+    0% { transform: translate(-50%, 0) scale(0.5); opacity: 0; }
+    20% { transform: translate(-50%, -20px) scale(1.3); opacity: 1; }
+    60% { transform: translate(-50%, -60px) scale(1); opacity: 1; }
+    100% { transform: translate(-50%, -100px) scale(0.8); opacity: 0; }
+}
+
+.damage-number {
+    position: absolute;
+    font-family: var(--font-family-brush);
+    font-size: 32px;
+    font-weight: bold;
+    color: #ff4a3d;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 10px rgba(255, 74, 61, 0.6);
+    pointer-events: none;
+    z-index: 1000;
+    animation: damage-fly 0.8s var(--ease-bounce) forwards;
+}
+
+.damage-number.crit {
+    font-size: 48px;
+    color: #ffd700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 15px rgba(255, 215, 0, 0.8);
+}
+
+.damage-number.heal {
+    color: #a8d8b9;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 10px rgba(168, 216, 185, 0.6);
+}
+
+/* 金光粒子 */
+@keyframes gold-particle {
+    0% { transform: translate(0, 0) scale(0); opacity: 1; }
+    100% { transform: translate(var(--px, 50px), var(--py, -80px)) scale(1); opacity: 0; }
+}
+
+.gold-particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffd700 0%, transparent 70%);
+    pointer-events: none;
+    animation: gold-particle 1s var(--ease-power) forwards;
+}
+
+/* 胜利展示 */
+@keyframes victory-zoom {
+    0% { transform: scale(0.5) translateY(50px); opacity: 0; }
+    50% { transform: scale(1.1) translateY(0); opacity: 1; }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.victory-text {
+    animation: victory-zoom 0.6s var(--ease-bounce) forwards;
+}
+
+/* 败方倒下 */
+@keyframes defeat-fall {
+    0% { transform: rotate(0) translateY(0); filter: grayscale(0); opacity: 1; }
+    100% { transform: rotate(90deg) translateY(20px); filter: grayscale(1); opacity: 0.5; }
+}
+
+.defeat-fall {
+    animation: defeat-fall 0.8s var(--ease-power) forwards;
+}
+
+/* 太极加载旋转 */
+@keyframes taichi-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-taichi {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, #1a1a1a 50%, #f5f0e6 50%);
+    position: relative;
+    animation: taichi-spin 1.2s linear infinite;
+}
+
+.loading-taichi::before,
+.loading-taichi::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    left: 12px;
+}
+
+.loading-taichi::before {
+    top: 0;
+    background: #1a1a1a;
+}
+
+.loading-taichi::after {
+    bottom: 0;
+    background: #f5f0e6;
+}
+
+/* 卡牌翻转 */
+.card-flip-container {
+    perspective: 1000px;
+}
+
+.card-flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s var(--ease-power);
+    transform-style: preserve-3d;
+}
+
+.card-flip-container.flipped .card-flip-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.card-back {
+    transform: rotateY(180deg);
+}
+
+/* ============================================================
+ * 五、无障碍降级（prefers-reduced-motion）
+ * ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .screen-shake,
+    .flash-effect,
+    .damage-number,
+    .gold-particle {
+        display: none !important;
+    }
+}

@@ -1,0 +1,122 @@
+/* ============================================================
+ * 万卷浮生 - 场景化主题变量文件
+ * ------------------------------------------------------------
+ * 用途：定义战斗 / 角色 / 大厅三套场景化主题变量，
+ *       以及全局稀有度光效与场景切换过渡变量。
+ * 使用：在 HTML 根元素或容器上添加 .scene-battle / .scene-char
+ *       / .scene-lobby 类，即可将 --bg-current 等通用变量
+ *       映射到对应场景主题，实现整页主题切换。
+ * ============================================================ */
+
+:root {
+    /* ====== 战斗场景 · 暗夜墨色系（前缀 --battle-） ====== */
+    --battle-bg-primary: #0a0a0f;            /* 主背景 */
+    --battle-bg-ambient: #1a1a2e;            /* 氛围色 */
+    --battle-bg-deep: #050508;               /* 深层背景 */
+    --battle-accent: #ff4a3d;                /* 朱砂强调色 */
+    --battle-accent-glow: #ff6b5d;           /* 朱砂光晕 */
+    --battle-gold: #ffd700;                  /* 金箔高光 */
+    --battle-gold-soft: #d4a843;             /* 柔金 */
+    --battle-text-primary: #f5f0e6;          /* 主文本，纸黄色 */
+    --battle-text-secondary: #c9c0b0;        /* 次要文本 */
+    --battle-text-muted: #8a8a9a;            /* 弱化文本 */
+    --battle-border: rgba(255, 74, 61, 0.3); /* 朱砂边框 */
+    --battle-border-gold: rgba(255, 215, 0, 0.4); /* 金边框 */
+    --battle-shadow: 0 4px 20px rgba(255, 74, 61, 0.2); /* 朱砂阴影 */
+    --battle-card-bg: rgba(26, 26, 46, 0.85); /* 卡牌背景 */
+
+    /* ====== 角色场景 · 暖玉色系（前缀 --char-） ====== */
+    --char-bg-primary: #f5ebd8;              /* 主背景 */
+    --char-bg-ambient: #ede0c8;              /* 氛围色 */
+    --char-bg-light: #faf3e3;                /* 浅色背景 */
+    --char-accent: #a8d8b9;                  /* 玉色强调 */
+    --char-accent-deep: #7eb89a;             /* 深玉色 */
+    --char-gold: #c9a962;                    /* 古金 */
+    --char-text-primary: #2a2418;            /* 主文本 */
+    --char-text-secondary: #5a4f3a;          /* 次要文本 */
+    --char-border: rgba(168, 216, 185, 0.4); /* 玉色边框 */
+    --char-card-bg: rgba(250, 243, 227, 0.9); /* 卡牌背景 */
+    --char-shadow: 0 4px 16px rgba(168, 216, 185, 0.2); /* 玉色阴影 */
+
+    /* ====== 大厅场景 · 青烟色系（前缀 --lobby-） ====== */
+    --lobby-bg-primary: #e8e8e0;             /* 主背景 */
+    --lobby-bg-ambient: #d4d4c8;             /* 氛围色 */
+    --lobby-bg-deep: #c0c0b0;                /* 深色背景 */
+    --lobby-accent: #7a9a8e;                 /* 青烟强调 */
+    --lobby-accent-light: #9ab8a8;           /* 浅青烟 */
+    --lobby-gold: #b8a070;                   /* 烟金 */
+    --lobby-text-primary: #2a2a24;           /* 主文本 */
+    --lobby-text-secondary: #5a5a4f;         /* 次要文本 */
+    --lobby-border: rgba(122, 154, 142, 0.4); /* 青烟边框 */
+    --lobby-card-bg: rgba(232, 232, 224, 0.9); /* 卡牌背景 */
+    --lobby-shadow: 0 4px 16px rgba(122, 154, 142, 0.2); /* 青烟阴影 */
+
+    /* ====== 稀有度光效变量（全局，无前缀） ====== */
+    /* SSR · 金光 */
+    --rarity-ssr-color: #ffd700;
+    --rarity-ssr-glow: 0 0 20px rgba(255, 215, 0, 0.6);
+    --rarity-ssr-gradient: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
+
+    /* SR · 紫光 */
+    --rarity-sr-color: #b886ff;
+    --rarity-sr-glow: 0 0 16px rgba(184, 134, 255, 0.5);
+    --rarity-sr-gradient: linear-gradient(135deg, #b886ff 0%, #7c3aed 100%);
+
+    /* R · 蓝光 */
+    --rarity-r-color: #4a9eff;
+    --rarity-r-glow: 0 0 12px rgba(74, 158, 255, 0.4);
+    --rarity-r-gradient: linear-gradient(135deg, #4a9eff 0%, #2563eb 100%);
+
+    /* N · 普通灰 */
+    --rarity-n-color: #8a8a8a;
+    --rarity-n-glow: 0 0 8px rgba(138, 138, 138, 0.2);
+
+    /* ====== 场景切换过渡变量 ====== */
+    --scene-transition: background-color 0.5s var(--ease-smooth, ease), color 0.5s var(--ease-smooth, ease);
+}
+
+/* ============================================================
+ * 场景应用类
+ * ------------------------------------------------------------
+ * 通过为容器添加以下类，将 --bg-current 等通用变量映射到
+ * 对应场景主题变量，配合 var(--scene-transition) 实现平滑切换。
+ * 通用变量：--bg-current, --bg-ambient-current, --text-current,
+ *          --text-secondary-current, --border-current,
+ *          --card-bg-current, --shadow-current, --accent-current
+ * ============================================================ */
+
+/* 战斗场景 */
+.scene-battle {
+    --bg-current: var(--battle-bg-primary);
+    --bg-ambient-current: var(--battle-bg-ambient);
+    --text-current: var(--battle-text-primary);
+    --text-secondary-current: var(--battle-text-secondary);
+    --border-current: var(--battle-border);
+    --card-bg-current: var(--battle-card-bg);
+    --shadow-current: var(--battle-shadow);
+    --accent-current: var(--battle-accent);
+}
+
+/* 角色场景 */
+.scene-char {
+    --bg-current: var(--char-bg-primary);
+    --bg-ambient-current: var(--char-bg-ambient);
+    --text-current: var(--char-text-primary);
+    --text-secondary-current: var(--char-text-secondary);
+    --border-current: var(--char-border);
+    --card-bg-current: var(--char-card-bg);
+    --shadow-current: var(--char-shadow);
+    --accent-current: var(--char-accent);
+}
+
+/* 大厅场景 */
+.scene-lobby {
+    --bg-current: var(--lobby-bg-primary);
+    --bg-ambient-current: var(--lobby-bg-ambient);
+    --text-current: var(--lobby-text-primary);
+    --text-secondary-current: var(--lobby-text-secondary);
+    --border-current: var(--lobby-border);
+    --card-bg-current: var(--lobby-card-bg);
+    --shadow-current: var(--lobby-shadow);
+    --accent-current: var(--lobby-accent);
+}

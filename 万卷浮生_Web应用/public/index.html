@@ -1,0 +1,1785 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>万卷浮生 - 东方志怪典籍</title>
+    <link rel="stylesheet" href="/css/themes.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/animations.css">
+    <style>
+        /* ====== AI角色提取UI样式 ====== */
+        .extract-section {
+            margin-top: 24px;
+            padding: 24px;
+            background: rgba(250, 247, 242, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--border-paper);
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+        }
+        .extract-section-title {
+            font-family: var(--font-family-brush);
+            font-size: 22px;
+            color: var(--old-gold);
+            margin-bottom: 8px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-paper);
+        }
+        .extract-section-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+        .extract-actions {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        #extract-results {
+            margin-top: 16px;
+        }
+        .extract-candidate-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .extract-candidate {
+            padding: 8px 18px;
+            background: var(--paper-bg);
+            border: 1px solid var(--border-paper);
+            border-radius: 20px;
+            font-size: 14px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-family: var(--font-family-serif);
+        }
+        .extract-candidate:hover {
+            border-color: var(--old-gold);
+            background: var(--paper-light);
+            color: var(--old-gold-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+        .extract-candidate:active {
+            transform: translateY(0);
+        }
+        .extract-candidate.selected {
+            background: linear-gradient(135deg, var(--old-gold) 0%, var(--old-gold-dark) 100%);
+            color: var(--ink-black);
+            border-color: var(--old-gold);
+        }
+        .extract-empty {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        /* ====== 角色编辑表单样式 ====== */
+        #character-editor {
+            display: none;
+            margin-top: 24px;
+            padding: 24px;
+            background: rgba(250, 247, 242, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-paper);
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+        }
+        #character-editor.active { display: block; }
+        .editor-title {
+            font-family: var(--font-family-brush);
+            font-size: 22px;
+            color: var(--old-gold);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-paper);
+        }
+        .editor-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .editor-field { display: flex; flex-direction: column; }
+        .editor-field label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+        .editor-field input,
+        .editor-field select,
+        .editor-field textarea {
+            width: 100%;
+            padding: 10px 14px;
+            background: var(--paper-bg);
+            border: 1px solid var(--border-paper);
+            border-radius: 4px;
+            font-family: var(--font-family-serif);
+            font-size: 14px;
+            color: var(--text-primary);
+            transition: all var(--transition-fast);
+            outline: none;
+        }
+        .editor-field input:focus,
+        .editor-field select:focus,
+        .editor-field textarea:focus {
+            border-color: var(--old-gold);
+            box-shadow: 0 0 0 3px rgba(201, 169, 98, 0.12);
+        }
+        .editor-field textarea {
+            resize: vertical;
+            min-height: 80px;
+            font-family: var(--font-family-serif);
+        }
+        .editor-block {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed var(--border-paper);
+        }
+        .editor-block-title {
+            font-family: var(--font-family-brush);
+            font-size: 17px;
+            color: var(--old-gold);
+            margin-bottom: 12px;
+        }
+
+        /* 7维度属性滑块 */
+        .stats-slider-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 14px;
+        }
+        .stat-slider-item {
+            background: var(--paper-bg);
+            padding: 12px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border-paper);
+        }
+        .stat-slider-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .stat-slider-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        .stat-slider-value {
+            font-family: var(--font-family-brush);
+            font-size: 18px;
+            color: var(--vermillion);
+            min-width: 32px;
+            text-align: right;
+        }
+        .stat-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(90deg, var(--paper-dark) 0%, var(--old-gold-light) 100%);
+            outline: none;
+            cursor: pointer;
+        }
+        .stat-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--old-gold) 0%, var(--old-gold-dark) 100%);
+            border: 2px solid var(--paper-light);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        .stat-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+            box-shadow: 0 2px 10px rgba(201,169,98,0.5);
+        }
+        .stat-slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--old-gold) 0%, var(--old-gold-dark) 100%);
+            border: 2px solid var(--paper-light);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        .stat-slider-hint {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* 技能/形态输入组 */
+        .skill-editor-group,
+        .form-editor-group {
+            background: var(--paper-bg);
+            padding: 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border-paper);
+            margin-bottom: 12px;
+        }
+        .skill-editor-group-title,
+        .form-editor-group-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--old-gold-dark);
+            margin-bottom: 10px;
+        }
+        .skill-editor-row {
+            display: grid;
+            grid-template-columns: 2fr 1.2fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .form-editor-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .form-bonuses-row {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .form-bonus-field { display: flex; flex-direction: column; }
+        .form-bonus-field label {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+        .form-bonus-field input {
+            width: 100%;
+            padding: 6px 8px;
+            background: var(--paper-light);
+            border: 1px solid var(--border-paper);
+            border-radius: 4px;
+            font-size: 13px;
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color var(--transition-fast);
+        }
+        .form-bonus-field input:focus { border-color: var(--old-gold); }
+        .editor-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-paper);
+        }
+
+        /* ====== 角色成长详情弹窗增强 ====== */
+        .growth-level-box {
+            text-align: center;
+            padding: 14px;
+            background: linear-gradient(135deg, rgba(201,169,98,0.15) 0%, rgba(194,59,34,0.1) 100%);
+            border-radius: 10px;
+            border: 1px solid var(--border-gold);
+            margin-bottom: 14px;
+        }
+        .growth-level-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+        .growth-level-value {
+            font-family: var(--font-family-brush);
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--vermillion);
+            line-height: 1;
+            text-shadow: 0 2px 8px rgba(194,59,34,0.2);
+        }
+        .growth-exp-wrap {
+            margin-top: 10px;
+        }
+        .growth-exp-head {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+        .growth-exp-bar {
+            height: 10px;
+            background: var(--paper-dark);
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+        .growth-exp-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #6d28d9 0%, #4f46e5 50%, #2563eb 100%);
+            border-radius: 5px;
+            transition: width 0.6s ease;
+            box-shadow: 0 0 8px rgba(79, 70, 229, 0.5);
+        }
+        .growth-stats-table {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .growth-stat-cell {
+            padding: 10px;
+            background: var(--paper-bg);
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid var(--border-paper);
+        }
+        .growth-stat-cell .label {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+        .growth-stat-cell .value {
+            font-family: var(--font-family-brush);
+            font-size: 18px;
+            color: var(--text-primary);
+        }
+        .growth-stat-cell .bonus {
+            font-size: 11px;
+            color: var(--old-gold-dark);
+            margin-top: 2px;
+        }
+
+        /* 形态解锁/锁定样式 */
+        .form-item-detail {
+            padding: 12px;
+            background: var(--paper-bg);
+            border-radius: 8px;
+            border-left: 3px solid var(--old-gold);
+            margin-bottom: 8px;
+        }
+        .form-item-detail.locked {
+            border-left-color: var(--text-muted);
+            background: rgba(232, 224, 208, 0.5);
+            opacity: 0.7;
+        }
+        .form-item-detail .form-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+        .form-item-detail .form-name {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+        .form-item-detail.locked .form-name {
+            color: var(--text-muted);
+        }
+        .form-item-detail .form-lock-icon {
+            font-size: 16px;
+        }
+        .form-item-detail .form-unlock-tag {
+            font-size: 11px;
+            color: var(--old-gold-dark);
+            background: rgba(201,169,98,0.15);
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        .form-item-detail .form-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .form-item-detail.locked .form-desc {
+            color: var(--text-muted);
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .editor-row { grid-template-columns: 1fr; }
+            .skill-editor-row { grid-template-columns: 1fr; }
+            .form-editor-row { grid-template-columns: 1fr; }
+            .form-bonuses-row { grid-template-columns: repeat(2, 1fr); }
+            .extract-section, #character-editor { padding: 16px; }
+        }
+
+        /* ====== 角色详情弹窗玻璃拟态增强 ====== */
+        #char-detail-modal .modal-content {
+            background: rgba(250, 247, 242, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 8px 40px rgba(13, 13, 13, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+        /* 弹窗关闭按钮交互增强 */
+        #char-detail-modal .modal-close {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(4px);
+            transition: all var(--transition-fast);
+        }
+        #char-detail-modal .modal-close:hover {
+            background: var(--vermillion);
+            color: var(--paper-bg);
+            transform: rotate(90deg);
+        }
+        /* 详情左侧栏滚动优化 */
+        .detail-left { position: sticky; top: 0; align-self: start; }
+        @media (max-width: 1024px) {
+            .detail-left { position: static; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 古籍纹理背景 -->
+    <div class="paper-texture"></div>
+    
+    <!-- ====== 登录注册页面 ====== -->
+    <section class="page active" id="page-auth">
+        <div class="auth-page">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <div class="auth-header">
+                        <div class="auth-logo">万卷浮生</div>
+                        <div class="auth-subtitle">东方志怪典籍</div>
+                    </div>
+                    <div class="auth-tabs">
+                        <div class="auth-tab active" data-tab="login">登录</div>
+                        <div class="auth-tab" data-tab="register">注册</div>
+                    </div>
+                    <!-- 登录表单 -->
+                    <form id="login-form" class="auth-form">
+                        <div class="form-group">
+                            <label>用户名</label>
+                            <input type="text" id="login-username" class="input-field" placeholder="请输入用户名" required>
+                        </div>
+                        <div class="form-group">
+                            <label>密码</label>
+                            <input type="password" id="login-password" class="input-field" placeholder="请输入密码" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary auth-submit"><span>登录</span></button>
+                    </form>
+                    <!-- 注册表单 -->
+                    <form id="register-form" class="auth-form" style="display:none;">
+                        <div class="form-group">
+                            <label>用户名</label>
+                            <input type="text" id="reg-username" class="input-field" placeholder="3-20位字符" required>
+                        </div>
+                        <div class="form-group">
+                            <label>密码</label>
+                            <input type="password" id="reg-password" class="input-field" placeholder="至少6位" required>
+                        </div>
+                        <div class="form-group">
+                            <label>昵称</label>
+                            <input type="text" id="reg-nickname" class="input-field" placeholder="请输入昵称">
+                        </div>
+                        <div class="form-group">
+                            <label>选择化身</label>
+                            <div class="avatar-picker" id="avatar-picker">
+                                <span class="avatar-option active" data-avatar="🎭">🎭</span>
+                                <span class="avatar-option" data-avatar="👻">👻</span>
+                                <span class="avatar-option" data-avatar="🐉">🐉</span>
+                                <span class="avatar-option" data-avatar="🦊">🦊</span>
+                                <span class="avatar-option" data-avatar="🗡️">🗡️</span>
+                                <span class="avatar-option" data-avatar="🏮">🏮</span>
+                                <span class="avatar-option" data-avatar="📜">📜</span>
+                                <span class="avatar-option" data-avatar="🏯">🏯</span>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary auth-submit"><span>注册</span></button>
+                    </form>
+                    <div class="auth-error" id="auth-error"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== 主布局 ====== -->
+    <div class="main-layout" id="main-layout" style="display:none;">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">万卷浮生</div>
+            <nav class="nav-menu">
+                <div class="nav-item active" data-page="library">
+                    <span class="nav-item-icon">📚</span>
+                    <span class="nav-item-text">典籍库</span>
+                </div>
+                <div class="nav-item" data-page="upload">
+                    <span class="nav-item-icon">📤</span>
+                    <span class="nav-item-text">上传典籍</span>
+                </div>
+                <div class="nav-item" data-page="create">
+                    <span class="nav-item-icon">✏️</span>
+                    <span class="nav-item-text">创作工坊</span>
+                </div>
+                <div class="nav-item" data-page="proofread">
+                    <span class="nav-item-icon">🔍</span>
+                    <span class="nav-item-text">世界校对</span>
+                </div>
+                <div class="nav-item" data-page="characters">
+                    <span class="nav-item-icon">🎭</span>
+                    <span class="nav-item-text">角色入口</span>
+                </div>
+                <div class="nav-item" data-page="char-library">
+                    <span class="nav-item-icon">🎴</span>
+                    <span class="nav-item-text">角色卡库</span>
+                </div>
+                <div class="nav-item" data-page="lobby">
+                    <span class="nav-item-icon">⚔️</span>
+                    <span class="nav-item-text">对战大厅</span>
+                </div>
+                <div class="nav-item" data-page="game">
+                    <span class="nav-item-icon">📖</span>
+                    <span class="nav-item-text">志怪奇谭</span>
+                </div>
+                <div class="nav-item" data-page="panels">
+                    <span class="nav-item-icon">📋</span>
+                    <span class="nav-item-text">人物志</span>
+                </div>
+                <div class="nav-item" data-page="timeline">
+                    <span class="nav-item-icon">📅</span>
+                    <span class="nav-item-text">大事记</span>
+                </div>
+                <div class="nav-item" data-page="battles">
+                    <span class="nav-item-icon">🏆</span>
+                    <span class="nav-item-text">战绩榜</span>
+                </div>
+                <div class="nav-item" data-page="saves">
+                    <span class="nav-item-icon">📁</span>
+                    <span class="nav-item-text">存档管理</span>
+                </div>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info" id="user-info">
+                    <div class="user-avatar" id="user-avatar">🎭</div>
+                    <div class="user-details">
+                        <div class="user-name" id="user-name">访客</div>
+                        <div class="user-title">初入凡尘</div>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="App.logout()">退出登录</button>
+            </div>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <!-- ====== 典籍库页面 ====== -->
+            <section class="page active" id="page-library">
+                <div class="content-header">
+                    <h1 class="content-title">典籍库</h1>
+                    <p class="content-subtitle">收录世间志怪奇谭，探索神秘世界</p>
+                </div>
+                <div class="content-body">
+                    <div class="tabs">
+                        <button class="tab active" data-tab="all">全部典籍</button>
+                        <button class="tab" data-tab="completed">已完结</button>
+                        <button class="tab" data-tab="reading">阅读中</button>
+                        <button class="tab" data-tab="collect">我的收藏</button>
+                    </div>
+                    <div class="library-grid">
+                        <div class="book-card">
+                            <div class="book-cover">
+                                <span class="book-icon">🦊</span>
+                            </div>
+                            <div class="book-info">
+                                <h3 class="book-title">聊斋志异</h3>
+                                <p class="book-author">蒲松龄</p>
+                                <div class="book-meta">
+                                    <span>📖 491篇</span>
+                                    <span>🕰️ 清代</span>
+                                </div>
+                                <span class="book-status status-completed">已完结</span>
+                            </div>
+                        </div>
+                        <div class="book-card">
+                            <div class="book-cover">
+                                <span class="book-icon">🐉</span>
+                            </div>
+                            <div class="book-info">
+                                <h3 class="book-title">山海经</h3>
+                                <p class="book-author">佚名</p>
+                                <div class="book-meta">
+                                    <span>📖 18卷</span>
+                                    <span>🕰️ 先秦</span>
+                                </div>
+                                <span class="book-status status-completed">已完结</span>
+                            </div>
+                        </div>
+                        <div class="book-card">
+                            <div class="book-cover">
+                                <span class="book-icon">👻</span>
+                            </div>
+                            <div class="book-info">
+                                <h3 class="book-title">搜神记</h3>
+                                <p class="book-author">干宝</p>
+                                <div class="book-meta">
+                                    <span>📖 464条</span>
+                                    <span>🕰️ 晋代</span>
+                                </div>
+                                <span class="book-status status-completed">已完结</span>
+                            </div>
+                        </div>
+                        <div class="book-card">
+                            <div class="book-cover">
+                                <span class="book-icon">🗡️</span>
+                            </div>
+                            <div class="book-info">
+                                <h3 class="book-title">太平广记</h3>
+                                <p class="book-author">李昉</p>
+                                <div class="book-meta">
+                                    <span>📖 500卷</span>
+                                    <span>🕰️ 宋代</span>
+                                </div>
+                                <span class="book-status status-progress">整理中</span>
+                            </div>
+                        </div>
+                        <div class="book-card">
+                            <div class="book-cover">
+                                <span class="book-icon">🏮</span>
+                            </div>
+                            <div class="book-info">
+                                <h3 class="book-title">子不语</h3>
+                                <p class="book-author">袁枚</p>
+                                <div class="book-meta">
+                                    <span>📖 24卷</span>
+                                    <span>🕰️ 清代</span>
+                                </div>
+                                <span class="book-status status-completed">已完结</span>
+                            </div>
+                        </div>
+                        <div class="book-card">
+                            <div class="book-cover">
+                                <span class="book-icon">📜</span>
+                            </div>
+                            <div class="book-info">
+                                <h3 class="book-title">阅微草堂笔记</h3>
+                                <p class="book-author">纪昀</p>
+                                <div class="book-meta">
+                                    <span>📖 24卷</span>
+                                    <span>🕰️ 清代</span>
+                                </div>
+                                <span class="book-status status-pending">待收录</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ====== 上传典籍页面 ====== -->
+            <section class="page" id="page-upload">
+                <div class="content-header">
+                    <h1 class="content-title">上传典籍</h1>
+                    <p class="content-subtitle">将古籍录入系统，让更多人领略志怪之美</p>
+                </div>
+                <div class="content-body">
+                    <div class="upload-container">
+                        <div class="upload-area" id="upload-zone">
+                            <div class="upload-icon">📄</div>
+                            <h3 class="upload-title">拖拽文件至此</h3>
+                            <p class="upload-desc">支持 .txt、.md 格式，单文件最大 10MB</p>
+                            <input type="file" id="file-input" accept=".txt,.md,.text" style="display:none;">
+                        </div>
+                        
+                        <div class="progress-container" id="progress-container" style="display:none;">
+                            <div class="progress-header">
+                                <span class="progress-label">处理进度</span>
+                                <span class="progress-percent" id="progress-percent">0%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progress-fill"></div>
+                            </div>
+                            
+                            <div class="progress-steps">
+                                <div class="progress-step" id="step-1">
+                                    <div class="step-icon">📥</div>
+                                    <div class="step-title">文件解析</div>
+                                    <div class="step-status">进行中</div>
+                                </div>
+                                <div class="progress-step" id="step-2">
+                                    <div class="step-icon">🧠</div>
+                                    <div class="step-title">AI分析</div>
+                                    <div class="step-status">等待中</div>
+                                </div>
+                                <div class="progress-step" id="step-3">
+                                    <div class="step-icon">✅</div>
+                                    <div class="step-title">完成收录</div>
+                                    <div class="step-status">等待中</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <textarea id="text-input" placeholder="或在此粘贴典籍文本..." class="create-textarea"></textarea>
+                        
+                        <div class="create-actions">
+                            <button class="btn btn-ghost" onclick="clearUpload()">清空</button>
+                            <button class="btn btn-primary" onclick="startUpload()"><span>开始收录</span></button>
+                        </div>
+                    </div>
+
+                    <!-- AI角色提取区 -->
+                    <div class="extract-section">
+                        <div class="extract-section-title">🎭 AI角色提取</div>
+                        <div class="extract-section-desc">从上方典籍文本中智能识别候选角色名，选择后可编辑生成专属角色卡</div>
+                        <div class="extract-actions">
+                            <button class="btn btn-primary" id="btn-extract-chars" onclick="App.extractCharacters()"><span>提取角色</span></button>
+                            <button class="btn btn-ghost" id="btn-clear-extract" onclick="App.clearExtract()">清空结果</button>
+                        </div>
+                        <div id="extract-results">
+                            <div class="extract-empty">点击「提取角色」按钮，从典籍文本中识别候选角色</div>
+                        </div>
+
+                        <!-- 角色编辑表单 -->
+                        <div id="character-editor">
+                            <div class="editor-title">✏️ 角色编辑</div>
+                            <div class="editor-row">
+                                <div class="editor-field">
+                                    <label for="extract-char-name">角色名</label>
+                                    <input type="text" id="extract-char-name" placeholder="请输入角色名">
+                                </div>
+                                <div class="editor-field">
+                                    <label for="extract-char-source">出处</label>
+                                    <input type="text" id="extract-char-source" value="自定义">
+                                </div>
+                                <div class="editor-field">
+                                    <label for="extract-char-grade">分级</label>
+                                    <select id="extract-char-grade" onchange="App.onGradeChange()">
+                                        <option value="S">S级（神级）</option>
+                                        <option value="A" selected>A级（精英）</option>
+                                        <option value="B">B级（普通）</option>
+                                        <option value="C">C级（入门）</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="editor-block">
+                                <div class="editor-block-title">📊 七维属性（拖动滑块调整）</div>
+                                <div class="stats-slider-grid" id="stats-slider-grid">
+                                    <div class="stat-slider-item">
+                                        <div class="stat-slider-head"><span class="stat-slider-label">力量</span><span class="stat-slider-value" id="slider-power-val">50</span></div>
+                                        <input type="range" class="stat-slider" id="slider-power" min="20" max="100" value="50" oninput="App.onSliderInput('power')">
+                                        <div class="stat-slider-hint" id="slider-power-hint">推荐区间：60-85</div>
+                                    </div>
+                                    <div class="stat-slider-item">
+                                        <div class="stat-slider-head"><span class="stat-slider-label">速度</span><span class="stat-slider-value" id="slider-speed-val">50</span></div>
+                                        <input type="range" class="stat-slider" id="slider-speed" min="20" max="100" value="50" oninput="App.onSliderInput('speed')">
+                                        <div class="stat-slider-hint" id="slider-speed-hint">推荐区间：60-85</div>
+                                    </div>
+                                    <div class="stat-slider-item">
+                                        <div class="stat-slider-head"><span class="stat-slider-label">智力</span><span class="stat-slider-value" id="slider-intelligence-val">50</span></div>
+                                        <input type="range" class="stat-slider" id="slider-intelligence" min="20" max="100" value="50" oninput="App.onSliderInput('intelligence')">
+                                        <div class="stat-slider-hint" id="slider-intelligence-hint">推荐区间：60-85</div>
+                                    </div>
+                                    <div class="stat-slider-item">
+                                        <div class="stat-slider-head"><span class="stat-slider-label">防御</span><span class="stat-slider-value" id="slider-defense-val">50</span></div>
+                                        <input type="range" class="stat-slider" id="slider-defense" min="20" max="100" value="50" oninput="App.onSliderInput('defense')">
+                                        <div class="stat-slider-hint" id="slider-defense-hint">推荐区间：60-85</div>
+                                    </div>
+                                    <div class="stat-slider-item">
+                                        <div class="stat-slider-head"><span class="stat-slider-label">特殊</span><span class="stat-slider-value" id="slider-special_ability-val">50</span></div>
+                                        <input type="range" class="stat-slider" id="slider-special_ability" min="20" max="100" value="50" oninput="App.onSliderInput('special_ability')">
+                                        <div class="stat-slider-hint" id="slider-special_ability-hint">推荐区间：60-85</div>
+                                    </div>
+                                    <div class="stat-slider-item">
+                                        <div class="stat-slider-head"><span class="stat-slider-label">HP</span><span class="stat-slider-value" id="slider-hp-val">50</span></div>
+                                        <input type="range" class="stat-slider" id="slider-hp" min="20" max="100" value="50" oninput="App.onSliderInput('hp')">
+                                        <div class="stat-slider-hint" id="slider-hp-hint">推荐区间：60-85</div>
+                                    </div>
+                                    <div class="stat-slider-item">
+                                        <div class="stat-slider-head"><span class="stat-slider-label">MP</span><span class="stat-slider-value" id="slider-mp-val">50</span></div>
+                                        <input type="range" class="stat-slider" id="slider-mp" min="20" max="100" value="50" oninput="App.onSliderInput('mp')">
+                                        <div class="stat-slider-hint" id="slider-mp-hint">推荐区间：60-85</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="editor-block">
+                                <div class="editor-block-title">⚔️ 技能列表（至少3个）</div>
+                                <div id="skills-editor-list">
+                                    <div class="skill-editor-group">
+                                        <div class="skill-editor-group-title">技能 1</div>
+                                        <div class="skill-editor-row">
+                                            <input type="text" class="skill-name-input" placeholder="技能名称">
+                                            <select class="skill-type-input">
+                                                <option value="physical_attack">物理攻击</option>
+                                                <option value="magic_attack">法术攻击</option>
+                                                <option value="speed_attack">速度攻击</option>
+                                                <option value="transform">变化</option>
+                                                <option value="heal">回血</option>
+                                                <option value="passive">被动</option>
+                                                <option value="summon">召唤</option>
+                                            </select>
+                                            <input type="number" class="skill-multiplier-input" placeholder="倍数" min="0.1" step="0.1" value="1.2">
+                                            <input type="number" class="skill-mpcost-input" placeholder="MP消耗" min="0" step="1" value="10">
+                                        </div>
+                                        <input type="text" class="skill-desc-input" placeholder="技能描述">
+                                    </div>
+                                    <div class="skill-editor-group">
+                                        <div class="skill-editor-group-title">技能 2</div>
+                                        <div class="skill-editor-row">
+                                            <input type="text" class="skill-name-input" placeholder="技能名称">
+                                            <select class="skill-type-input">
+                                                <option value="physical_attack">物理攻击</option>
+                                                <option value="magic_attack">法术攻击</option>
+                                                <option value="speed_attack">速度攻击</option>
+                                                <option value="transform">变化</option>
+                                                <option value="heal">回血</option>
+                                                <option value="passive">被动</option>
+                                                <option value="summon">召唤</option>
+                                            </select>
+                                            <input type="number" class="skill-multiplier-input" placeholder="倍数" min="0.1" step="0.1" value="1.2">
+                                            <input type="number" class="skill-mpcost-input" placeholder="MP消耗" min="0" step="1" value="10">
+                                        </div>
+                                        <input type="text" class="skill-desc-input" placeholder="技能描述">
+                                    </div>
+                                    <div class="skill-editor-group">
+                                        <div class="skill-editor-group-title">技能 3</div>
+                                        <div class="skill-editor-row">
+                                            <input type="text" class="skill-name-input" placeholder="技能名称">
+                                            <select class="skill-type-input">
+                                                <option value="physical_attack">物理攻击</option>
+                                                <option value="magic_attack">法术攻击</option>
+                                                <option value="speed_attack">速度攻击</option>
+                                                <option value="transform">变化</option>
+                                                <option value="heal">回血</option>
+                                                <option value="passive">被动</option>
+                                                <option value="summon">召唤</option>
+                                            </select>
+                                            <input type="number" class="skill-multiplier-input" placeholder="倍数" min="0.1" step="0.1" value="1.2">
+                                            <input type="number" class="skill-mpcost-input" placeholder="MP消耗" min="0" step="1" value="10">
+                                        </div>
+                                        <input type="text" class="skill-desc-input" placeholder="技能描述">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="editor-block">
+                                <div class="editor-block-title">🔄 形态列表（至少1个）</div>
+                                <div id="forms-editor-list">
+                                    <div class="form-editor-group">
+                                        <div class="form-editor-group-title">形态 1</div>
+                                        <div class="form-editor-row">
+                                            <input type="text" class="form-name-input" placeholder="形态名称（如：基础形态）">
+                                            <input type="text" class="form-desc-input" placeholder="形态描述">
+                                        </div>
+                                        <div class="form-bonuses-row">
+                                            <div class="form-bonus-field">
+                                                <label>力量加成</label>
+                                                <input type="number" class="form-bonus-power" min="-50" max="50" step="1" value="0">
+                                            </div>
+                                            <div class="form-bonus-field">
+                                                <label>速度加成</label>
+                                                <input type="number" class="form-bonus-speed" min="-50" max="50" step="1" value="0">
+                                            </div>
+                                            <div class="form-bonus-field">
+                                                <label>智力加成</label>
+                                                <input type="number" class="form-bonus-intelligence" min="-50" max="50" step="1" value="0">
+                                            </div>
+                                            <div class="form-bonus-field">
+                                                <label>防御加成</label>
+                                                <input type="number" class="form-bonus-defense" min="-50" max="50" step="1" value="0">
+                                            </div>
+                                            <div class="form-bonus-field">
+                                                <label>特殊加成</label>
+                                                <input type="number" class="form-bonus-special_ability" min="-50" max="50" step="1" value="0">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="editor-block">
+                                <div class="editor-block-title">📖 原作依据</div>
+                                <div class="editor-field">
+                                    <textarea id="extract-char-basis" placeholder="请简述角色的原作依据、性格特征、能力来源等..."></textarea>
+                                </div>
+                            </div>
+
+                            <div class="editor-actions">
+                                <button class="btn btn-ghost" onclick="App.cancelCustomChar()">取消</button>
+                                <button class="btn btn-primary" id="save-custom-char" onclick="App.saveCustomCharacter()"><span>保存角色</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ====== 创作工坊页面 ====== -->
+            <section class="page" id="page-create">
+                <div class="content-header">
+                    <h1 class="content-title">创作工坊</h1>
+                    <p class="content-subtitle">创作属于你的志怪故事</p>
+                </div>
+                <div class="content-body">
+                    <div class="create-panel">
+                        <div class="create-section">
+                            <label class="create-label">故事标题</label>
+                            <input type="text" class="input-field" placeholder="为你的故事命名...">
+                        </div>
+                        <div class="create-section">
+                            <label class="create-label">故事分类</label>
+                            <select class="create-select">
+                                <option>志怪传奇</option>
+                                <option>狐鬼奇谈</option>
+                                <option>仙侠志异</option>
+                                <option>历史怪谈</option>
+                                <option>原创故事</option>
+                            </select>
+                        </div>
+                        <div class="create-section full-width">
+                            <label class="create-label">故事内容</label>
+                            <textarea class="create-textarea" placeholder="在此书写你的志怪传奇..."></textarea>
+                        </div>
+                        <div class="create-section">
+                            <label class="create-label">角色设定</label>
+                            <div class="character-portal">
+                                <div class="portal-card" onclick="addCharacter('protagonist')">
+                                    <span class="portal-icon">🦸</span>
+                                    <h3 class="portal-title">主角</h3>
+                                    <p class="portal-desc">创建主要角色</p>
+                                </div>
+                                <div class="portal-card" onclick="addCharacter('antagonist')">
+                                    <span class="portal-icon">👹</span>
+                                    <h3 class="portal-title">妖怪</h3>
+                                    <p class="portal-desc">添加志怪角色</p>
+                                </div>
+                                <div class="portal-card" onclick="addCharacter('supporting')">
+                                    <span class="portal-icon">👥</span>
+                                    <h3 class="portal-title">配角</h3>
+                                    <p class="portal-desc">添加其他人物</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="create-actions">
+                        <button class="btn btn-ghost">预览</button>
+                        <button class="btn btn-vermillion">保存草稿</button>
+                        <button class="btn btn-primary"><span>发布故事</span></button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ====== 世界校对页面 ====== -->
+            <section class="page" id="page-proofread">
+                <div class="content-header">
+                    <h1 class="content-title">世界校对</h1>
+                    <p class="content-subtitle">校验典籍内容，维护世界一致性</p>
+                </div>
+                <div class="content-body">
+                    <div class="proofread-container">
+                        <div class="proofread-panel">
+                            <div class="proofread-header">
+                                <h3 class="proofread-title">待校对典籍</h3>
+                                <button class="btn btn-primary btn-sm" onclick="startProofread()">开始校对</button>
+                            </div>
+                            <div class="document-list">
+                                <div class="document-item active">
+                                    <div class="document-icon">📜</div>
+                                    <div class="document-info">
+                                        <div class="document-name">聊斋志异 · 小翠篇</div>
+                                        <div class="document-status">检测中...</div>
+                                    </div>
+                                    <div class="document-progress">
+                                        <div class="progress-mini">
+                                            <div class="progress-fill-mini" style="width: 65%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="document-item">
+                                    <div class="document-icon">📖</div>
+                                    <div class="document-info">
+                                        <div class="document-name">山海经 · 西山经</div>
+                                        <div class="document-status">等待中</div>
+                                    </div>
+                                </div>
+                                <div class="document-item">
+                                    <div class="document-icon">📄</div>
+                                    <div class="document-info">
+                                        <div class="document-name">搜神记 · 卷一</div>
+                                        <div class="document-status">已完成</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="proofread-panel wide">
+                            <div class="proofread-header">
+                                <h3 class="proofread-title">校对结果</h3>
+                                <div class="proofread-tabs">
+                                    <button class="tab small active" data-tab="all">全部</button>
+                                    <button class="tab small" data-tab="warning">警告</button>
+                                    <button class="tab small" data-tab="error">错误</button>
+                                    <button class="tab small" data-tab="info">提示</button>
+                                </div>
+                            </div>
+                            <div class="proofread-results">
+                                <div class="result-item warning">
+                                    <div class="result-icon">⚠️</div>
+                                    <div class="result-content">
+                                        <div class="result-title">时间线不一致</div>
+                                        <div class="result-desc">第3章提到「子时三更」，但根据前情，此时应为丑时初刻</div>
+                                        <div class="result-location">第3章 · 第12段</div>
+                                    </div>
+                                    <button class="result-action">修正</button>
+                                </div>
+                                <div class="result-item error">
+                                    <div class="result-icon">❌</div>
+                                    <div class="result-content">
+                                        <div class="result-title">人物设定冲突</div>
+                                        <div class="result-desc">小翠的狐族血统在第1章描述为青丘狐，但第5章却说是涂山狐</div>
+                                        <div class="result-location">第5章 · 第8段</div>
+                                    </div>
+                                    <button class="result-action">查看</button>
+                                </div>
+                                <div class="result-item info">
+                                    <div class="result-icon">💡</div>
+                                    <div class="result-content">
+                                        <div class="result-title">建议优化</div>
+                                        <div class="result-desc">「阴风阵阵」一词在本章出现3次，建议使用「阴风呼啸」等替代</div>
+                                        <div class="result-location">第2章 · 多处</div>
+                                    </div>
+                                    <button class="result-action">采纳</button>
+                                </div>
+                                <div class="result-item warning">
+                                    <div class="result-icon">⚠️</div>
+                                    <div class="result-content">
+                                        <div class="result-title">地理描述矛盾</div>
+                                        <div class="result-desc">后山竹林在第2章位于东侧，但第4章描述为西侧</div>
+                                        <div class="result-location">第4章 · 第15段</div>
+                                    </div>
+                                    <button class="result-action">修正</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="proofread-panel">
+                            <div class="proofread-header">
+                                <h3 class="proofread-title">校对统计</h3>
+                            </div>
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <div class="stat-value">4</div>
+                                    <div class="stat-label">待处理</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">12</div>
+                                    <div class="stat-label">已修正</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">3</div>
+                                    <div class="stat-label">错误</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">87%</div>
+                                    <div class="stat-label">正确率</div>
+                                </div>
+                            </div>
+                            <div class="consistency-score">
+                                <div class="score-label">世界一致性评分</div>
+                                <div class="score-ring">
+                                    <svg width="120" height="120">
+                                        <circle cx="60" cy="60" r="50" fill="none" stroke="#e8e0d0" stroke-width="8"/>
+                                        <circle cx="60" cy="60" r="50" fill="none" stroke="#c9a962" stroke-width="8" stroke-dasharray="230" stroke-dashoffset="40" transform="rotate(-90 60 60)"/>
+                                    </svg>
+                                    <div class="score-value">85</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ====== 角色入口页面 ====== -->
+            <section class="page" id="page-characters">
+                <div class="content-header">
+                    <h1 class="content-title">角色入口</h1>
+                    <p class="content-subtitle">选择你的角色，开启志怪之旅</p>
+                </div>
+                <div class="content-body">
+                    <div class="tabs">
+                        <button class="tab active" data-tab="original">原创角色</button>
+                        <button class="tab" data-tab="classic">典籍角色</button>
+                    </div>
+                    <div class="character-portal">
+                        <div class="portal-card">
+                            <span class="portal-icon">🎭</span>
+                            <h3 class="portal-title">创建角色</h3>
+                            <p class="portal-desc">塑造属于你的独特角色</p>
+                        </div>
+                        <div class="portal-card">
+                            <span class="portal-icon">🦊</span>
+                            <h3 class="portal-title">狐妖系列</h3>
+                            <p class="portal-desc">青丘狐、妲己、狐媚娘...</p>
+                        </div>
+                        <div class="portal-card">
+                            <span class="portal-icon">👻</span>
+                            <h3 class="portal-title">鬼魂精怪</h3>
+                            <p class="portal-desc">吊死鬼、冤魂、怨灵...</p>
+                        </div>
+                        <div class="portal-card">
+                            <span class="portal-icon">🐉</span>
+                            <h3 class="portal-title">神兽异兽</h3>
+                            <p class="portal-desc">青龙、白虎、麒麟...</p>
+                        </div>
+                        <div class="portal-card">
+                            <span class="portal-icon">🧙</span>
+                            <h3 class="portal-title">道士术士</h3>
+                            <p class="portal-desc">茅山道士、阴阳师...</p>
+                        </div>
+                        <div class="portal-card">
+                            <span class="portal-icon">👹</span>
+                            <h3 class="portal-title">妖魔邪祟</h3>
+                            <p class="portal-desc">夜叉、罗刹、魑魅魍魉...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ====== 游戏主区域 ====== -->
+            <section class="page" id="page-game">
+                <div class="content-header">
+                    <h1 class="content-title">志怪奇谭</h1>
+                    <p class="content-subtitle">亲身经历志怪故事</p>
+                </div>
+                <div class="content-body">
+                    <div class="game-area">
+                        <div class="game-main">
+                            <div class="story-text">
+                                暮色渐浓，你独自一人行走在荒山古道之上。寒风萧瑟，枯叶纷飞，远处传来阵阵狼嚎。
+                                忽闻前方破庙之中传来幽幽叹息，似有女子之声。你握紧手中的桃木剑，缓缓走近那座破败的山神庙...
+                            </div>
+                            <div class="divider"></div>
+                            <div class="choice-buttons">
+                                <button class="choice-btn">🔦 点燃火把，小心进入破庙</button>
+                                <button class="choice-btn">🚶 绕道而行，另寻他路</button>
+                                <button class="choice-btn">🗣️ 高声询问，试探庙中动静</button>
+                                <button class="choice-btn">⚔️ 握紧桃木剑，严阵以待</button>
+                            </div>
+                        </div>
+                        <div class="game-sidebar">
+                            <div class="game-panel">
+                                <h3 class="game-panel-title">当前状态</h3>
+                                <div class="character-list">
+                                    <div class="character-item">
+                                        <div class="character-avatar">🎭</div>
+                                        <div class="character-info">
+                                            <div class="character-name">你的化身</div>
+                                            <div class="character-relation">修为：初窥门径</div>
+                                        </div>
+                                        <div class="character-status">HP: 100/100</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="game-panel">
+                                <h3 class="game-panel-title">随身物品</h3>
+                                <div class="item-grid">
+                                    <div class="item-slot has-item"><span class="item-icon">🗡️</span><span class="item-count">1</span></div>
+                                    <div class="item-slot has-item"><span class="item-icon">📿</span><span class="item-count">1</span></div>
+                                    <div class="item-slot has-item"><span class="item-icon">🧪</span><span class="item-count">3</span></div>
+                                    <div class="item-slot"></div>
+                                    <div class="item-slot has-item"><span class="item-icon">📜</span><span class="item-count">2</span></div>
+                                    <div class="item-slot"></div>
+                                    <div class="item-slot"></div>
+                                    <div class="item-slot"></div>
+                                </div>
+                            </div>
+                            <div class="game-panel">
+                                <h3 class="game-panel-title">当前任务</h3>
+                                <div class="quest-list">
+                                    <div class="quest-item active">
+                                        <div class="quest-title">荒庙夜探</div>
+                                        <div class="quest-desc">调查山神庙中的诡异声响</div>
+                                        <div class="quest-progress">
+                                            <span>进度: 30%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ====== 面板系统页面 ====== -->
+            <section class="page" id="page-panels">
+                <div class="content-header">
+                    <h1 class="content-title">人物志</h1>
+                    <p class="content-subtitle">查看角色、背包、任务与关系</p>
+                </div>
+                <div class="content-body">
+                    <div class="panels-container">
+                        <!-- 角色面板 -->
+                        <div class="panel">
+                            <div class="panel-header">
+                                <h3 class="panel-title">角色列表</h3>
+                                <span class="panel-badge">6</span>
+                            </div>
+                            <div class="panel-content">
+                                <div class="character-list">
+                                    <div class="character-item">
+                                        <div class="character-avatar">🎭</div>
+                                        <div class="character-info">
+                                            <div class="character-name">你的化身</div>
+                                            <div class="character-relation">主角</div>
+                                        </div>
+                                        <div class="character-status">Lv.5</div>
+                                    </div>
+                                    <div class="character-item">
+                                        <div class="character-avatar">🦊</div>
+                                        <div class="character-info">
+                                            <div class="character-name">小翠</div>
+                                            <div class="character-relation">同伴</div>
+                                        </div>
+                                        <div class="character-status">Lv.8</div>
+                                    </div>
+                                    <div class="character-item">
+                                        <div class="character-avatar">🧙</div>
+                                        <div class="character-info">
+                                            <div class="character-name">玄机子</div>
+                                            <div class="character-relation">师父</div>
+                                        </div>
+                                        <div class="character-status">Lv.20</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 背包面板 -->
+                        <div class="panel">
+                            <div class="panel-header">
+                                <h3 class="panel-title">随身行囊</h3>
+                                <span class="panel-badge">12/20</span>
+                            </div>
+                            <div class="panel-content">
+                                <div class="item-grid">
+                                    <div class="item-slot has-item"><span class="item-icon">🗡️</span><span class="item-count">1</span></div>
+                                    <div class="item-slot has-item"><span class="item-icon">🛡️</span><span class="item-count">1</span></div>
+                                    <div class="item-slot has-item"><span class="item-icon">📿</span><span class="item-count">2</span></div>
+                                    <div class="item-slot has-item"><span class="item-icon">🧪</span><span class="item-count">5</span></div>
+                                    <div class="item-slot has-item"><span class="item-icon">📜</span><span class="item-count">2</span></div>
+                                    <div class="item-slot has-item"><span class="item-icon">💰</span><span class="item-count">150</span></div>
+                                    <div class="item-slot has-item"><span class="item-icon">🍱</span><span class="item-count">3</span></div>
+                                    <div class="item-slot"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 任务面板 -->
+                        <div class="panel">
+                            <div class="panel-header">
+                                <h3 class="panel-title">任务日志</h3>
+                                <span class="panel-badge">3</span>
+                            </div>
+                            <div class="panel-content">
+                                <div class="quest-list">
+                                    <div class="quest-item active">
+                                        <div class="quest-title">荒庙夜探</div>
+                                        <div class="quest-desc">调查山神庙中的诡异声响</div>
+                                        <div class="quest-progress">
+                                            <span>进度: 30%</span>
+                                        </div>
+                                    </div>
+                                    <div class="quest-item">
+                                        <div class="quest-title">寻找药材</div>
+                                        <div class="quest-desc">为玄机子采集百年灵芝</div>
+                                        <div class="quest-progress">
+                                            <span>进度: 0%</span>
+                                        </div>
+                                    </div>
+                                    <div class="quest-item">
+                                        <div class="quest-title">除妖委托</div>
+                                        <div class="quest-desc">帮助村民清除山中狐妖</div>
+                                        <div class="quest-progress">
+                                            <span>进度: 100%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 关系面板 -->
+                        <div class="panel">
+                            <div class="panel-header">
+                                <h3 class="panel-title">人际关系</h3>
+                                <span class="panel-badge">5</span>
+                            </div>
+                            <div class="panel-content">
+                                <div class="relation-list">
+                                    <div class="relation-item">
+                                        <div class="relation-avatar">🦊</div>
+                                        <div class="relation-info">
+                                            <div class="relation-name">小翠</div>
+                                            <div class="relation-level">挚友</div>
+                                        </div>
+                                        <div class="relation-bar">
+                                            <div class="relation-fill" style="width: 85%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="relation-item">
+                                        <div class="relation-avatar">🧙</div>
+                                        <div class="relation-info">
+                                            <div class="relation-name">玄机子</div>
+                                            <div class="relation-level">师徒</div>
+                                        </div>
+                                        <div class="relation-bar">
+                                            <div class="relation-fill" style="width: 95%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="relation-item">
+                                        <div class="relation-avatar">👨‍🦰</div>
+                                        <div class="relation-info">
+                                            <div class="relation-name">王村长</div>
+                                            <div class="relation-level">友好</div>
+                                        </div>
+                                        <div class="relation-bar">
+                                            <div class="relation-fill" style="width: 60%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ====== 日志时间线页面 ====== -->
+            <section class="page" id="page-timeline">
+                <div class="content-header">
+                    <h1 class="content-title">大事记</h1>
+                    <p class="content-subtitle">记录你的志怪冒险历程</p>
+                </div>
+                <div class="content-body">
+                    <div class="timeline-container">
+                        <div class="timeline">
+                            <div class="timeline-item important">
+                                <div class="timeline-date">七月十五 · 鬼门开</div>
+                                <h3 class="timeline-title">初入荒山</h3>
+                                <p class="timeline-content">你告别师父玄机子，踏上了下山历练之路。今日恰逢中元，阴风阵阵，似乎预示着这段旅程不会平静...</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">七月十六</div>
+                                <h3 class="timeline-title">偶遇小翠</h3>
+                                <p class="timeline-content">在破庙之中，你遇见了一只受伤的狐妖小翠。她并非害人之妖，而是被恶人所伤。你决定帮助她疗伤。</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">七月十七</div>
+                                <h3 class="timeline-title">村民委托</h3>
+                                <p class="timeline-content">山下村庄的王村长前来求助，称山中出现狐妖作祟，请求你出手除妖。</p>
+                            </div>
+                            <div class="timeline-item important">
+                                <div class="timeline-date">七月十八</div>
+                                <h3 class="timeline-title">真相大白</h3>
+                                <p class="timeline-content">经过调查，发现作祟的并非小翠，而是一只修炼成精的狸猫精。你与小翠联手，成功将其收服。</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">七月十九</div>
+                                <h3 class="timeline-title">踏上新途</h3>
+                                <p class="timeline-content">村民们感激你的帮助，赠予你不少物资。小翠决定跟随你一同游历，你们朝着更远的地方出发...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ====== 角色卡库页面 ====== -->
+            <section class="page" id="page-char-library">
+                <div class="content-header">
+                    <h1 class="content-title">角色卡库</h1>
+                    <p class="content-subtitle">浏览全部角色，选择你的出战卡牌</p>
+                </div>
+                <div class="content-body">
+                    <div class="tabs">
+                        <button class="tab active" data-tab="all" onclick="Characters.switchTab('all')">全部角色</button>
+                        <button class="tab" data-tab="mine" onclick="Characters.switchTab('mine')">我的卡组</button>
+                    </div>
+                    <div class="char-grid" id="char-grid">
+                        <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-muted);">加载中...</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ====== 对战大厅页面 ====== -->
+            <section class="page scene-lobby" id="page-lobby">
+                <div class="lobby-scene-decorations">
+                    <!-- 灯笼装饰 -->
+                    <div class="lobby-lantern lantern-left">
+                        <svg viewBox="0 0 60 80" xmlns="http://www.w3.org/2000/svg">
+                            <ellipse cx="30" cy="40" rx="22" ry="28" fill="#c23b22" opacity="0.9"/>
+                            <ellipse cx="30" cy="40" rx="22" ry="28" fill="none" stroke="#ffd700" stroke-width="1.5"/>
+                            <rect x="25" y="10" width="10" height="6" fill="#8b6914"/>
+                            <rect x="25" y="68" width="10" height="8" fill="#8b6914"/>
+                            <line x1="30" y1="0" x2="30" y2="10" stroke="#8b6914" stroke-width="1"/>
+                            <text x="30" y="45" text-anchor="middle" fill="#ffd700" font-size="14" font-family="serif">福</text>
+                            <line x1="30" y1="76" x2="25" y2="80" stroke="#ffd700" stroke-width="1"/>
+                            <line x1="30" y1="76" x2="30" y2="82" stroke="#ffd700" stroke-width="1"/>
+                            <line x1="30" y1="76" x2="35" y2="80" stroke="#ffd700" stroke-width="1"/>
+                        </svg>
+                    </div>
+                    <div class="lobby-lantern lantern-right">
+                        <svg viewBox="0 0 60 80" xmlns="http://www.w3.org/2000/svg">
+                            <ellipse cx="30" cy="40" rx="22" ry="28" fill="#c23b22" opacity="0.9"/>
+                            <ellipse cx="30" cy="40" rx="22" ry="28" fill="none" stroke="#ffd700" stroke-width="1.5"/>
+                            <rect x="25" y="10" width="10" height="6" fill="#8b6914"/>
+                            <rect x="25" y="68" width="10" height="8" fill="#8b6914"/>
+                            <line x1="30" y1="0" x2="30" y2="10" stroke="#8b6914" stroke-width="1"/>
+                            <text x="30" y="45" text-anchor="middle" fill="#ffd700" font-size="14" font-family="serif">寿</text>
+                            <line x1="30" y1="76" x2="25" y2="80" stroke="#ffd700" stroke-width="1"/>
+                            <line x1="30" y1="76" x2="30" y2="82" stroke="#ffd700" stroke-width="1"/>
+                            <line x1="30" y1="76" x2="35" y2="80" stroke="#ffd700" stroke-width="1"/>
+                        </svg>
+                    </div>
+
+                    <!-- 屏风装饰 -->
+                    <div class="lobby-screen">
+                        <svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                            <rect x="10" y="20" width="180" height="260" fill="#7a9a8e" opacity="0.15" stroke="#7a9a8e" stroke-width="1"/>
+                            <rect x="10" y="20" width="180" height="260" fill="none" stroke="#b8a070" stroke-width="2" opacity="0.4"/>
+                            <line x1="70" y1="20" x2="70" y2="280" stroke="#b8a070" stroke-width="1" opacity="0.3"/>
+                            <line x1="130" y1="20" x2="130" y2="280" stroke="#b8a070" stroke-width="1" opacity="0.3"/>
+                            <circle cx="40" cy="80" r="15" fill="none" stroke="#b8a070" stroke-width="1" opacity="0.4"/>
+                            <path d="M 25 120 Q 40 100 55 120 Q 40 140 25 120" fill="none" stroke="#b8a070" stroke-width="1" opacity="0.4"/>
+                            <circle cx="100" cy="150" r="20" fill="none" stroke="#b8a070" stroke-width="1" opacity="0.4"/>
+                            <path d="M 80 200 Q 100 180 120 200 Q 100 220 80 200" fill="none" stroke="#b8a070" stroke-width="1" opacity="0.4"/>
+                            <circle cx="160" cy="100" r="12" fill="none" stroke="#b8a070" stroke-width="1" opacity="0.4"/>
+                        </svg>
+                    </div>
+
+                    <!-- 案几装饰 -->
+                    <div class="lobby-desk">
+                        <svg viewBox="0 0 300 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                            <rect x="0" y="20" width="300" height="30" fill="#8b6914" opacity="0.2"/>
+                            <rect x="0" y="20" width="300" height="30" fill="none" stroke="#8b6914" stroke-width="1" opacity="0.4"/>
+                            <rect x="10" y="50" width="8" height="10" fill="#8b6914" opacity="0.3"/>
+                            <rect x="282" y="50" width="8" height="10" fill="#8b6914" opacity="0.3"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="content-header">
+                    <h1 class="content-title">对战大厅</h1>
+                    <p class="content-subtitle">选择角色，匹配对手，一决高下</p>
+                </div>
+                <div class="content-body">
+                    <div class="lobby-container">
+                        <!-- 玩家信息 -->
+                        <div class="lobby-panel">
+                            <div class="lobby-panel-header">
+                                <h3 class="lobby-panel-title">侠客档案</h3>
+                            </div>
+                            <div class="lobby-panel-body" id="player-info-content">
+                                <div style="text-align:center;padding:20px;color:var(--text-muted);">加载中...</div>
+                            </div>
+                        </div>
+
+                        <!-- 匹配对战 -->
+                        <div class="lobby-panel wide">
+                            <div class="lobby-panel-header">
+                                <h3 class="lobby-panel-title">匹配对战</h3>
+                            </div>
+                            <div class="lobby-panel-body" id="match-content">
+                                <div style="text-align:center;padding:20px;color:var(--text-muted);">加载中...</div>
+                            </div>
+                        </div>
+
+                        <!-- 在线玩家 -->
+                        <div class="roster-scroll-title">
+                            <span class="roster-title-brush">江湖名册</span>
+                        </div>
+                        <div class="lobby-panel jianghu-roster">
+                            <div class="lobby-panel-header">
+                                <h3 class="lobby-panel-title">在线侠客</h3>
+                            </div>
+                            <div class="lobby-panel-body" id="online-users-content">
+                                <div style="text-align:center;padding:20px;color:var(--text-muted);">加载中...</div>
+                            </div>
+                        </div>
+
+                        <!-- 排行榜 -->
+                        <div class="lobby-panel wide">
+                            <div class="lobby-panel-header">
+                                <h3 class="lobby-panel-title">英雄榜</h3>
+                            </div>
+                            <div class="lobby-panel-body" id="leaderboard-content">
+                                <div style="text-align:center;padding:20px;color:var(--text-muted);">加载中...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ====== 战斗竞技场页面（沉浸式全屏对峙布局）====== -->
+            <!--
+                battle.js 迁移说明：
+                1. 旧 id="battle-arena" 已改为 class="battle-arena"（不再用 innerHTML 动态渲染）。
+                   battle.js renderArena() 需重构为填充以下预建元素：
+                     - battle-player-name / battle-enemy-name       （角色名）
+                     - battle-player-form / battle-enemy-form       （形态标签）
+                     - battle-player-avatar / battle-enemy-avatar   （头像，旧 portrait-you/opponent）
+                     - battle-player-hp-fill / battle-enemy-hp-fill （HP条，旧 hp-bar-you/opponent）
+                     - battle-player-hp-text / battle-enemy-hp-text （HP数值，旧 hp-val-you/opponent）
+                     - battle-player-mp-fill / battle-enemy-mp-fill （MP条，旧 mp-bar-you/opponent）
+                     - battle-player-mp-text / battle-enemy-mp-text （MP数值，旧 mp-val-you/opponent）
+                2. 旧 id="round-info" 已迁移为 id="battle-round-num"（在 .battle-round 内）。
+                   battle.js onBattleStart()/onBattleRound() 需更新此元素。
+                3. id="battle-log" 已保留，addLog() 无需改动。
+                4. 新增 id="battle-skill-bar"（底部技能栏，由 JS 动态生成技能按钮）。
+                5. 新增 id="battle-exit"（退出按钮，需绑定退出战斗逻辑）。
+            -->
+            <section class="page scene-battle" id="page-battle">
+                <div class="battle-arena">
+                    <!-- 战斗背景层 -->
+                    <div class="battle-bg-layer"></div>
+
+                    <!-- 顶部战斗信息条 -->
+                    <div class="battle-top-bar">
+                        <div class="battle-round">第 <span id="battle-round-num">1</span> 回合</div>
+                        <div class="battle-title">⚔️ 对决</div>
+                        <button class="battle-exit-btn" id="battle-exit">退出</button>
+                    </div>
+
+                    <!-- 主战斗区域：左右分屏对峙 -->
+                    <div class="battle-stage">
+                        <!-- 我方角色（左侧） -->
+                        <div class="battle-side battle-side-player">
+                            <div class="battle-char-card" id="battle-player-card">
+                                <div class="char-avatar-large" id="battle-player-avatar"></div>
+                                <div class="char-info-block">
+                                    <div class="char-name-large" id="battle-player-name">角色名</div>
+                                    <div class="char-form-tag" id="battle-player-form">形态</div>
+                                    <div class="hp-bar-jade" id="battle-player-hp-bar">
+                                        <div class="hp-bar-fill" id="battle-player-hp-fill"></div>
+                                        <span class="hp-bar-text" id="battle-player-hp-text">100/100</span>
+                                    </div>
+                                    <div class="mp-bar-jade" id="battle-player-mp-bar">
+                                        <div class="mp-bar-fill" id="battle-player-mp-fill"></div>
+                                        <span class="mp-bar-text" id="battle-player-mp-text">50/50</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 中央战斗日志卷轴 -->
+                        <div class="battle-center-log">
+                            <div class="scroll-decoration top"></div>
+                            <div class="battle-log-content" id="battle-log">
+                                <div class="battle-log-entry">战斗即将开始...</div>
+                            </div>
+                            <div class="scroll-decoration bottom"></div>
+                        </div>
+
+                        <!-- 敌方角色（右侧） -->
+                        <div class="battle-side battle-side-enemy">
+                            <div class="battle-char-card" id="battle-enemy-card">
+                                <div class="char-avatar-large" id="battle-enemy-avatar"></div>
+                                <div class="char-info-block">
+                                    <div class="char-name-large" id="battle-enemy-name">敌人名</div>
+                                    <div class="char-form-tag" id="battle-enemy-form">形态</div>
+                                    <div class="hp-bar-jade" id="battle-enemy-hp-bar">
+                                        <div class="hp-bar-fill enemy" id="battle-enemy-hp-fill"></div>
+                                        <span class="hp-bar-text" id="battle-enemy-hp-text">100/100</span>
+                                    </div>
+                                    <div class="mp-bar-jade" id="battle-enemy-mp-bar">
+                                        <div class="mp-bar-fill enemy" id="battle-enemy-mp-fill"></div>
+                                        <span class="mp-bar-text" id="battle-enemy-mp-text">50/50</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 底部技能栏 -->
+                    <div class="battle-skill-bar" id="battle-skill-bar">
+                        <!-- 技能按钮由 JS 动态生成 -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- ====== 战斗结果页面（沉浸式胜负展示）====== -->
+            <section class="page scene-battle" id="page-battle-result">
+                <div class="battle-result-overlay">
+                    <!-- 胜负大字展示（2秒） -->
+                    <div class="result-verdict-display" id="result-verdict">
+                        <div class="verdict-text" id="verdict-text"></div>
+                    </div>
+
+                    <!-- 结算面板（2秒后滑入） -->
+                    <div class="result-settlement-panel" id="result-settlement">
+                        <div class="settlement-scroll-top"></div>
+                        <div class="settlement-content">
+                            <h2 class="settlement-title">战 · 结算</h2>
+                            <div class="settlement-divider"></div>
+                            <div class="settlement-info" id="settlement-info">
+                                <!-- 由 JS 动态填充 -->
+                            </div>
+                            <div class="settlement-actions">
+                                <button class="btn btn-primary" onclick="App.navigate('lobby')">返回大厅</button>
+                                <button class="btn btn-ghost" onclick="App.navigate('battles')">查看战史</button>
+                            </div>
+                        </div>
+                        <div class="settlement-scroll-bottom"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ====== 战绩榜页面 ====== -->
+            <section class="page" id="page-battles">
+                <div class="content-header">
+                    <h1 class="content-title">战绩榜</h1>
+                    <p class="content-subtitle">查看你的对战记录</p>
+                </div>
+                <div class="content-body">
+                    <div id="battles-content">
+                        <div style="text-align:center;padding:40px;color:var(--text-muted);">加载中...</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ====== 存档管理页面 ====== -->
+            <section class="page" id="page-saves">
+                <div class="content-header">
+                    <h1 class="content-title">存档管理</h1>
+                    <p class="content-subtitle">管理你的游戏进度</p>
+                </div>
+                <div class="content-body">
+                    <div class="save-grid">
+                        <div class="save-card active">
+                            <div class="save-header">
+                                <h3 class="save-name">志怪初章</h3>
+                                <span class="save-badge badge-manual">手动存档</span>
+                            </div>
+                            <div class="save-meta">
+                                <span>🕐 2024-01-15 14:30</span>
+                                <span>📖 第3章</span>
+                            </div>
+                            <div class="save-preview">你与小翠来到了一座神秘的古城镇，城中似乎隐藏着不为人知的秘密...</div>
+                            <div class="save-actions">
+                                <button class="save-btn">读取</button>
+                                <button class="save-btn">覆盖</button>
+                                <button class="save-btn delete">删除</button>
+                            </div>
+                        </div>
+                        <div class="save-card">
+                            <div class="save-header">
+                                <h3 class="save-name">荒庙奇遇</h3>
+                                <span class="save-badge badge-auto">自动存档</span>
+                            </div>
+                            <div class="save-meta">
+                                <span>🕐 2024-01-15 12:15</span>
+                                <span>📖 第2章</span>
+                            </div>
+                            <div class="save-preview">暮色渐浓，你独自一人行走在荒山古道之上...</div>
+                            <div class="save-actions">
+                                <button class="save-btn">读取</button>
+                                <button class="save-btn">覆盖</button>
+                                <button class="save-btn delete">删除</button>
+                            </div>
+                        </div>
+                        <div class="save-card">
+                            <div class="save-header">
+                                <h3 class="save-name">初出山门</h3>
+                                <span class="save-badge badge-auto">自动存档</span>
+                            </div>
+                            <div class="save-meta">
+                                <span>🕐 2024-01-14 10:00</span>
+                                <span>📖 第1章</span>
+                            </div>
+                            <div class="save-preview">你告别师父玄机子，踏上了下山历练之路...</div>
+                            <div class="save-actions">
+                                <button class="save-btn">读取</button>
+                                <button class="save-btn">覆盖</button>
+                                <button class="save-btn delete">删除</button>
+                            </div>
+                        </div>
+                        <div class="save-card">
+                            <div class="save-header">
+                                <h3 class="save-name">新的开始</h3>
+                                <span class="save-badge badge-manual">手动存档</span>
+                            </div>
+                            <div class="save-meta">
+                                <span>🕐 2024-01-14 09:30</span>
+                                <span>📖 序章</span>
+                            </div>
+                            <div class="save-preview">你是一名年轻的道士，在玄机子座下修行多年...</div>
+                            <div class="save-actions">
+                                <button class="save-btn">读取</button>
+                                <button class="save-btn">覆盖</button>
+                                <button class="save-btn delete">删除</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- 移动端底部导航 -->
+        <nav class="mobile-nav">
+            <div class="mobile-nav-items">
+                <div class="mobile-nav-item active" data-page="library">
+                    <span class="mobile-nav-icon">📚</span>
+                    <span class="mobile-nav-text">典籍</span>
+                </div>
+                <div class="mobile-nav-item" data-page="char-library">
+                    <span class="mobile-nav-icon">🎴</span>
+                    <span class="mobile-nav-text">卡库</span>
+                </div>
+                <div class="mobile-nav-item" data-page="lobby">
+                    <span class="mobile-nav-icon">⚔️</span>
+                    <span class="mobile-nav-text">对战</span>
+                </div>
+                <div class="mobile-nav-item" data-page="panels">
+                    <span class="mobile-nav-icon">📋</span>
+                    <span class="mobile-nav-text">人物志</span>
+                </div>
+                <div class="mobile-nav-item" data-page="saves">
+                    <span class="mobile-nav-icon">📁</span>
+                    <span class="mobile-nav-text">存档</span>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- 提示消息 -->
+    <div class="toast" id="toast"></div>
+
+    <!-- 角色详情模态框 -->
+    <div class="modal" id="char-detail-modal" style="display:none;">
+        <div class="modal-content" id="char-detail-content"></div>
+    </div>
+
+    <!-- 脚本 -->
+    <script src="/js/auth.js"></script>
+    <script src="/js/characters.js"></script>
+    <script src="/js/lobby.js"></script>
+    <script src="/js/battle.js"></script>
+    <script src="/js/app.js"></script>
+<!-- 移动端底部 Tab Bar -->
+<nav class="mobile-tab-bar" id="mobile-tab-bar">
+    <a class="mobile-nav-item" data-page="library">
+        <span class="mobile-nav-icon">📚</span>
+        <span class="mobile-nav-label">藏书</span>
+    </a>
+    <a class="mobile-nav-item" data-page="char-library">
+        <span class="mobile-nav-icon">🎭</span>
+        <span class="mobile-nav-label">角色</span>
+    </a>
+    <a class="mobile-nav-item" data-page="lobby">
+        <span class="mobile-nav-icon">🏮</span>
+        <span class="mobile-nav-label">大厅</span>
+    </a>
+    <a class="mobile-nav-item" data-page="battles">
+        <span class="mobile-nav-icon">⚔️</span>
+        <span class="mobile-nav-label">对战</span>
+    </a>
+    <a class="mobile-nav-item" data-page="saves">
+        <span class="mobile-nav-icon">💾</span>
+        <span class="mobile-nav-label">我的</span>
+    </a>
+</nav>
+</body>
+</html>

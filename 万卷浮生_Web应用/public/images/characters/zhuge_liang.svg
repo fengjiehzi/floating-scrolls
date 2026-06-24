@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="500" viewBox="0 0 400 500">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#11998e"/>
+      <stop offset="100%" style="stop-color:#38ef7d"/>
+    </linearGradient>
+    <radialGradient id="glow3" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" style="stop-color:rgba(255,255,255,0.3)"/>
+      <stop offset="100%" style="stop-color:rgba(255,255,255,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="500" fill="url(#bg3)"/>
+  <rect width="400" height="500" fill="url(#glow3)"/>
+  <!-- 装饰圆环 -->
+  <circle cx="200" cy="180" r="120" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+  <circle cx="200" cy="180" r="100" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+  <!-- Emoji -->
+  <text x="200" y="220" font-size="120" text-anchor="middle" dominant-baseline="middle">🪶</text>
+  <!-- 角色名 -->
+  <text x="200" y="360" font-size="48" font-weight="bold" text-anchor="middle" fill="white" font-family="Microsoft YaHei, sans-serif" style="text-shadow: 0 2px 8px rgba(0,0,0,0.5)">诸葛亮</text>
+  <!-- 作品来源 -->
+  <text x="200" y="410" font-size="22" text-anchor="middle" fill="rgba(255,255,255,0.85)" font-family="Microsoft YaHei, sans-serif">《三国演义》</text>
+  <!-- 底部装饰线 -->
+  <line x1="120" y1="440" x2="280" y2="440" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+  <text x="200" y="470" font-size="14" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-family="Microsoft YaHei, sans-serif">万卷浮生</text>
+</svg>
