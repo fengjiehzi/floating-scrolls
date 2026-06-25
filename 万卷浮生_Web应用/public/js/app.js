@@ -222,6 +222,7 @@ const App = {
         this.bindFormEvents();
         this.bindUploadEvents();
         Auth.init();
+        Items.init();
         
         // 检查登录状态
         const token = localStorage.getItem('token');
@@ -706,7 +707,7 @@ const App = {
 
         if (page === 'battle' || page === 'battle-result') {
             body.classList.add('scene-battle');
-        } else if (page === 'characters' || page === 'char-library' || page === 'create') {
+        } else if (page === 'characters' || page === 'char-library' || page === 'create' || page === 'items') {
             body.classList.add('scene-char');
         } else if (page === 'lobby') {
             body.classList.add('scene-lobby');
@@ -723,6 +724,18 @@ const App = {
                         await Characters.loadAll();
                         this.state.allCharacters = Characters.allCharacters;
                         Characters.render();
+                    }
+                } finally {
+                    hideLoading();
+                }
+                break;
+            }
+            case 'items': {
+                showLoading('正在开启宝阁...');
+                try {
+                    if (typeof Items !== 'undefined') {
+                        await Items.loadAll();
+                        Items.render();
                     }
                 } finally {
                     hideLoading();

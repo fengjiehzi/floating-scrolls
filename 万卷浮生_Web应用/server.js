@@ -488,6 +488,128 @@ app.get('/api/me/battles', authMiddleware, (req, res) => {
     res.json({ battles });
 });
 
+// ==================== 道具系统API ====================
+// 获取所有道具
+app.get('/api/items', (req, res) => {
+    const { source, type, rarity } = req.query;
+    let sql = 'SELECT * FROM items WHERE 1=1';
+    const params = [];
+    if (source) {
+        sql += ' AND source = ?';
+        params.push(source);
+    }
+    if (type) {
+        sql += ' AND type = ?';
+        params.push(type);
+    }
+    if (rarity) {
+        sql += ' AND rarity = ?';
+        params.push(rarity);
+    }
+    sql += ' ORDER BY id';
+    const rows = db.prepare(sql).all(...params);
+    const items = rows.map(r => ({
+        id: r.id,
+        name: r.name,
+        source: r.source,
+        rarity: r.rarity,
+        type: r.type,
+        image: r.image,
+        description: r.description,
+        stats_bonus: JSON.parse(r.stats_bonus_json || '{}'),
+        skill_bonus: r.skill_bonus,
+        source_basis: r.source_basis
+    }));
+    res.json({ items });
+});
+
+// 获取道具详情
+app.get('/api/items/:id', (req, res) => {
+    const row = db.prepare('SELECT * FROM items WHERE id = ?').get(req.params.id);
+    if (!row) return res.status(404).json({ error: '道具不存在' });
+    const item = {
+        id: row.id,
+        name: row.name,
+        source: row.source,
+        rarity: row.rarity,
+        type: row.type,
+        image: row.image,
+        description: row.description,
+        stats_bonus: JSON.parse(row.stats_bonus_json || '{}'),
+        skill_bonus: row.skill_bonus,
+        source_basis: row.source_basis
+    };
+    res.json({ item });
+});
+
+// 获取我的道具库
+app.get('/api/me/items', authMiddleware, (req, res) => {
+    const rows = db.prepare(`
+        SELECT i.*, ui.quantity, ui.equipped, ui.slot
+        FROM user_items ui
+        JOIN items i ON ui.item_id = i.id
+        WHERE ui.user_id = ?
+        ORDER BY i.id
+    `).all(req.user.id);
+    const items = rows.map(r => ({
+        id: r.id,
+        name: r.name,
+        source: r.source,
+        rarity: r.rarity,
+        type: r.type,
+        image: r.image,
+        description: r.description,
+        stats_bonus: JSON.parse(r.stats_bonus_json || '{}'),
+        skill_bonus: r.skill_bonus,
+        source_basis: r.source_basis,
+        quantity: r.quantity,
+        equipped: r.equipped === 1,
+        slot: r.slot
+    }));
+    res.json({ items });
+});
+
+// 添加道具到我的库
+app.post('/api/me/items', authMiddleware, (req, res) => {
+    const { item_id, quantity = 1 } = req.body;
+    if (!item_id) return res.status(400).json({ error: '缺少item_id' });
+    const item = db.prepare('SELECT id FROM items WHERE id = ?').get(item_id);
+    if (!item) return res.status(404).json({ error: '道具不存在' });
+    try {
+        const existing = db.prepare('SELECT quantity FROM user_items WHERE user_id = ? AND item_id = ?').get(req.user.id, item_id);
+        if (existing) {
+            db.prepare('UPDATE user_items SET quantity = quantity + ? WHERE user_id = ? AND item_id = ?').run(quantity, req.user.id, item_id);
+        } else {
+            db.prepare('INSERT INTO user_items (user_id, item_id, quantity) VALUES (?, ?, ?)').run(req.user.id, item_id, quantity);
+        }
+        res.json({ success: true });
+    } catch (err) {
+        res.status(500).json({ error: '添加道具失败: ' + err.message });
+    }
+});
+
+// 装备/卸下道具
+app.put('/api/me/items/:id/equip', authMiddleware, (req, res) => {
+    const itemId = req.params.id;
+    const { equipped, slot } = req.body;
+    const ui = db.prepare('SELECT * FROM user_items WHERE user_id = ? AND item_id = ?').get(req.user.id, itemId);
+    if (!ui) return res.status(404).json({ error: '您未拥有该道具' });
+    try {
+        db.prepare('UPDATE user_items SET equipped = ?, slot = ? WHERE user_id = ? AND item_id = ?').run(
+            equipped ? 1 : 0, slot || null, req.user.id, itemId
+        );
+        res.json({ success: true });
+    } catch (err) {
+        res.status(500).json({ error: '装备操作失败: ' + err.message });
+    }
+});
+
+// 从我的库移除道具
+app.delete('/api/me/items/:id', authMiddleware, (req, res) => {
+    db.prepare('DELETE FROM user_items WHERE user_id = ? AND item_id = ?').run(req.user.id, req.params.id);
+    res.json({ success: true });
+});
+
 // ==================== 排行榜与在线玩家 ====================
 // 排行榜（包含机器人玩家）
 app.get('/api/leaderboard', (req, res) => {

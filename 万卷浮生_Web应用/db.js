@@ -4,6 +4,7 @@
 const Database = require('better-sqlite3');
 const path = require('path');
 const charactersData = require('./characters-data');
+const itemsData = require('./items-data');
 
 // 数据库文件路径（默认 data.db）
 const dbPath = process.env.DB_PATH || path.join(__dirname, 'data.db');
@@ -89,6 +90,37 @@ function initDB() {
         );
     `);
 
+    // 系统预置道具表
+    db.exec(`
+        CREATE TABLE IF NOT EXISTS items (
+            id INTEGER PRIMARY KEY,
+            name TEXT NOT NULL,
+            source TEXT NOT NULL,
+            rarity TEXT NOT NULL,
+            type TEXT NOT NULL,
+            image TEXT,
+            description TEXT,
+            stats_bonus_json TEXT,
+            skill_bonus TEXT,
+            source_basis TEXT
+        );
+    `);
+
+    // 玩家拥有的道具
+    db.exec(`
+        CREATE TABLE IF NOT EXISTS user_items (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            item_id INTEGER NOT NULL,
+            quantity INTEGER DEFAULT 1,
+            equipped INTEGER DEFAULT 0,
+            slot TEXT,
+            FOREIGN KEY (user_id) REFERENCES users(id),
+            FOREIGN KEY (item_id) REFERENCES items(id),
+            UNIQUE(user_id, item_id)
+        );
+    `);
+
     // 初始化预置角色数据（若characters表为空）
     const count = db.prepare('SELECT COUNT(*) as cnt FROM characters').get();
     if (count.cnt === 0) {
@@ -127,6 +159,33 @@ function initDB() {
         if (updatedCount > 0) {
             console.log(`[DB] 已更新 ${updatedCount} 个角色的图片路径`);
         }
+    }
+
+    // 初始化预置道具数据
+    const itemCount = db.prepare('SELECT COUNT(*) as cnt FROM items').get();
+    if (itemCount.cnt === 0) {
+        const insertItemStmt = db.prepare(`
+            INSERT INTO items (id, name, source, rarity, type, image, description, stats_bonus_json, skill_bonus, source_basis)
+            VALUES (@id, @name, @source, @rarity, @type, @image, @description, @stats_bonus_json, @skill_bonus, @source_basis)
+        `);
+        const insertItems = db.transaction((items) => {
+            for (const item of items) {
+                insertItemStmt.run({
+                    id: item.id,
+                    name: item.name,
+                    source: item.source,
+                    rarity: item.rarity,
+                    type: item.type,
+                    image: item.image || null,
+                    description: item.description || null,
+                    stats_bonus_json: JSON.stringify(item.stats_bonus || {}),
+                    skill_bonus: item.skill_bonus || null,
+                    source_basis: item.source_basis || null
+                });
+            }
+        });
+        insertItems(itemsData);
+        console.log(`[DB] 已初始化 ${itemsData.length} 件预置道具`);
     }
 
     // 初始化机器人玩家（若不存在）

@@ -532,6 +532,10 @@
                     <span class="nav-item-icon">🎴</span>
                     <span class="nav-item-text">角色卡库</span>
                 </div>
+                <div class="nav-item" data-page="items">
+                    <span class="nav-item-icon">🏺</span>
+                    <span class="nav-item-text">法宝阁</span>
+                </div>
                 <div class="nav-item" data-page="lobby">
                     <span class="nav-item-icon">⚔️</span>
                     <span class="nav-item-text">对战大厅</span>
@@ -1405,6 +1409,55 @@
                 </div>
             </section>
 
+            <!-- ====== 法宝阁（道具库）页面 ====== -->
+            <section class="page" id="page-items">
+                <div class="content-header">
+                    <h1 class="content-title">法宝阁</h1>
+                    <p class="content-subtitle">收录天下奇珍异宝，仙家法器</p>
+                </div>
+                <div class="content-body">
+                    <div class="tabs">
+                        <button class="tab active" data-tab="all" onclick="Items.switchTab('all')">全部法宝</button>
+                        <button class="tab" data-tab="mine" onclick="Items.switchTab('mine')">我的珍藏</button>
+                    </div>
+                    <div class="item-filters">
+                        <div class="filter-group">
+                            <span class="filter-label">出处：</span>
+                            <select class="filter-select" id="filter-source" onchange="Items.applyFilters()">
+                                <option value="">全部</option>
+                                <option value="西游记">西游记</option>
+                                <option value="三国演义">三国演义</option>
+                                <option value="水浒传">水浒传</option>
+                                <option value="红楼梦">红楼梦</option>
+                                <option value="封神演义">封神演义</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <span class="filter-label">类型：</span>
+                            <select class="filter-select" id="filter-type" onchange="Items.applyFilters()">
+                                <option value="">全部</option>
+                                <option value="weapon">兵器</option>
+                                <option value="accessory">法宝</option>
+                                <option value="consumable">消耗品</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <span class="filter-label">品阶：</span>
+                            <select class="filter-select" id="filter-rarity" onchange="Items.applyFilters()">
+                                <option value="">全部</option>
+                                <option value="legendary">传说</option>
+                                <option value="epic">史诗</option>
+                                <option value="rare">稀有</option>
+                                <option value="common">普通</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="item-grid" id="item-grid">
+                        <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-muted);">加载中...</div>
+                    </div>
+                </div>
+            </section>
+
             <!-- ====== 对战大厅页面 ====== -->
             <section class="page scene-lobby" id="page-lobby">
                 <div class="lobby-scene-decorations">
@@ -1752,9 +1805,15 @@
         <div class="modal-content" id="char-detail-content"></div>
     </div>
 
+    <!-- 道具详情模态框 -->
+    <div class="modal" id="item-detail-modal" style="display:none;">
+        <div class="modal-content" id="item-detail-content"></div>
+    </div>
+
     <!-- 脚本 -->
     <script src="/js/auth.js"></script>
     <script src="/js/characters.js"></script>
+    <script src="/js/items.js"></script>
     <script src="/js/lobby.js"></script>
     <script src="/js/battle.js"></script>
     <script src="/js/app.js"></script>
