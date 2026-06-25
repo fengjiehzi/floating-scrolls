@@ -1,0 +1,56 @@
+name: Build Windows Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Windows x86_64
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Godot
+        uses: chickensoft-games/setup-godot@v1
+        with:
+          version: 4.3.0
+          use-dotnet: false
+
+      - name: Verify Godot installation
+        run: godot --version
+
+      - name: Create releases directory
+        run: mkdir -p releases
+        working-directory: 万卷浮生_Godot
+
+      - name: Export Release build
+        run: |
+          cd 万卷浮生_Godot
+          godot --headless --export-release "Windows Desktop (Release)" ../releases/wanjuan_fusheng.exe
+        env:
+          GODOT_TIMEOUT: 300
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wanjuan_fusheng_windows_x86_64
+          path: releases/wanjuan_fusheng.exe
+          retention-days: 30
+
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: releases/wanjuan_fusheng.exe
+          generate_release_notes: true
+          draft: true
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

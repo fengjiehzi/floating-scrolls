@@ -1,29 +1,54 @@
-# Dependencies
-node_modules/
+# Godot 4+ specific ignores
+.godot/
+/android/
+/builds/
+Godot_Engine/
 
-# Environment variables
-.env
+# Exported releases
+/releases/
+*.exe
 
-# Database files
-*.db
-*.db-shm
-*.db-wal
-data.db*
+# User data (local testing)
+/user_data/
 
-# IDE / Editor
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Editor files
+*.swp
+*.swo
+*~
 .vscode/
 .idea/
-.trae/
-
-# OS files
-.DS_Store
-Thumbs.db
 
 # Logs
 *.log
-npm-debug.log*
 
-# Temporary files
+# Godot import files (generated)
+*.import
+
+# Mono / C# (if used later)
+.mono/
+data_*/
+mono_crash.*.json
+
+# Node.js
+node_modules/
+
+# SQLite database
+*.db
+*.db-shm
+*.db-wal
+
+# Trae editor
+.trae/
+
+# Test files
 test.txt
-*.tmp
-*.temp
