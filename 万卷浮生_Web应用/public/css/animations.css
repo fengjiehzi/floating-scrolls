@@ -1,329 +1,918 @@
-/*
- * 万卷浮生 - 游戏化动效系统
- * ============================================
- * 本文件为「万卷浮生」Web 游戏的统一动效系统，包含四大类动效：
- *   1. 微交互（Micro-interaction）：按钮按压、卡片悬浮、图标弹跳、印章盖落、灯笼摇摆
- *   2. 状态变化（State Change）：HP 闪烁、数字滚动、Toast 滑入滑出、稀有度脉冲
- *   3. 场景过渡（Scene Transition）：水墨晕染、卷轴展开、页面进入/离开、导航锁定
- *   4. 战斗特效（Battle Effect）：屏幕震动、闪光、伤害数字、金光粒子、胜利/败北、太极加载、卡牌翻转
- *
- * 所有动效统一使用 :root 中定义的缓动曲线变量，确保整体节奏一致。
- * 文件末尾提供 prefers-reduced-motion 降级规则，保障无障碍体验。
- */
+/* animations.css - 藏经阁动画系统 v=20260702c */
 
-/* ====== 统一缓动曲线变量 ====== */
-:root {
-    --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
-    --ease-ink: cubic-bezier(0.445, 0.05, 0.55, 0.95);
-    --ease-power: cubic-bezier(0.77, 0, 0.175, 1);
-    --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+@keyframes pulse-glow {
+    0%, 100% {
+        opacity: 1;
+        filter: brightness(1);
+    }
+    50% {
+        opacity: 0.7;
+        filter: brightness(1.2);
+    }
 }
 
-/* ============================================================
- * 一、微交互动效（Micro-interaction）
- * ============================================================ */
-
-/* 按钮按压 */
-@keyframes btn-press {
-    0% { transform: scale(1); }
-    50% { transform: scale(0.95); }
-    100% { transform: scale(1); }
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-8px) rotate(1deg);
+    }
+    50% {
+        transform: translateY(-12px) rotate(0deg);
+    }
+    75% {
+        transform: translateY(-8px) rotate(-1deg);
+    }
 }
 
-/* 卡片悬浮上浮 */
-@keyframes card-float {
-    0% { transform: translateY(0) rotateX(0) rotateY(0); }
-    100% { transform: translateY(-4px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)); }
+@keyframes float-slow {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-6px);
+    }
 }
 
-/* 图标弹跳 */
-@keyframes icon-bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
+@keyframes float-fast {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-15px);
+    }
 }
 
-/* 印章盖落 */
-@keyframes stamp-drop {
-    0% { transform: scale(2) rotate(-15deg); opacity: 0; }
-    60% { transform: scale(0.9) rotate(2deg); opacity: 1; }
-    80% { transform: scale(1.05) rotate(-1deg); }
-    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+@keyframes scan {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.5;
+    }
+    100% {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
 }
 
-/* 灯笼摇摆 */
-@keyframes lantern-sway {
-    0%, 100% { transform: rotate(-3deg); }
-    50% { transform: rotate(3deg); }
+@keyframes scan-horizontal {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
 }
 
-/* ============================================================
- * 二、状态变化动效（State Change）
- * ============================================================ */
-
-/* HP条减少闪烁 */
-@keyframes hp-flash {
-    0%, 100% { box-shadow: 0 0 0 rgba(255, 74, 61, 0); }
-    50% { box-shadow: 0 0 20px rgba(255, 74, 61, 0.8); }
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
 }
 
-/* 数字滚动 */
-@keyframes number-roll {
-    0% { transform: translateY(0); opacity: 1; }
-    50% { transform: translateY(-10px); opacity: 0.5; }
-    100% { transform: translateY(0); opacity: 1; }
+@keyframes shimmer-text {
+    0% {
+        background-position: -200% center;
+    }
+    100% {
+        background-position: 200% center;
+    }
 }
 
-/* Toast滑入 */
-@keyframes toast-slide-in {
-    0% { transform: translateX(-50%) translateY(-100px); opacity: 0; }
-    100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+@keyframes glow-pulse {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(201, 169, 98, 0.3), 0 0 20px rgba(201, 169, 98, 0.1);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(201, 169, 98, 0.5), 0 0 40px rgba(201, 169, 98, 0.25);
+    }
 }
 
-/* Toast滑出 */
-@keyframes toast-slide-out {
-    0% { transform: translateX(-50%) translateY(0); opacity: 1; }
-    100% { transform: translateX(-50%) translateY(-100px); opacity: 0; }
+@keyframes glow-pulse-cyan {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.2), 0 0 20px rgba(0, 255, 255, 0.1);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.4), 0 0 40px rgba(0, 255, 255, 0.2);
+    }
 }
 
-/* 稀有度光效脉冲 */
-@keyframes rarity-pulse {
-    0%, 100% { box-shadow: var(--rarity-current-glow, 0 0 12px rgba(255, 215, 0, 0.4)); }
-    50% { box-shadow: var(--rarity-current-glow-strong, 0 0 24px rgba(255, 215, 0, 0.8)); }
+@keyframes glow-pulse-vermillion {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(194, 59, 34, 0.3), 0 0 20px rgba(194, 59, 34, 0.1);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(194, 59, 34, 0.5), 0 0 40px rgba(194, 59, 34, 0.25);
+    }
 }
 
-/* ============================================================
- * 三、场景过渡动效（Scene Transition）
- * ============================================================ */
-
-/* 水墨晕染淡出 */
-@keyframes ink-fade-out {
-    0% { opacity: 1; filter: blur(0); transform: scale(1); }
-    100% { opacity: 0; filter: blur(8px); transform: scale(1.05); }
+@keyframes border-flow {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
-/* 卷轴展开进入 */
+@keyframes page-flip {
+    0% {
+        transform: perspective(1000px) rotateY(0deg);
+    }
+    50% {
+        transform: perspective(1000px) rotateY(-90deg);
+    }
+    100% {
+        transform: perspective(1000px) rotateY(-180deg);
+    }
+}
+
+@keyframes page-unfold {
+    0% {
+        transform: scaleY(0);
+        opacity: 0;
+        transform-origin: top;
+    }
+    100% {
+        transform: scaleY(1);
+        opacity: 1;
+        transform-origin: top;
+    }
+}
+
 @keyframes scroll-unfold {
-    0% { opacity: 0; transform: scaleY(0) scaleX(0.8); transform-origin: top center; }
-    60% { opacity: 1; transform: scaleY(1.02) scaleX(1); }
-    100% { opacity: 1; transform: scaleY(1) scaleX(1); }
+    0% {
+        height: 0;
+        opacity: 0;
+    }
+    100% {
+        height: 100%;
+        opacity: 1;
+    }
 }
 
-/* 水墨晕染进入 */
-@keyframes ink-fade-in {
-    0% { opacity: 0; filter: blur(8px); transform: scale(0.95); }
-    100% { opacity: 1; filter: blur(0); transform: scale(1); }
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
-/* 页面离开 */
-.page-leave {
-    animation: ink-fade-out 0.3s var(--ease-ink) forwards;
+@keyframes fade-in-up {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-/* 页面进入 */
-.page-enter {
-    animation: scroll-unfold 0.5s var(--ease-ink) forwards;
+@keyframes fade-in-down {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-/* 导航锁定 */
-.nav-locked {
-    pointer-events: none;
-    opacity: 0.6;
+@keyframes fade-in-left {
+    0% {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
-/* ============================================================
- * 四、战斗特效（Battle Effect）
- * ============================================================ */
-
-/* 屏幕震动 */
-@keyframes screen-shake {
-    0%, 100% { transform: translate(0, 0); }
-    10% { transform: translate(-4px, -2px); }
-    20% { transform: translate(4px, 2px); }
-    30% { transform: translate(-3px, 3px); }
-    40% { transform: translate(3px, -3px); }
-    50% { transform: translate(-2px, 2px); }
-    60% { transform: translate(2px, -2px); }
-    70% { transform: translate(-1px, 1px); }
-    80% { transform: translate(1px, -1px); }
-    90% { transform: translate(-1px, 0); }
+@keyframes fade-in-right {
+    0% {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
-.screen-shake {
-    animation: screen-shake 0.2s var(--ease-power);
+@keyframes slide-in-up {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
-/* 闪光 */
-@keyframes flash-burst {
-    0% { opacity: 0; transform: scale(0.5); }
-    30% { opacity: 1; transform: scale(1.2); }
-    100% { opacity: 0; transform: scale(2); }
+@keyframes slide-in-down {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
-.flash-effect {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255, 215, 0, 0.8) 0%, rgba(255, 74, 61, 0.4) 50%, transparent 100%);
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    z-index: 9999;
-    animation: flash-burst 0.4s var(--ease-power) forwards;
+@keyframes slide-in-left {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
-/* 伤害数字飞出 */
-@keyframes damage-fly {
-    0% { transform: translate(-50%, 0) scale(0.5); opacity: 0; }
-    20% { transform: translate(-50%, -20px) scale(1.3); opacity: 1; }
-    60% { transform: translate(-50%, -60px) scale(1); opacity: 1; }
-    100% { transform: translate(-50%, -100px) scale(0.8); opacity: 0; }
+@keyframes slide-in-right {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
-.damage-number {
-    position: absolute;
-    font-family: var(--font-family-brush);
-    font-size: 32px;
-    font-weight: bold;
-    color: #ff4a3d;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 10px rgba(255, 74, 61, 0.6);
-    pointer-events: none;
-    z-index: 1000;
-    animation: damage-fly 0.8s var(--ease-bounce) forwards;
+@keyframes scale-in {
+    0% {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
-.damage-number.crit {
-    font-size: 48px;
-    color: #ffd700;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 15px rgba(255, 215, 0, 0.8);
+@keyframes scale-in-small {
+    0% {
+        transform: scale(0.85);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
-.damage-number.heal {
-    color: #a8d8b9;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 10px rgba(168, 216, 185, 0.6);
+@keyframes bounce-in {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
-/* 金光粒子 */
-@keyframes gold-particle {
-    0% { transform: translate(0, 0) scale(0); opacity: 1; }
-    100% { transform: translate(var(--px, 50px), var(--py, -80px)) scale(1); opacity: 0; }
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-4px);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translateX(4px);
+    }
 }
 
-.gold-particle {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: radial-gradient(circle, #ffd700 0%, transparent 70%);
-    pointer-events: none;
-    animation: gold-particle 1s var(--ease-power) forwards;
+@keyframes shake-vertical {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateY(-4px);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translateY(4px);
+    }
 }
 
-/* 胜利展示 */
-@keyframes victory-zoom {
-    0% { transform: scale(0.5) translateY(50px); opacity: 0; }
-    50% { transform: scale(1.1) translateY(0); opacity: 1; }
-    100% { transform: scale(1) translateY(0); opacity: 1; }
+@keyframes rotate-slow {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
-.victory-text {
-    animation: victory-zoom 0.6s var(--ease-bounce) forwards;
+@keyframes rotate-fast {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
-/* 败方倒下 */
-@keyframes defeat-fall {
-    0% { transform: rotate(0) translateY(0); filter: grayscale(0); opacity: 1; }
-    100% { transform: rotate(90deg) translateY(20px); filter: grayscale(1); opacity: 0.5; }
+@keyframes spin-reverse {
+    0% {
+        transform: rotate(360deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
 }
 
-.defeat-fall {
-    animation: defeat-fall 0.8s var(--ease-power) forwards;
+@keyframes wave {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    25% {
+        transform: translateY(-5px);
+    }
+    75% {
+        transform: translateY(5px);
+    }
 }
 
-/* 太极加载旋转 */
-@keyframes taichi-spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
 }
 
-.loading-taichi {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: linear-gradient(90deg, #1a1a1a 50%, #f5f0e6 50%);
-    position: relative;
-    animation: taichi-spin 1.2s linear infinite;
+@keyframes blink-caret {
+    from, to {
+        border-color: transparent;
+    }
+    50% {
+        border-color: var(--gold-ancient);
+    }
 }
 
-.loading-taichi::before,
-.loading-taichi::after {
-    content: '';
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    left: 12px;
+@keyframes fire-glow {
+    0%, 100% {
+        filter: brightness(1) saturate(1);
+        opacity: 0.8;
+    }
+    50% {
+        filter: brightness(1.3) saturate(1.2);
+        opacity: 1;
+    }
 }
 
-.loading-taichi::before {
-    top: 0;
-    background: #1a1a1a;
+@keyframes smoke-rise {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-60px) scale(2);
+        opacity: 0;
+    }
 }
 
-.loading-taichi::after {
-    bottom: 0;
-    background: #f5f0e6;
+@keyframes sword-slash {
+    0% {
+        transform: translateX(-100%) rotate(-45deg);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(100%) rotate(-45deg);
+        opacity: 0;
+    }
 }
 
-/* 卡牌翻转 */
-.card-flip-container {
-    perspective: 1000px;
+@keyframes impact-shock {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
-.card-flip-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    transition: transform 0.6s var(--ease-power);
+@keyframes damage-flash {
+    0%, 100% {
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(2) saturate(0);
+    }
+}
+
+@keyframes heal-glow {
+    0% {
+        box-shadow: 0 0 0 rgba(34, 197, 94, 0);
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(34, 197, 94, 0.6);
+    }
+    100% {
+        box-shadow: 0 0 0 rgba(34, 197, 94, 0);
+    }
+}
+
+@keyframes energy-pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+}
+
+@keyframes data-stream {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+}
+
+@keyframes circuit-glow {
+    0%, 100% {
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 0.8;
+    }
+}
+
+@keyframes hologram-flicker {
+    0%, 100% {
+        opacity: 1;
+    }
+    92% {
+        opacity: 1;
+    }
+    93% {
+        opacity: 0.8;
+    }
+    94% {
+        opacity: 1;
+    }
+    95% {
+        opacity: 0.6;
+    }
+    96% {
+        opacity: 1;
+    }
+}
+
+@keyframes loading-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes loading-wave {
+    0% {
+        transform: scaleY(0.5);
+    }
+    50% {
+        transform: scaleY(1);
+    }
+    100% {
+        transform: scaleY(0.5);
+    }
+}
+
+@keyframes gradient-shift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes text-glow {
+    0%, 100% {
+        text-shadow: 0 0 5px rgba(201, 169, 98, 0.3);
+    }
+    50% {
+        text-shadow: 0 0 15px rgba(201, 169, 98, 0.6), 0 0 25px rgba(201, 169, 98, 0.4);
+    }
+}
+
+@keyframes border-glow {
+    0%, 100% {
+        border-color: rgba(201, 169, 98, 0.3);
+    }
+    50% {
+        border-color: rgba(201, 169, 98, 0.8);
+    }
+}
+
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes fade-out-up {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes slide-out-right {
+    0% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+@keyframes slide-out-left {
+    0% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+}
+
+@keyframes scale-out {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+}
+
+.animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-float {
+    animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-slow {
+    animation: float-slow 8s ease-in-out infinite;
+}
+
+.animate-float-fast {
+    animation: float-fast 4s ease-in-out infinite;
+}
+
+.animate-scan {
+    animation: scan 8s linear infinite;
+}
+
+.animate-scan-horizontal {
+    animation: scan-horizontal 3s linear infinite;
+}
+
+.animate-shimmer {
+    animation: shimmer 3s ease-in-out infinite;
+    background-size: 200% 100%;
+}
+
+.animate-shimmer-text {
+    animation: shimmer-text 3s ease-in-out infinite;
+    background-size: 200% 100%;
+}
+
+.animate-glow-pulse {
+    animation: glow-pulse 2s ease-in-out infinite;
+}
+
+.animate-glow-pulse-cyan {
+    animation: glow-pulse-cyan 2s ease-in-out infinite;
+}
+
+.animate-glow-pulse-vermillion {
+    animation: glow-pulse-vermillion 2s ease-in-out infinite;
+}
+
+.animate-border-flow {
+    animation: border-flow 3s ease-in-out infinite;
+    background-size: 200% 100%;
+}
+
+.animate-page-flip {
+    animation: page-flip 0.6s ease-in-out forwards;
     transform-style: preserve-3d;
 }
 
-.card-flip-container.flipped .card-flip-inner {
-    transform: rotateY(180deg);
+.animate-page-unfold {
+    animation: page-unfold 0.5s ease-out forwards;
 }
 
-.card-front,
-.card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
+.animate-scroll-unfold {
+    animation: scroll-unfold 0.8s ease-out forwards;
+    overflow: hidden;
 }
 
-.card-back {
-    transform: rotateY(180deg);
+.animate-fade-in {
+    animation: fade-in 0.3s ease-out forwards;
 }
 
-/* ============================================================
- * 五、无障碍降级（prefers-reduced-motion）
- * ============================================================ */
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-    }
+.animate-fade-in-up {
+    animation: fade-in-up 0.4s ease-out forwards;
+}
 
-    .screen-shake,
-    .flash-effect,
-    .damage-number,
-    .gold-particle {
-        display: none !important;
-    }
+.animate-fade-in-down {
+    animation: fade-in-down 0.4s ease-out forwards;
+}
+
+.animate-fade-in-left {
+    animation: fade-in-left 0.4s ease-out forwards;
+}
+
+.animate-fade-in-right {
+    animation: fade-in-right 0.4s ease-out forwards;
+}
+
+.animate-slide-in-up {
+    animation: slide-in-up 0.4s ease-out forwards;
+}
+
+.animate-slide-in-down {
+    animation: slide-in-down 0.4s ease-out forwards;
+}
+
+.animate-slide-in-left {
+    animation: slide-in-left 0.4s ease-out forwards;
+}
+
+.animate-slide-in-right {
+    animation: slide-in-right 0.4s ease-out forwards;
+}
+
+.animate-scale-in {
+    animation: scale-in 0.35s ease-out forwards;
+}
+
+.animate-scale-in-small {
+    animation: scale-in-small 0.3s ease-out forwards;
+}
+
+.animate-bounce-in {
+    animation: bounce-in 0.5s ease-out forwards;
+}
+
+.animate-shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+.animate-shake-vertical {
+    animation: shake-vertical 0.5s ease-in-out;
+}
+
+.animate-rotate-slow {
+    animation: rotate-slow 20s linear infinite;
+}
+
+.animate-rotate-fast {
+    animation: rotate-fast 2s linear infinite;
+}
+
+.animate-spin-reverse {
+    animation: spin-reverse 20s linear infinite;
+}
+
+.animate-wave {
+    animation: wave 1s ease-in-out infinite;
+}
+
+.animate-typing {
+    animation: typing 3.5s steps(40, end);
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.animate-blink-caret {
+    animation: blink-caret 0.75s step-end infinite;
+}
+
+.animate-fire-glow {
+    animation: fire-glow 1.5s ease-in-out infinite;
+}
+
+.animate-smoke-rise {
+    animation: smoke-rise 2s ease-out forwards;
+}
+
+.animate-sword-slash {
+    animation: sword-slash 0.3s ease-out forwards;
+}
+
+.animate-impact-shock {
+    animation: impact-shock 0.3s ease-out;
+}
+
+.animate-damage-flash {
+    animation: damage-flash 0.2s ease-out;
+}
+
+.animate-heal-glow {
+    animation: heal-glow 0.6s ease-out;
+}
+
+.animate-energy-pulse {
+    animation: energy-pulse 1s ease-in-out infinite;
+}
+
+.animate-data-stream {
+    animation: data-stream 3s linear infinite;
+}
+
+.animate-circuit-glow {
+    animation: circuit-glow 1.5s ease-in-out infinite;
+}
+
+.animate-hologram-flicker {
+    animation: hologram-flicker 4s ease-in-out infinite;
+}
+
+.animate-loading-spin {
+    animation: loading-spin 1s linear infinite;
+}
+
+.animate-loading-wave {
+    animation: loading-wave 1s ease-in-out infinite;
+}
+
+.animate-gradient-shift {
+    animation: gradient-shift 8s ease-in-out infinite;
+    background-size: 200% 200%;
+}
+
+.animate-text-glow {
+    animation: text-glow 2s ease-in-out infinite;
+}
+
+.animate-border-glow {
+    animation: border-glow 2s ease-in-out infinite;
+}
+
+.animate-fade-out {
+    animation: fade-out 0.3s ease-out forwards;
+}
+
+.animate-fade-out-up {
+    animation: fade-out-up 0.3s ease-out forwards;
+}
+
+.animate-slide-out-right {
+    animation: slide-out-right 0.3s ease-out forwards;
+}
+
+.animate-slide-out-left {
+    animation: slide-out-left 0.3s ease-out forwards;
+}
+
+.animate-scale-out {
+    animation: scale-out 0.3s ease-out forwards;
+}
+
+.delay-100 {
+    animation-delay: 0.1s;
+}
+
+.delay-200 {
+    animation-delay: 0.2s;
+}
+
+.delay-300 {
+    animation-delay: 0.3s;
+}
+
+.delay-400 {
+    animation-delay: 0.4s;
+}
+
+.delay-500 {
+    animation-delay: 0.5s;
+}
+
+.delay-700 {
+    animation-delay: 0.7s;
+}
+
+.delay-1000 {
+    animation-delay: 1s;
+}
+
+.duration-fast {
+    animation-duration: 0.2s;
+}
+
+.duration-normal {
+    animation-duration: 0.4s;
+}
+
+.duration-slow {
+    animation-duration: 0.6s;
+}
+
+.duration-slower {
+    animation-duration: 1s;
+}
+
+.fill-forwards {
+    animation-fill-mode: forwards;
+}
+
+.fill-backwards {
+    animation-fill-mode: backwards;
+}
+
+.fill-both {
+    animation-fill-mode: both;
+}
+
+.ease-out {
+    animation-timing-function: ease-out;
+}
+
+.ease-in {
+    animation-timing-function: ease-in;
+}
+
+.ease-in-out {
+    animation-timing-function: ease-in-out;
+}
+
+.ease-bounce {
+    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
 }

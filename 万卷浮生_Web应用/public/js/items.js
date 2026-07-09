@@ -162,7 +162,7 @@ const Items = {
                 </div>
             </div>
         `;
-        document.getElementById('item-detail-modal').style.display = 'flex';
+        document.getElementById('item-detail-modal').classList.add('active');
     },
 
     getSkillTypeName(type) {
@@ -174,7 +174,7 @@ const Items = {
     },
 
     closeDetail() {
-        document.getElementById('item-detail-modal').style.display = 'none';
+        document.getElementById('item-detail-modal').classList.remove('active');
     },
 
     async addToMine(id) {

@@ -24,6 +24,9 @@
     --battle-border-gold: rgba(255, 215, 0, 0.4); /* 金边框 */
     --battle-shadow: 0 4px 20px rgba(255, 74, 61, 0.2); /* 朱砂阴影 */
     --battle-card-bg: rgba(26, 26, 46, 0.85); /* 卡牌背景 */
+    --battle-glass-bg: rgba(26, 26, 46, 0.7); /* 玻璃背景 */
+    --battle-glass-blur: 16px;               /* 玻璃模糊 */
+    --battle-glow: rgba(255, 74, 61, 0.3);   /* 场景光效 */
 
     /* ====== 角色场景 · 暖玉色系（前缀 --char-） ====== */
     --char-bg-primary: #f5ebd8;              /* 主背景 */
@@ -37,6 +40,9 @@
     --char-border: rgba(168, 216, 185, 0.4); /* 玉色边框 */
     --char-card-bg: rgba(250, 243, 227, 0.9); /* 卡牌背景 */
     --char-shadow: 0 4px 16px rgba(168, 216, 185, 0.2); /* 玉色阴影 */
+    --char-glass-bg: rgba(250, 243, 227, 0.8); /* 玻璃背景 */
+    --char-glass-blur: 12px;                 /* 玻璃模糊 */
+    --char-glow: rgba(168, 216, 185, 0.3);   /* 场景光效 */
 
     /* ====== 大厅场景 · 青烟色系（前缀 --lobby-） ====== */
     --lobby-bg-primary: #e8e8e0;             /* 主背景 */
@@ -50,6 +56,9 @@
     --lobby-border: rgba(122, 154, 142, 0.4); /* 青烟边框 */
     --lobby-card-bg: rgba(232, 232, 224, 0.9); /* 卡牌背景 */
     --lobby-shadow: 0 4px 16px rgba(122, 154, 142, 0.2); /* 青烟阴影 */
+    --lobby-glass-bg: rgba(232, 232, 224, 0.85); /* 玻璃背景 */
+    --lobby-glass-blur: 14px;                /* 玻璃模糊 */
+    --lobby-glow: rgba(122, 154, 142, 0.3);  /* 场景光效 */
 
     /* ====== 稀有度光效变量（全局，无前缀） ====== */
     /* SSR · 金光 */
@@ -95,6 +104,9 @@
     --card-bg-current: var(--battle-card-bg);
     --shadow-current: var(--battle-shadow);
     --accent-current: var(--battle-accent);
+    --glass-bg-current: var(--battle-glass-bg);
+    --glass-blur-current: var(--battle-glass-blur);
+    --glow-current: var(--battle-glow);
 }
 
 /* 角色场景 */
@@ -107,6 +119,9 @@
     --card-bg-current: var(--char-card-bg);
     --shadow-current: var(--char-shadow);
     --accent-current: var(--char-accent);
+    --glass-bg-current: var(--char-glass-bg);
+    --glass-blur-current: var(--char-glass-blur);
+    --glow-current: var(--char-glow);
 }
 
 /* 大厅场景 */
@@ -119,4 +134,7 @@
     --card-bg-current: var(--lobby-card-bg);
     --shadow-current: var(--lobby-shadow);
     --accent-current: var(--lobby-accent);
+    --glass-bg-current: var(--lobby-glass-bg);
+    --glass-blur-current: var(--lobby-glass-blur);
+    --glow-current: var(--lobby-glow);
 }

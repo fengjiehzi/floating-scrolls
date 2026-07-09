@@ -1,0 +1,315 @@
+/* loading.css - 加载体系样式 v=20260701a */
+
+/* ====== 启动屏 ====== */
+#app-splash {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--paper-bg);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease;
+}
+
+#app-splash.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.splash-scroll {
+    width: 120px;
+    height: 80px;
+    margin-bottom: 32px;
+    animation: scroll-unfold 1.2s ease-out;
+}
+
+.splash-title {
+    font-family: var(--font-family-brush);
+    font-size: 32px;
+    color: var(--old-gold);
+    margin-bottom: 24px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.splash-progress-bar {
+    width: 240px;
+    height: 3px;
+    background: var(--paper-dark);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+.splash-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--vermillion), var(--old-gold));
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.splash-percent {
+    font-family: var(--font-family-brush);
+    font-size: 18px;
+    color: var(--old-gold-dark);
+    margin-bottom: 8px;
+}
+
+.splash-hint {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+@keyframes scroll-unfold {
+    0% { transform: scaleY(0); opacity: 0; }
+    100% { transform: scaleY(1); opacity: 1; }
+}
+
+@keyframes splash-fade-out {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* ====== 顶部全局进度线 ====== */
+#global-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, var(--vermillion), var(--old-gold));
+    z-index: 9998;
+    opacity: 0;
+    transition: width 0.3s ease, opacity 0.3s ease;
+    box-shadow: 0 0 8px rgba(194, 59, 34, 0.4);
+}
+
+#global-progress-bar.visible {
+    opacity: 1;
+}
+
+/* ====== 骨架屏 ====== */
+.skeleton-card {
+    background: var(--paper-light);
+    border: 1px solid var(--border-paper);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    overflow: hidden;
+    position: relative;
+}
+
+.skeleton-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg,
+        var(--paper-dark) 25%,
+        var(--paper-light) 50%,
+        var(--paper-dark) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: inherit;
+}
+
+.skeleton-line {
+    height: 12px;
+    background: var(--paper-dark);
+    border-radius: 4px;
+    margin-bottom: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+.skeleton-line::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg,
+        transparent 25%,
+        rgba(250, 247, 242, 0.6) 50%,
+        transparent 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+.skeleton-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--paper-dark);
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.skeleton-avatar::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg,
+        transparent 25%,
+        rgba(250, 247, 242, 0.6) 50%,
+        transparent 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+.skeleton-line.short { width: 60%; }
+.skeleton-line.medium { width: 80%; }
+.skeleton-line.long { width: 100%; }
+
+@keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* ====== AI 分阶段进度浮窗 ====== */
+.ai-progress-panel {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(250, 247, 242, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-paper);
+    border-radius: 12px;
+    padding: 16px 24px;
+    box-shadow: var(--shadow-lg);
+    z-index: 8000;
+    min-width: 320px;
+    max-width: 480px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.ai-progress-panel.hidden {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+    pointer-events: none;
+}
+
+.ai-progress-stages {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.ai-stage {
+    font-size: 12px;
+    color: var(--text-muted);
+    padding: 4px 10px;
+    border-radius: 12px;
+    background: var(--paper-dark);
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+}
+
+.ai-stage.active {
+    color: var(--paper-light);
+    background: var(--vermillion);
+    font-weight: 600;
+}
+
+.ai-stage.done {
+    color: var(--paper-light);
+    background: var(--old-gold-dark);
+}
+
+.ai-progress-bar {
+    height: 2px;
+    background: var(--paper-dark);
+    border-radius: 1px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.ai-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--vermillion), var(--old-gold));
+    transition: width 0.3s ease;
+}
+
+.ai-progress-hint {
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+/* ====== 图片加载状态 ====== */
+.img-loading {
+    opacity: 0.3;
+    filter: blur(8px);
+    transition: all 0.3s ease;
+}
+
+.img-loaded {
+    opacity: 1;
+    filter: blur(0);
+    transition: all 0.3s ease;
+}
+
+.img-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--paper-dark);
+    border: 1px solid var(--old-gold);
+    color: var(--old-gold-dark);
+    font-family: var(--font-family-brush);
+    font-size: 24px;
+    border-radius: var(--radius-sm);
+}
+
+/* ====== 粒子画布 ====== */
+#particle-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9000;
+}
+
+/* ====== 水墨加载遮罩（从 app.js injectGameToastStyles 迁移） ====== */
+/* 注：@keyframes taichi-spin 已在 animations.css 定义 */
+.loading-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(13, 13, 13, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    gap: 16px;
+}
+.loading-taichi-wrapper { position: relative; width: 64px; height: 64px; }
+.loading-taichi-text {
+    font-family: var(--font-family-brush);
+    font-size: var(--fs-h5, 14px);
+    color: var(--text-on-dark, #f5f0e6);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    animation: taichi-text-pulse 1.5s ease-in-out infinite;
+}
+@keyframes taichi-text-pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+.inline-loading {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, currentColor 50%, transparent 50%);
+    animation: taichi-spin 0.8s linear infinite;
+    vertical-align: middle;
+}

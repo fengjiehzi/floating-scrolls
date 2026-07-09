@@ -55,24 +55,21 @@ const Characters = {
         }
         grid.innerHTML = list.map(c => `
             <div class="char-card" onclick="Characters.showDetail(${c.id})">
-                <div class="char-portrait" style="background:${c.gradient}">
-                    ${c.image ? `<img src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}" class="char-portrait-img" onerror="this.style.display='none'">` : ''}
-                    <div class="grade-badge grade-${c.grade}">${c.grade}</div>
-                    <div class="name">${escapeHtml(c.name)}</div>
-                    <div class="meta">${c.grade}级 · 《${escapeHtml(c.source)}》</div>
-                </div>
-                <div class="char-info">
-                    <div class="char-stats-mini">
-                        <div class="stat-mini"><div class="label">力量</div><div class="value">${c.stats.power}</div></div>
-                        <div class="stat-mini"><div class="label">速度</div><div class="value">${c.stats.speed}</div></div>
-                        <div class="stat-mini"><div class="label">智力</div><div class="value">${c.stats.intelligence}</div></div>
-                        <div class="stat-mini"><div class="label">防御</div><div class="value">${c.stats.defense}</div></div>
-                        <div class="stat-mini"><div class="label">特殊</div><div class="value">${c.stats.special_ability}</div></div>
-                        <div class="stat-mini"><div class="label">HP</div><div class="value">${c.stats.hp}</div></div>
-                    </div>
-                    <div class="char-actions">
-                        <button class="btn btn-ghost" onclick="event.stopPropagation();Characters.showDetail(${c.id})">详情</button>
-                        <button class="btn btn-primary" onclick="event.stopPropagation();Characters.selectForBattle(${c.id})">选战</button>
+                <div class="char-card-inner">
+                    ${c.image ? `<img class="char-card-img" src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}">` : `<div class="char-card-bg" style="background:${c.gradient}"></div>`}
+                    <div class="char-card-overlay">
+                        <div class="char-stats-mini">
+                            <div class="stat-mini"><div class="label">力量</div><div class="value">${c.stats.power}</div></div>
+                            <div class="stat-mini"><div class="label">速度</div><div class="value">${c.stats.speed}</div></div>
+                            <div class="stat-mini"><div class="label">智力</div><div class="value">${c.stats.intelligence}</div></div>
+                            <div class="stat-mini"><div class="label">防御</div><div class="value">${c.stats.defense}</div></div>
+                            <div class="stat-mini"><div class="label">特殊</div><div class="value">${c.stats.special_ability}</div></div>
+                            <div class="stat-mini"><div class="label">HP</div><div class="value">${c.stats.hp}</div></div>
+                        </div>
+                        <div class="char-actions">
+                            <button class="btn btn-ghost" onclick="event.stopPropagation();Characters.showDetail(${c.id})">详情</button>
+                            <button class="btn btn-primary" onclick="event.stopPropagation();Characters.selectForBattle(${c.id})">选战</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -187,35 +184,64 @@ const Characters = {
         `;
         document.getElementById('char-detail-modal').style.display = 'flex';
 
-        // 若为我的角色，则获取成长信息
+        // 若为我的角色，则获取成长信息和装备信息
         let growth = null;
+        let equipment = [];
         if (isMine) {
             const token = localStorage.getItem('token');
             if (token) {
                 try {
-                    const res = await fetch(`/api/me/characters/${id}/growth`, {
-                        headers: { 'Authorization': 'Bearer ' + token }
-                    });
-                    if (res.ok) {
-                        growth = await res.json();
+                    const [growthRes, equipRes] = await Promise.all([
+                        fetch(`/api/me/characters/${id}/growth`, { headers: { 'Authorization': 'Bearer ' + token } }),
+                        fetch(`/api/characters/${id}/equipment`, { headers: { 'Authorization': 'Bearer ' + token } })
+                    ]);
+                    if (growthRes.ok) growth = await growthRes.json();
+                    if (equipRes.ok) {
+                        const equipData = await equipRes.json();
+                        equipment = equipData.equipment || [];
                     }
                 } catch (err) {
-                    console.error('获取成长信息失败:', err);
+                    console.error('获取角色信息失败:', err);
                 }
             }
         }
-        this.renderDetail(c, growth, isMine);
+        this.renderDetail(c, growth, isMine, equipment);
     },
 
     // 渲染角色详情弹窗内容
-    renderDetail(character, growth, isMine) {
+    renderDetail(character, growth, isMine, equipment) {
         const c = character;
         const s = c.stats;
+        equipment = equipment || [];
         const skillTypeNames = {
             physical_attack: '物理攻击', magic_attack: '法术攻击', speed_attack: '速度攻击',
             transform: '变化', heal: '回血', summon: '召唤', passive: '被动'
         };
         const statNameMap = { power: '力量', speed: '速度', intelligence: '智力', defense: '防御', special_ability: '特殊', hp: 'HP', mp: 'MP' };
+
+        // 装备信息渲染
+        let equipmentHtml = '';
+        if (isMine) {
+            const equippedList = equipment.length > 0
+                ? equipment.map(eq => `
+                    <div class="equip-slot-item" style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--paper-bg);border-radius:6px;border:1px solid var(--border-paper);margin-bottom:8px;">
+                        <div style="font-size:24px;">${eq.image ? `<img src="${escapeHtml(eq.image)}" style="width:32px;height:32px;object-fit:contain;">` : '🎒'}</div>
+                        <div style="flex:1;">
+                            <div style="font-weight:600;font-size:13px;">${escapeHtml(eq.name)}</div>
+                            <div style="font-size:11px;color:var(--text-muted);">${escapeHtml(eq.type || '')} · ${escapeHtml(eq.rarity || '')}</div>
+                        </div>
+                        <button class="btn btn-ghost" style="padding:4px 10px;font-size:12px;" onclick="Characters.unequipItem(${c.id}, ${eq.item_id})">卸下</button>
+                    </div>
+                `).join('')
+                : '<div style="color:var(--text-muted);font-size:13px;padding:8px 0;">尚未装备任何法宝</div>';
+            equipmentHtml = `
+                <div class="detail-section">
+                    <h3>🎒 装备槽</h3>
+                    ${equippedList}
+                    <button class="btn btn-ghost" style="width:100%;margin-top:6px;font-size:13px;" onclick="Characters.openEquipPicker(${c.id})">+ 选择法宝装备</button>
+                </div>
+            `;
+        }
 
         // 成长信息渲染
         let growthHtml = '';
@@ -348,6 +374,7 @@ const Characters = {
                             ${formsHtml}
                         </div>
                     </div>
+                    ${equipmentHtml}
                     <div class="detail-section">
                         <h3>📖 原作依据</h3>
                         <div class="source-basis">${escapeHtml(c.source_basis || '暂无')}</div>
@@ -361,6 +388,89 @@ const Characters = {
     // 关闭详情
     closeDetail() {
         document.getElementById('char-detail-modal').style.display = 'none';
+    },
+
+    // 打开装备选择器（从用户背包中选择道具装备给该角色）
+    async openEquipPicker(charId) {
+        const token = localStorage.getItem('token');
+        if (!token) { App.showToast('请先登录', 'error'); return; }
+        try {
+            // 获取用户背包
+            const res = await fetch('/api/me/items', { headers: { 'Authorization': 'Bearer ' + token } });
+            const data = await res.json();
+            const myItems = data.items || [];
+            if (myItems.length === 0) {
+                App.showToast('背包为空，请先在剧情中获得法宝', 'info');
+                return;
+            }
+            // 渲染选择器弹窗
+            const content = document.getElementById('char-detail-content');
+            content.innerHTML = `
+                <div class="modal-close" onclick="Characters.closeDetail()">×</div>
+                <div style="padding:24px;max-height:70vh;overflow-y:auto;">
+                    <h3 style="font-family:var(--font-family-brush);color:var(--old-gold);margin-bottom:16px;">选择法宝装备</h3>
+                    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;">
+                        ${myItems.map(item => `
+                            <div class="item-pick-card" onclick="Characters.equipItem(${charId}, ${item.id})"
+                                style="padding:12px;background:var(--paper-bg);border:1px solid var(--border-paper);border-radius:8px;cursor:pointer;text-align:center;transition:all 0.2s;"
+                                onmouseover="this.style.borderColor='var(--old-gold)';this.style.transform='translateY(-3px)'"
+                                onmouseout="this.style.borderColor='var(--border-paper)';this.style.transform=''">
+                                <div style="font-size:36px;margin-bottom:6px;">${item.image ? `<img src="${escapeHtml(item.image)}" style="width:40px;height:40px;object-fit:contain;">` : '🎒'}</div>
+                                <div style="font-weight:600;font-size:13px;">${escapeHtml(item.name)}</div>
+                                <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">${escapeHtml(item.type || '')} · ${escapeHtml(item.rarity || '')}</div>
+                                ${item.equipped ? '<div style="font-size:10px;color:var(--vermillion);margin-top:4px;">已被装备</div>' : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <button class="btn btn-ghost" style="margin-top:16px;width:100%;" onclick="Characters.showDetail(${charId})">返回角色详情</button>
+                </div>
+            `;
+        } catch (err) {
+            console.error('打开装备选择器失败:', err);
+            App.showToast('加载背包失败', 'error');
+        }
+    },
+
+    // 装备道具到角色
+    async equipItem(charId, itemId) {
+        const token = localStorage.getItem('token');
+        try {
+            const res = await fetch(`/api/characters/${charId}/equip`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                body: JSON.stringify({ item_id: itemId })
+            });
+            const data = await res.json();
+            if (data.success) {
+                App.showToast('装备成功', 'success');
+                this.showDetail(charId); // 刷新详情
+            } else {
+                App.showToast(data.error || '装备失败', 'error');
+            }
+        } catch (err) {
+            App.showToast('网络错误', 'error');
+        }
+    },
+
+    // 卸下角色道具
+    async unequipItem(charId, itemId) {
+        const token = localStorage.getItem('token');
+        try {
+            const res = await fetch(`/api/characters/${charId}/unequip`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                body: JSON.stringify({ item_id: itemId })
+            });
+            const data = await res.json();
+            if (data.success) {
+                App.showToast('已卸下', 'success');
+                this.showDetail(charId); // 刷新详情
+            } else {
+                App.showToast(data.error || '卸下失败', 'error');
+            }
+        } catch (err) {
+            App.showToast('网络错误', 'error');
+        }
     },
 
     // 加入我的卡组

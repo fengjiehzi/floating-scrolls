@@ -1,0 +1,1230 @@
+# Shaolin scripture pavilion inspired low-poly model
+# Plaque represents: cang jing ge
+mtllib shaolin-cangjingge.mtl
+v -3.3000 0.0000 -2.4000
+v 3.3000 0.0000 -2.4000
+v 3.3000 0.3600 -2.4000
+v -3.3000 0.3600 -2.4000
+v -3.3000 0.0000 2.4000
+v 3.3000 0.0000 2.4000
+v 3.3000 0.3600 2.4000
+v -3.3000 0.3600 2.4000
+v -1.4000 0.0000 -2.8600
+v 1.4000 0.0000 -2.8600
+v 1.4000 0.2400 -2.8600
+v -1.4000 0.2400 -2.8600
+v -1.4000 0.0000 -2.4400
+v 1.4000 0.0000 -2.4400
+v 1.4000 0.2400 -2.4400
+v -1.4000 0.2400 -2.4400
+v -1.1000 0.1800 -2.5600
+v 1.1000 0.1800 -2.5600
+v 1.1000 0.4200 -2.5600
+v -1.1000 0.4200 -2.5600
+v -1.1000 0.1800 -2.2000
+v 1.1000 0.1800 -2.2000
+v 1.1000 0.4200 -2.2000
+v -1.1000 0.4200 -2.2000
+v -2.6000 0.2200 -1.6750
+v 2.6000 0.2200 -1.6750
+v 2.6000 2.1400 -1.6750
+v -2.6000 2.1400 -1.6750
+v -2.6000 0.2200 1.6750
+v 2.6000 0.2200 1.6750
+v 2.6000 2.1400 1.6750
+v -2.6000 2.1400 1.6750
+v -2.0750 2.3450 -1.3250
+v 2.0750 2.3450 -1.3250
+v 2.0750 3.8950 -1.3250
+v -2.0750 3.8950 -1.3250
+v -2.0750 2.3450 1.3250
+v 2.0750 2.3450 1.3250
+v 2.0750 3.8950 1.3250
+v -2.0750 3.8950 1.3250
+v -2.1600 0.4200 -1.7800
+v -2.1600 2.2700 -1.7800
+v -2.1864 0.4200 -1.7164
+v -2.1864 2.2700 -1.7164
+v -2.2500 0.4200 -1.6900
+v -2.2500 2.2700 -1.6900
+v -2.3136 0.4200 -1.7164
+v -2.3136 2.2700 -1.7164
+v -2.3400 0.4200 -1.7800
+v -2.3400 2.2700 -1.7800
+v -2.3136 0.4200 -1.8436
+v -2.3136 2.2700 -1.8436
+v -2.2500 0.4200 -1.8700
+v -2.2500 2.2700 -1.8700
+v -2.1864 0.4200 -1.8436
+v -2.1864 2.2700 -1.8436
+v -1.2600 0.4200 -1.7800
+v -1.2600 2.2700 -1.7800
+v -1.2864 0.4200 -1.7164
+v -1.2864 2.2700 -1.7164
+v -1.3500 0.4200 -1.6900
+v -1.3500 2.2700 -1.6900
+v -1.4136 0.4200 -1.7164
+v -1.4136 2.2700 -1.7164
+v -1.4400 0.4200 -1.7800
+v -1.4400 2.2700 -1.7800
+v -1.4136 0.4200 -1.8436
+v -1.4136 2.2700 -1.8436
+v -1.3500 0.4200 -1.8700
+v -1.3500 2.2700 -1.8700
+v -1.2864 0.4200 -1.8436
+v -1.2864 2.2700 -1.8436
+v 1.4400 0.4200 -1.7800
+v 1.4400 2.2700 -1.7800
+v 1.4136 0.4200 -1.7164
+v 1.4136 2.2700 -1.7164
+v 1.3500 0.4200 -1.6900
+v 1.3500 2.2700 -1.6900
+v 1.2864 0.4200 -1.7164
+v 1.2864 2.2700 -1.7164
+v 1.2600 0.4200 -1.7800
+v 1.2600 2.2700 -1.7800
+v 1.2864 0.4200 -1.8436
+v 1.2864 2.2700 -1.8436
+v 1.3500 0.4200 -1.8700
+v 1.3500 2.2700 -1.8700
+v 1.4136 0.4200 -1.8436
+v 1.4136 2.2700 -1.8436
+v 2.3400 0.4200 -1.7800
+v 2.3400 2.2700 -1.7800
+v 2.3136 0.4200 -1.7164
+v 2.3136 2.2700 -1.7164
+v 2.2500 0.4200 -1.6900
+v 2.2500 2.2700 -1.6900
+v 2.1864 0.4200 -1.7164
+v 2.1864 2.2700 -1.7164
+v 2.1600 0.4200 -1.7800
+v 2.1600 2.2700 -1.7800
+v 2.1864 0.4200 -1.8436
+v 2.1864 2.2700 -1.8436
+v 2.2500 0.4200 -1.8700
+v 2.2500 2.2700 -1.8700
+v 2.3136 0.4200 -1.8436
+v 2.3136 2.2700 -1.8436
+v -1.6750 2.4200 -1.4300
+v -1.6750 3.8700 -1.4300
+v -1.6970 2.4200 -1.3770
+v -1.6970 3.8700 -1.3770
+v -1.7500 2.4200 -1.3550
+v -1.7500 3.8700 -1.3550
+v -1.8030 2.4200 -1.3770
+v -1.8030 3.8700 -1.3770
+v -1.8250 2.4200 -1.4300
+v -1.8250 3.8700 -1.4300
+v -1.8030 2.4200 -1.4830
+v -1.8030 3.8700 -1.4830
+v -1.7500 2.4200 -1.5050
+v -1.7500 3.8700 -1.5050
+v -1.6970 2.4200 -1.4830
+v -1.6970 3.8700 -1.4830
+v -0.6750 2.4200 -1.4300
+v -0.6750 3.8700 -1.4300
+v -0.6970 2.4200 -1.3770
+v -0.6970 3.8700 -1.3770
+v -0.7500 2.4200 -1.3550
+v -0.7500 3.8700 -1.3550
+v -0.8030 2.4200 -1.3770
+v -0.8030 3.8700 -1.3770
+v -0.8250 2.4200 -1.4300
+v -0.8250 3.8700 -1.4300
+v -0.8030 2.4200 -1.4830
+v -0.8030 3.8700 -1.4830
+v -0.7500 2.4200 -1.5050
+v -0.7500 3.8700 -1.5050
+v -0.6970 2.4200 -1.4830
+v -0.6970 3.8700 -1.4830
+v 0.8250 2.4200 -1.4300
+v 0.8250 3.8700 -1.4300
+v 0.8030 2.4200 -1.3770
+v 0.8030 3.8700 -1.3770
+v 0.7500 2.4200 -1.3550
+v 0.7500 3.8700 -1.3550
+v 0.6970 2.4200 -1.3770
+v 0.6970 3.8700 -1.3770
+v 0.6750 2.4200 -1.4300
+v 0.6750 3.8700 -1.4300
+v 0.6970 2.4200 -1.4830
+v 0.6970 3.8700 -1.4830
+v 0.7500 2.4200 -1.5050
+v 0.7500 3.8700 -1.5050
+v 0.8030 2.4200 -1.4830
+v 0.8030 3.8700 -1.4830
+v 1.8250 2.4200 -1.4300
+v 1.8250 3.8700 -1.4300
+v 1.8030 2.4200 -1.3770
+v 1.8030 3.8700 -1.3770
+v 1.7500 2.4200 -1.3550
+v 1.7500 3.8700 -1.3550
+v 1.6970 2.4200 -1.3770
+v 1.6970 3.8700 -1.3770
+v 1.6750 2.4200 -1.4300
+v 1.6750 3.8700 -1.4300
+v 1.6970 2.4200 -1.4830
+v 1.6970 3.8700 -1.4830
+v 1.7500 2.4200 -1.5050
+v 1.7500 3.8700 -1.5050
+v 1.8030 2.4200 -1.4830
+v 1.8030 3.8700 -1.4830
+v -0.5000 0.3800 -1.7400
+v 0.5000 0.3800 -1.7400
+v 0.5000 1.5800 -1.7400
+v -0.5000 1.5800 -1.7400
+v -0.5000 0.3800 -1.6800
+v 0.5000 0.3800 -1.6800
+v 0.5000 1.5800 -1.6800
+v -0.5000 1.5800 -1.6800
+v -1.9100 0.8250 -1.7450
+v -1.1900 0.8250 -1.7450
+v -1.1900 1.4750 -1.7450
+v -1.9100 1.4750 -1.7450
+v -1.9100 0.8250 -1.6950
+v -1.1900 0.8250 -1.6950
+v -1.1900 1.4750 -1.6950
+v -1.9100 1.4750 -1.6950
+v 1.1900 0.8250 -1.7450
+v 1.9100 0.8250 -1.7450
+v 1.9100 1.4750 -1.7450
+v 1.1900 1.4750 -1.7450
+v 1.1900 0.8250 -1.6950
+v 1.9100 0.8250 -1.6950
+v 1.9100 1.4750 -1.6950
+v 1.1900 1.4750 -1.6950
+v -0.6250 1.7100 -1.7850
+v 0.6250 1.7100 -1.7850
+v 0.6250 2.0500 -1.7850
+v -0.6250 2.0500 -1.7850
+v -0.6250 1.7100 -1.7150
+v 0.6250 1.7100 -1.7150
+v 0.6250 2.0500 -1.7150
+v -0.6250 2.0500 -1.7150
+v -1.9000 2.3000 -1.5800
+v 1.9000 2.3000 -1.5800
+v 1.9000 2.4200 -1.5800
+v -1.9000 2.4200 -1.5800
+v -1.9000 2.3000 -1.4600
+v 1.9000 2.3000 -1.4600
+v 1.9000 2.4200 -1.4600
+v -1.9000 2.4200 -1.4600
+v -3.1250 2.0600 -2.1900
+v 3.1250 2.0600 -2.1900
+v 3.1250 2.2000 -2.1900
+v -3.1250 2.2000 -2.1900
+v -3.1250 2.0600 2.1900
+v 3.1250 2.0600 2.1900
+v 3.1250 2.2000 2.1900
+v -3.1250 2.2000 2.1900
+v -2.4510 2.9200 0.0000
+v 2.4510 2.9200 0.0000
+v -3.2250 2.2000 -2.2750
+v 3.2250 2.2000 -2.2750
+v 3.2250 2.2000 2.2750
+v -3.2250 2.2000 2.2750
+v -2.4400 1.9300 -2.0900
+v -2.1600 1.9300 -2.0900
+v -2.1600 2.1100 -2.0900
+v -2.4400 2.1100 -2.0900
+v -2.4400 1.9300 -1.8700
+v -2.1600 1.9300 -1.8700
+v -2.1600 2.1100 -1.8700
+v -2.4400 2.1100 -1.8700
+v -1.8650 1.9300 -2.0900
+v -1.5850 1.9300 -2.0900
+v -1.5850 2.1100 -2.0900
+v -1.8650 2.1100 -2.0900
+v -1.8650 1.9300 -1.8700
+v -1.5850 1.9300 -1.8700
+v -1.5850 2.1100 -1.8700
+v -1.8650 2.1100 -1.8700
+v -1.2900 1.9300 -2.0900
+v -1.0100 1.9300 -2.0900
+v -1.0100 2.1100 -2.0900
+v -1.2900 2.1100 -2.0900
+v -1.2900 1.9300 -1.8700
+v -1.0100 1.9300 -1.8700
+v -1.0100 2.1100 -1.8700
+v -1.2900 2.1100 -1.8700
+v -0.7150 1.9300 -2.0900
+v -0.4350 1.9300 -2.0900
+v -0.4350 2.1100 -2.0900
+v -0.7150 2.1100 -2.0900
+v -0.7150 1.9300 -1.8700
+v -0.4350 1.9300 -1.8700
+v -0.4350 2.1100 -1.8700
+v -0.7150 2.1100 -1.8700
+v -0.1400 1.9300 -2.0900
+v 0.1400 1.9300 -2.0900
+v 0.1400 2.1100 -2.0900
+v -0.1400 2.1100 -2.0900
+v -0.1400 1.9300 -1.8700
+v 0.1400 1.9300 -1.8700
+v 0.1400 2.1100 -1.8700
+v -0.1400 2.1100 -1.8700
+v 0.4350 1.9300 -2.0900
+v 0.7150 1.9300 -2.0900
+v 0.7150 2.1100 -2.0900
+v 0.4350 2.1100 -2.0900
+v 0.4350 1.9300 -1.8700
+v 0.7150 1.9300 -1.8700
+v 0.7150 2.1100 -1.8700
+v 0.4350 2.1100 -1.8700
+v 1.0100 1.9300 -2.0900
+v 1.2900 1.9300 -2.0900
+v 1.2900 2.1100 -2.0900
+v 1.0100 2.1100 -2.0900
+v 1.0100 1.9300 -1.8700
+v 1.2900 1.9300 -1.8700
+v 1.2900 2.1100 -1.8700
+v 1.0100 2.1100 -1.8700
+v 1.5850 1.9300 -2.0900
+v 1.8650 1.9300 -2.0900
+v 1.8650 2.1100 -2.0900
+v 1.5850 2.1100 -2.0900
+v 1.5850 1.9300 -1.8700
+v 1.8650 1.9300 -1.8700
+v 1.8650 2.1100 -1.8700
+v 1.5850 2.1100 -1.8700
+v 2.1600 1.9300 -2.0900
+v 2.4400 1.9300 -2.0900
+v 2.4400 2.1100 -2.0900
+v 2.1600 2.1100 -2.0900
+v 2.1600 1.9300 -1.8700
+v 2.4400 1.9300 -1.8700
+v 2.4400 2.1100 -1.8700
+v 2.1600 2.1100 -1.8700
+v -2.4400 1.9300 1.8700
+v -2.1600 1.9300 1.8700
+v -2.1600 2.1100 1.8700
+v -2.4400 2.1100 1.8700
+v -2.4400 1.9300 2.0900
+v -2.1600 1.9300 2.0900
+v -2.1600 2.1100 2.0900
+v -2.4400 2.1100 2.0900
+v -1.8650 1.9300 1.8700
+v -1.5850 1.9300 1.8700
+v -1.5850 2.1100 1.8700
+v -1.8650 2.1100 1.8700
+v -1.8650 1.9300 2.0900
+v -1.5850 1.9300 2.0900
+v -1.5850 2.1100 2.0900
+v -1.8650 2.1100 2.0900
+v -1.2900 1.9300 1.8700
+v -1.0100 1.9300 1.8700
+v -1.0100 2.1100 1.8700
+v -1.2900 2.1100 1.8700
+v -1.2900 1.9300 2.0900
+v -1.0100 1.9300 2.0900
+v -1.0100 2.1100 2.0900
+v -1.2900 2.1100 2.0900
+v -0.7150 1.9300 1.8700
+v -0.4350 1.9300 1.8700
+v -0.4350 2.1100 1.8700
+v -0.7150 2.1100 1.8700
+v -0.7150 1.9300 2.0900
+v -0.4350 1.9300 2.0900
+v -0.4350 2.1100 2.0900
+v -0.7150 2.1100 2.0900
+v -0.1400 1.9300 1.8700
+v 0.1400 1.9300 1.8700
+v 0.1400 2.1100 1.8700
+v -0.1400 2.1100 1.8700
+v -0.1400 1.9300 2.0900
+v 0.1400 1.9300 2.0900
+v 0.1400 2.1100 2.0900
+v -0.1400 2.1100 2.0900
+v 0.4350 1.9300 1.8700
+v 0.7150 1.9300 1.8700
+v 0.7150 2.1100 1.8700
+v 0.4350 2.1100 1.8700
+v 0.4350 1.9300 2.0900
+v 0.7150 1.9300 2.0900
+v 0.7150 2.1100 2.0900
+v 0.4350 2.1100 2.0900
+v 1.0100 1.9300 1.8700
+v 1.2900 1.9300 1.8700
+v 1.2900 2.1100 1.8700
+v 1.0100 2.1100 1.8700
+v 1.0100 1.9300 2.0900
+v 1.2900 1.9300 2.0900
+v 1.2900 2.1100 2.0900
+v 1.0100 2.1100 2.0900
+v 1.5850 1.9300 1.8700
+v 1.8650 1.9300 1.8700
+v 1.8650 2.1100 1.8700
+v 1.5850 2.1100 1.8700
+v 1.5850 1.9300 2.0900
+v 1.8650 1.9300 2.0900
+v 1.8650 2.1100 2.0900
+v 1.5850 2.1100 2.0900
+v 2.1600 1.9300 1.8700
+v 2.4400 1.9300 1.8700
+v 2.4400 2.1100 1.8700
+v 2.1600 2.1100 1.8700
+v 2.1600 1.9300 2.0900
+v 2.4400 1.9300 2.0900
+v 2.4400 2.1100 2.0900
+v 2.1600 2.1100 2.0900
+v -2.5500 3.9200 -1.7750
+v 2.5500 3.9200 -1.7750
+v 2.5500 4.0400 -1.7750
+v -2.5500 4.0400 -1.7750
+v -2.5500 3.9200 1.7750
+v 2.5500 3.9200 1.7750
+v 2.5500 4.0400 1.7750
+v -2.5500 4.0400 1.7750
+v -2.0140 4.7200 0.0000
+v 2.0140 4.7200 0.0000
+v -2.6500 4.0400 -1.8500
+v 2.6500 4.0400 -1.8500
+v 2.6500 4.0400 1.8500
+v -2.6500 4.0400 1.8500
+v -2.4400 3.7900 -1.7400
+v -2.1600 3.7900 -1.7400
+v -2.1600 3.9700 -1.7400
+v -2.4400 3.9700 -1.7400
+v -2.4400 3.7900 -1.5200
+v -2.1600 3.7900 -1.5200
+v -2.1600 3.9700 -1.5200
+v -2.4400 3.9700 -1.5200
+v -1.6733 3.7900 -1.7400
+v -1.3933 3.7900 -1.7400
+v -1.3933 3.9700 -1.7400
+v -1.6733 3.9700 -1.7400
+v -1.6733 3.7900 -1.5200
+v -1.3933 3.7900 -1.5200
+v -1.3933 3.9700 -1.5200
+v -1.6733 3.9700 -1.5200
+v -0.9067 3.7900 -1.7400
+v -0.6267 3.7900 -1.7400
+v -0.6267 3.9700 -1.7400
+v -0.9067 3.9700 -1.7400
+v -0.9067 3.7900 -1.5200
+v -0.6267 3.7900 -1.5200
+v -0.6267 3.9700 -1.5200
+v -0.9067 3.9700 -1.5200
+v -0.1400 3.7900 -1.7400
+v 0.1400 3.7900 -1.7400
+v 0.1400 3.9700 -1.7400
+v -0.1400 3.9700 -1.7400
+v -0.1400 3.7900 -1.5200
+v 0.1400 3.7900 -1.5200
+v 0.1400 3.9700 -1.5200
+v -0.1400 3.9700 -1.5200
+v 0.6267 3.7900 -1.7400
+v 0.9067 3.7900 -1.7400
+v 0.9067 3.9700 -1.7400
+v 0.6267 3.9700 -1.7400
+v 0.6267 3.7900 -1.5200
+v 0.9067 3.7900 -1.5200
+v 0.9067 3.9700 -1.5200
+v 0.6267 3.9700 -1.5200
+v 1.3933 3.7900 -1.7400
+v 1.6733 3.7900 -1.7400
+v 1.6733 3.9700 -1.7400
+v 1.3933 3.9700 -1.7400
+v 1.3933 3.7900 -1.5200
+v 1.6733 3.7900 -1.5200
+v 1.6733 3.9700 -1.5200
+v 1.3933 3.9700 -1.5200
+v 2.1600 3.7900 -1.7400
+v 2.4400 3.7900 -1.7400
+v 2.4400 3.9700 -1.7400
+v 2.1600 3.9700 -1.7400
+v 2.1600 3.7900 -1.5200
+v 2.4400 3.7900 -1.5200
+v 2.4400 3.9700 -1.5200
+v 2.1600 3.9700 -1.5200
+v -2.4400 3.7900 1.5200
+v -2.1600 3.7900 1.5200
+v -2.1600 3.9700 1.5200
+v -2.4400 3.9700 1.5200
+v -2.4400 3.7900 1.7400
+v -2.1600 3.7900 1.7400
+v -2.1600 3.9700 1.7400
+v -2.4400 3.9700 1.7400
+v -1.6733 3.7900 1.5200
+v -1.3933 3.7900 1.5200
+v -1.3933 3.9700 1.5200
+v -1.6733 3.9700 1.5200
+v -1.6733 3.7900 1.7400
+v -1.3933 3.7900 1.7400
+v -1.3933 3.9700 1.7400
+v -1.6733 3.9700 1.7400
+v -0.9067 3.7900 1.5200
+v -0.6267 3.7900 1.5200
+v -0.6267 3.9700 1.5200
+v -0.9067 3.9700 1.5200
+v -0.9067 3.7900 1.7400
+v -0.6267 3.7900 1.7400
+v -0.6267 3.9700 1.7400
+v -0.9067 3.9700 1.7400
+v -0.1400 3.7900 1.5200
+v 0.1400 3.7900 1.5200
+v 0.1400 3.9700 1.5200
+v -0.1400 3.9700 1.5200
+v -0.1400 3.7900 1.7400
+v 0.1400 3.7900 1.7400
+v 0.1400 3.9700 1.7400
+v -0.1400 3.9700 1.7400
+v 0.6267 3.7900 1.5200
+v 0.9067 3.7900 1.5200
+v 0.9067 3.9700 1.5200
+v 0.6267 3.9700 1.5200
+v 0.6267 3.7900 1.7400
+v 0.9067 3.7900 1.7400
+v 0.9067 3.9700 1.7400
+v 0.6267 3.9700 1.7400
+v 1.3933 3.7900 1.5200
+v 1.6733 3.7900 1.5200
+v 1.6733 3.9700 1.5200
+v 1.3933 3.9700 1.5200
+v 1.3933 3.7900 1.7400
+v 1.6733 3.7900 1.7400
+v 1.6733 3.9700 1.7400
+v 1.3933 3.9700 1.7400
+v 2.1600 3.7900 1.5200
+v 2.4400 3.7900 1.5200
+v 2.4400 3.9700 1.5200
+v 2.1600 3.9700 1.5200
+v 2.1600 3.7900 1.7400
+v 2.4400 3.7900 1.7400
+v 2.4400 3.9700 1.7400
+v 2.1600 3.9700 1.7400
+v -1.8250 4.7200 -0.0900
+v 1.8250 4.7200 -0.0900
+v 1.8250 4.8400 -0.0900
+v -1.8250 4.8400 -0.0900
+v -1.8250 4.7200 0.0900
+v 1.8250 4.7200 0.0900
+v 1.8250 4.8400 0.0900
+v -1.8250 4.8400 0.0900
+usemtl stone
+g stone_platform_front
+f 1 2 3 4
+g stone_platform_right
+f 2 6 7 3
+g stone_platform_back
+f 6 5 8 7
+g stone_platform_left
+f 5 1 4 8
+g stone_platform_top
+f 4 3 7 8
+g stone_platform_bottom
+f 5 6 2 1
+g front_step_1_front
+f 9 10 11 12
+g front_step_1_right
+f 10 14 15 11
+g front_step_1_back
+f 14 13 16 15
+g front_step_1_left
+f 13 9 12 16
+g front_step_1_top
+f 12 11 15 16
+g front_step_1_bottom
+f 13 14 10 9
+g front_step_2_front
+f 17 18 19 20
+g front_step_2_right
+f 18 22 23 19
+g front_step_2_back
+f 22 21 24 23
+g front_step_2_left
+f 21 17 20 24
+g front_step_2_top
+f 20 19 23 24
+g front_step_2_bottom
+f 21 22 18 17
+usemtl wood_wall
+g lower_hall_front
+f 25 26 27 28
+g lower_hall_right
+f 26 30 31 27
+g lower_hall_back
+f 30 29 32 31
+g lower_hall_left
+f 29 25 28 32
+g lower_hall_top
+f 28 27 31 32
+g lower_hall_bottom
+f 29 30 26 25
+g upper_hall_front
+f 33 34 35 36
+g upper_hall_right
+f 34 38 39 35
+g upper_hall_back
+f 38 37 40 39
+g upper_hall_left
+f 37 33 36 40
+g upper_hall_top
+f 36 35 39 40
+g upper_hall_bottom
+f 37 38 34 33
+usemtl dark_wood
+g lower_column_-2.25_side_0
+f 41 43 44 42
+g lower_column_-2.25_side_1
+f 43 45 46 44
+g lower_column_-2.25_side_2
+f 45 47 48 46
+g lower_column_-2.25_side_3
+f 47 49 50 48
+g lower_column_-2.25_side_4
+f 49 51 52 50
+g lower_column_-2.25_side_5
+f 51 53 54 52
+g lower_column_-2.25_side_6
+f 53 55 56 54
+g lower_column_-2.25_side_7
+f 55 41 42 56
+g lower_column_-2.25_top
+f 56 54 52 50 48 46 44 42
+g lower_column_-2.25_bottom
+f 41 43 45 47 49 51 53 55
+g lower_column_-1.35_side_0
+f 57 59 60 58
+g lower_column_-1.35_side_1
+f 59 61 62 60
+g lower_column_-1.35_side_2
+f 61 63 64 62
+g lower_column_-1.35_side_3
+f 63 65 66 64
+g lower_column_-1.35_side_4
+f 65 67 68 66
+g lower_column_-1.35_side_5
+f 67 69 70 68
+g lower_column_-1.35_side_6
+f 69 71 72 70
+g lower_column_-1.35_side_7
+f 71 57 58 72
+g lower_column_-1.35_top
+f 72 70 68 66 64 62 60 58
+g lower_column_-1.35_bottom
+f 57 59 61 63 65 67 69 71
+g lower_column_1.35_side_0
+f 73 75 76 74
+g lower_column_1.35_side_1
+f 75 77 78 76
+g lower_column_1.35_side_2
+f 77 79 80 78
+g lower_column_1.35_side_3
+f 79 81 82 80
+g lower_column_1.35_side_4
+f 81 83 84 82
+g lower_column_1.35_side_5
+f 83 85 86 84
+g lower_column_1.35_side_6
+f 85 87 88 86
+g lower_column_1.35_side_7
+f 87 73 74 88
+g lower_column_1.35_top
+f 88 86 84 82 80 78 76 74
+g lower_column_1.35_bottom
+f 73 75 77 79 81 83 85 87
+g lower_column_2.25_side_0
+f 89 91 92 90
+g lower_column_2.25_side_1
+f 91 93 94 92
+g lower_column_2.25_side_2
+f 93 95 96 94
+g lower_column_2.25_side_3
+f 95 97 98 96
+g lower_column_2.25_side_4
+f 97 99 100 98
+g lower_column_2.25_side_5
+f 99 101 102 100
+g lower_column_2.25_side_6
+f 101 103 104 102
+g lower_column_2.25_side_7
+f 103 89 90 104
+g lower_column_2.25_top
+f 104 102 100 98 96 94 92 90
+g lower_column_2.25_bottom
+f 89 91 93 95 97 99 101 103
+g upper_column_-1.75_side_0
+f 105 107 108 106
+g upper_column_-1.75_side_1
+f 107 109 110 108
+g upper_column_-1.75_side_2
+f 109 111 112 110
+g upper_column_-1.75_side_3
+f 111 113 114 112
+g upper_column_-1.75_side_4
+f 113 115 116 114
+g upper_column_-1.75_side_5
+f 115 117 118 116
+g upper_column_-1.75_side_6
+f 117 119 120 118
+g upper_column_-1.75_side_7
+f 119 105 106 120
+g upper_column_-1.75_top
+f 120 118 116 114 112 110 108 106
+g upper_column_-1.75_bottom
+f 105 107 109 111 113 115 117 119
+g upper_column_-0.75_side_0
+f 121 123 124 122
+g upper_column_-0.75_side_1
+f 123 125 126 124
+g upper_column_-0.75_side_2
+f 125 127 128 126
+g upper_column_-0.75_side_3
+f 127 129 130 128
+g upper_column_-0.75_side_4
+f 129 131 132 130
+g upper_column_-0.75_side_5
+f 131 133 134 132
+g upper_column_-0.75_side_6
+f 133 135 136 134
+g upper_column_-0.75_side_7
+f 135 121 122 136
+g upper_column_-0.75_top
+f 136 134 132 130 128 126 124 122
+g upper_column_-0.75_bottom
+f 121 123 125 127 129 131 133 135
+g upper_column_0.75_side_0
+f 137 139 140 138
+g upper_column_0.75_side_1
+f 139 141 142 140
+g upper_column_0.75_side_2
+f 141 143 144 142
+g upper_column_0.75_side_3
+f 143 145 146 144
+g upper_column_0.75_side_4
+f 145 147 148 146
+g upper_column_0.75_side_5
+f 147 149 150 148
+g upper_column_0.75_side_6
+f 149 151 152 150
+g upper_column_0.75_side_7
+f 151 137 138 152
+g upper_column_0.75_top
+f 152 150 148 146 144 142 140 138
+g upper_column_0.75_bottom
+f 137 139 141 143 145 147 149 151
+g upper_column_1.75_side_0
+f 153 155 156 154
+g upper_column_1.75_side_1
+f 155 157 158 156
+g upper_column_1.75_side_2
+f 157 159 160 158
+g upper_column_1.75_side_3
+f 159 161 162 160
+g upper_column_1.75_side_4
+f 161 163 164 162
+g upper_column_1.75_side_5
+f 163 165 166 164
+g upper_column_1.75_side_6
+f 165 167 168 166
+g upper_column_1.75_side_7
+f 167 153 154 168
+g upper_column_1.75_top
+f 168 166 164 162 160 158 156 154
+g upper_column_1.75_bottom
+f 153 155 157 159 161 163 165 167
+g main_door_front
+f 169 170 171 172
+g main_door_right
+f 170 174 175 171
+g main_door_back
+f 174 173 176 175
+g main_door_left
+f 173 169 172 176
+g main_door_top
+f 172 171 175 176
+g main_door_bottom
+f 173 174 170 169
+usemtl window_dark
+g left_window_front
+f 177 178 179 180
+g left_window_right
+f 178 182 183 179
+g left_window_back
+f 182 181 184 183
+g left_window_left
+f 181 177 180 184
+g left_window_top
+f 180 179 183 184
+g left_window_bottom
+f 181 182 178 177
+g right_window_front
+f 185 186 187 188
+g right_window_right
+f 186 190 191 187
+g right_window_back
+f 190 189 192 191
+g right_window_left
+f 189 185 188 192
+g right_window_top
+f 188 187 191 192
+g right_window_bottom
+f 189 190 186 185
+usemtl plaque_gold
+g plaque_front
+f 193 194 195 196
+g plaque_right
+f 194 198 199 195
+g plaque_back
+f 198 197 200 199
+g plaque_left
+f 197 193 196 200
+g plaque_top
+f 196 195 199 200
+g plaque_bottom
+f 197 198 194 193
+usemtl dark_wood
+g upper_balcony_rail_front
+f 201 202 203 204
+g upper_balcony_rail_right
+f 202 206 207 203
+g upper_balcony_rail_back
+f 206 205 208 207
+g upper_balcony_rail_left
+f 205 201 204 208
+g upper_balcony_rail_top
+f 204 203 207 208
+g upper_balcony_rail_bottom
+f 205 206 202 201
+usemtl roof_tile
+g lower_eave_slab_front
+f 209 210 211 212
+g lower_eave_slab_right
+f 210 214 215 211
+g lower_eave_slab_back
+f 214 213 216 215
+g lower_eave_slab_left
+f 213 209 212 216
+g lower_eave_slab_top
+f 212 211 215 216
+g lower_eave_slab_bottom
+f 213 214 210 209
+g lower_roof_front_slope
+f 219 220 218 217
+g lower_roof_back_slope
+f 221 222 217 218
+g lower_roof_left_cap
+f 222 219 217
+g lower_roof_right_cap
+f 220 221 218
+usemtl red_accent
+g lower_bracket_front_0_front
+f 223 224 225 226
+g lower_bracket_front_0_right
+f 224 228 229 225
+g lower_bracket_front_0_back
+f 228 227 230 229
+g lower_bracket_front_0_left
+f 227 223 226 230
+g lower_bracket_front_0_top
+f 226 225 229 230
+g lower_bracket_front_0_bottom
+f 227 228 224 223
+g lower_bracket_front_1_front
+f 231 232 233 234
+g lower_bracket_front_1_right
+f 232 236 237 233
+g lower_bracket_front_1_back
+f 236 235 238 237
+g lower_bracket_front_1_left
+f 235 231 234 238
+g lower_bracket_front_1_top
+f 234 233 237 238
+g lower_bracket_front_1_bottom
+f 235 236 232 231
+g lower_bracket_front_2_front
+f 239 240 241 242
+g lower_bracket_front_2_right
+f 240 244 245 241
+g lower_bracket_front_2_back
+f 244 243 246 245
+g lower_bracket_front_2_left
+f 243 239 242 246
+g lower_bracket_front_2_top
+f 242 241 245 246
+g lower_bracket_front_2_bottom
+f 243 244 240 239
+g lower_bracket_front_3_front
+f 247 248 249 250
+g lower_bracket_front_3_right
+f 248 252 253 249
+g lower_bracket_front_3_back
+f 252 251 254 253
+g lower_bracket_front_3_left
+f 251 247 250 254
+g lower_bracket_front_3_top
+f 250 249 253 254
+g lower_bracket_front_3_bottom
+f 251 252 248 247
+g lower_bracket_front_4_front
+f 255 256 257 258
+g lower_bracket_front_4_right
+f 256 260 261 257
+g lower_bracket_front_4_back
+f 260 259 262 261
+g lower_bracket_front_4_left
+f 259 255 258 262
+g lower_bracket_front_4_top
+f 258 257 261 262
+g lower_bracket_front_4_bottom
+f 259 260 256 255
+g lower_bracket_front_5_front
+f 263 264 265 266
+g lower_bracket_front_5_right
+f 264 268 269 265
+g lower_bracket_front_5_back
+f 268 267 270 269
+g lower_bracket_front_5_left
+f 267 263 266 270
+g lower_bracket_front_5_top
+f 266 265 269 270
+g lower_bracket_front_5_bottom
+f 267 268 264 263
+g lower_bracket_front_6_front
+f 271 272 273 274
+g lower_bracket_front_6_right
+f 272 276 277 273
+g lower_bracket_front_6_back
+f 276 275 278 277
+g lower_bracket_front_6_left
+f 275 271 274 278
+g lower_bracket_front_6_top
+f 274 273 277 278
+g lower_bracket_front_6_bottom
+f 275 276 272 271
+g lower_bracket_front_7_front
+f 279 280 281 282
+g lower_bracket_front_7_right
+f 280 284 285 281
+g lower_bracket_front_7_back
+f 284 283 286 285
+g lower_bracket_front_7_left
+f 283 279 282 286
+g lower_bracket_front_7_top
+f 282 281 285 286
+g lower_bracket_front_7_bottom
+f 283 284 280 279
+g lower_bracket_front_8_front
+f 287 288 289 290
+g lower_bracket_front_8_right
+f 288 292 293 289
+g lower_bracket_front_8_back
+f 292 291 294 293
+g lower_bracket_front_8_left
+f 291 287 290 294
+g lower_bracket_front_8_top
+f 290 289 293 294
+g lower_bracket_front_8_bottom
+f 291 292 288 287
+g lower_bracket_back_0_front
+f 295 296 297 298
+g lower_bracket_back_0_right
+f 296 300 301 297
+g lower_bracket_back_0_back
+f 300 299 302 301
+g lower_bracket_back_0_left
+f 299 295 298 302
+g lower_bracket_back_0_top
+f 298 297 301 302
+g lower_bracket_back_0_bottom
+f 299 300 296 295
+g lower_bracket_back_1_front
+f 303 304 305 306
+g lower_bracket_back_1_right
+f 304 308 309 305
+g lower_bracket_back_1_back
+f 308 307 310 309
+g lower_bracket_back_1_left
+f 307 303 306 310
+g lower_bracket_back_1_top
+f 306 305 309 310
+g lower_bracket_back_1_bottom
+f 307 308 304 303
+g lower_bracket_back_2_front
+f 311 312 313 314
+g lower_bracket_back_2_right
+f 312 316 317 313
+g lower_bracket_back_2_back
+f 316 315 318 317
+g lower_bracket_back_2_left
+f 315 311 314 318
+g lower_bracket_back_2_top
+f 314 313 317 318
+g lower_bracket_back_2_bottom
+f 315 316 312 311
+g lower_bracket_back_3_front
+f 319 320 321 322
+g lower_bracket_back_3_right
+f 320 324 325 321
+g lower_bracket_back_3_back
+f 324 323 326 325
+g lower_bracket_back_3_left
+f 323 319 322 326
+g lower_bracket_back_3_top
+f 322 321 325 326
+g lower_bracket_back_3_bottom
+f 323 324 320 319
+g lower_bracket_back_4_front
+f 327 328 329 330
+g lower_bracket_back_4_right
+f 328 332 333 329
+g lower_bracket_back_4_back
+f 332 331 334 333
+g lower_bracket_back_4_left
+f 331 327 330 334
+g lower_bracket_back_4_top
+f 330 329 333 334
+g lower_bracket_back_4_bottom
+f 331 332 328 327
+g lower_bracket_back_5_front
+f 335 336 337 338
+g lower_bracket_back_5_right
+f 336 340 341 337
+g lower_bracket_back_5_back
+f 340 339 342 341
+g lower_bracket_back_5_left
+f 339 335 338 342
+g lower_bracket_back_5_top
+f 338 337 341 342
+g lower_bracket_back_5_bottom
+f 339 340 336 335
+g lower_bracket_back_6_front
+f 343 344 345 346
+g lower_bracket_back_6_right
+f 344 348 349 345
+g lower_bracket_back_6_back
+f 348 347 350 349
+g lower_bracket_back_6_left
+f 347 343 346 350
+g lower_bracket_back_6_top
+f 346 345 349 350
+g lower_bracket_back_6_bottom
+f 347 348 344 343
+g lower_bracket_back_7_front
+f 351 352 353 354
+g lower_bracket_back_7_right
+f 352 356 357 353
+g lower_bracket_back_7_back
+f 356 355 358 357
+g lower_bracket_back_7_left
+f 355 351 354 358
+g lower_bracket_back_7_top
+f 354 353 357 358
+g lower_bracket_back_7_bottom
+f 355 356 352 351
+g lower_bracket_back_8_front
+f 359 360 361 362
+g lower_bracket_back_8_right
+f 360 364 365 361
+g lower_bracket_back_8_back
+f 364 363 366 365
+g lower_bracket_back_8_left
+f 363 359 362 366
+g lower_bracket_back_8_top
+f 362 361 365 366
+g lower_bracket_back_8_bottom
+f 363 364 360 359
+usemtl roof_tile
+g upper_eave_slab_front
+f 367 368 369 370
+g upper_eave_slab_right
+f 368 372 373 369
+g upper_eave_slab_back
+f 372 371 374 373
+g upper_eave_slab_left
+f 371 367 370 374
+g upper_eave_slab_top
+f 370 369 373 374
+g upper_eave_slab_bottom
+f 371 372 368 367
+g upper_roof_front_slope
+f 377 378 376 375
+g upper_roof_back_slope
+f 379 380 375 376
+g upper_roof_left_cap
+f 380 377 375
+g upper_roof_right_cap
+f 378 379 376
+usemtl red_accent
+g upper_bracket_front_0_front
+f 381 382 383 384
+g upper_bracket_front_0_right
+f 382 386 387 383
+g upper_bracket_front_0_back
+f 386 385 388 387
+g upper_bracket_front_0_left
+f 385 381 384 388
+g upper_bracket_front_0_top
+f 384 383 387 388
+g upper_bracket_front_0_bottom
+f 385 386 382 381
+g upper_bracket_front_1_front
+f 389 390 391 392
+g upper_bracket_front_1_right
+f 390 394 395 391
+g upper_bracket_front_1_back
+f 394 393 396 395
+g upper_bracket_front_1_left
+f 393 389 392 396
+g upper_bracket_front_1_top
+f 392 391 395 396
+g upper_bracket_front_1_bottom
+f 393 394 390 389
+g upper_bracket_front_2_front
+f 397 398 399 400
+g upper_bracket_front_2_right
+f 398 402 403 399
+g upper_bracket_front_2_back
+f 402 401 404 403
+g upper_bracket_front_2_left
+f 401 397 400 404
+g upper_bracket_front_2_top
+f 400 399 403 404
+g upper_bracket_front_2_bottom
+f 401 402 398 397
+g upper_bracket_front_3_front
+f 405 406 407 408
+g upper_bracket_front_3_right
+f 406 410 411 407
+g upper_bracket_front_3_back
+f 410 409 412 411
+g upper_bracket_front_3_left
+f 409 405 408 412
+g upper_bracket_front_3_top
+f 408 407 411 412
+g upper_bracket_front_3_bottom
+f 409 410 406 405
+g upper_bracket_front_4_front
+f 413 414 415 416
+g upper_bracket_front_4_right
+f 414 418 419 415
+g upper_bracket_front_4_back
+f 418 417 420 419
+g upper_bracket_front_4_left
+f 417 413 416 420
+g upper_bracket_front_4_top
+f 416 415 419 420
+g upper_bracket_front_4_bottom
+f 417 418 414 413
+g upper_bracket_front_5_front
+f 421 422 423 424
+g upper_bracket_front_5_right
+f 422 426 427 423
+g upper_bracket_front_5_back
+f 426 425 428 427
+g upper_bracket_front_5_left
+f 425 421 424 428
+g upper_bracket_front_5_top
+f 424 423 427 428
+g upper_bracket_front_5_bottom
+f 425 426 422 421
+g upper_bracket_front_6_front
+f 429 430 431 432
+g upper_bracket_front_6_right
+f 430 434 435 431
+g upper_bracket_front_6_back
+f 434 433 436 435
+g upper_bracket_front_6_left
+f 433 429 432 436
+g upper_bracket_front_6_top
+f 432 431 435 436
+g upper_bracket_front_6_bottom
+f 433 434 430 429
+g upper_bracket_back_0_front
+f 437 438 439 440
+g upper_bracket_back_0_right
+f 438 442 443 439
+g upper_bracket_back_0_back
+f 442 441 444 443
+g upper_bracket_back_0_left
+f 441 437 440 444
+g upper_bracket_back_0_top
+f 440 439 443 444
+g upper_bracket_back_0_bottom
+f 441 442 438 437
+g upper_bracket_back_1_front
+f 445 446 447 448
+g upper_bracket_back_1_right
+f 446 450 451 447
+g upper_bracket_back_1_back
+f 450 449 452 451
+g upper_bracket_back_1_left
+f 449 445 448 452
+g upper_bracket_back_1_top
+f 448 447 451 452
+g upper_bracket_back_1_bottom
+f 449 450 446 445
+g upper_bracket_back_2_front
+f 453 454 455 456
+g upper_bracket_back_2_right
+f 454 458 459 455
+g upper_bracket_back_2_back
+f 458 457 460 459
+g upper_bracket_back_2_left
+f 457 453 456 460
+g upper_bracket_back_2_top
+f 456 455 459 460
+g upper_bracket_back_2_bottom
+f 457 458 454 453
+g upper_bracket_back_3_front
+f 461 462 463 464
+g upper_bracket_back_3_right
+f 462 466 467 463
+g upper_bracket_back_3_back
+f 466 465 468 467
+g upper_bracket_back_3_left
+f 465 461 464 468
+g upper_bracket_back_3_top
+f 464 463 467 468
+g upper_bracket_back_3_bottom
+f 465 466 462 461
+g upper_bracket_back_4_front
+f 469 470 471 472
+g upper_bracket_back_4_right
+f 470 474 475 471
+g upper_bracket_back_4_back
+f 474 473 476 475
+g upper_bracket_back_4_left
+f 473 469 472 476
+g upper_bracket_back_4_top
+f 472 471 475 476
+g upper_bracket_back_4_bottom
+f 473 474 470 469
+g upper_bracket_back_5_front
+f 477 478 479 480
+g upper_bracket_back_5_right
+f 478 482 483 479
+g upper_bracket_back_5_back
+f 482 481 484 483
+g upper_bracket_back_5_left
+f 481 477 480 484
+g upper_bracket_back_5_top
+f 480 479 483 484
+g upper_bracket_back_5_bottom
+f 481 482 478 477
+g upper_bracket_back_6_front
+f 485 486 487 488
+g upper_bracket_back_6_right
+f 486 490 491 487
+g upper_bracket_back_6_back
+f 490 489 492 491
+g upper_bracket_back_6_left
+f 489 485 488 492
+g upper_bracket_back_6_top
+f 488 487 491 492
+g upper_bracket_back_6_bottom
+f 489 490 486 485
+usemtl ridge_dark
+g ridge_cap_front
+f 493 494 495 496
+g ridge_cap_right
+f 494 498 499 495
+g ridge_cap_back
+f 498 497 500 499
+g ridge_cap_left
+f 497 493 496 500
+g ridge_cap_top
+f 496 495 499 500
+g ridge_cap_bottom
+f 497 498 494 493

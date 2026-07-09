@@ -13,6 +13,28 @@ const Lobby = {
         await this.renderOnlineUsers();
     },
 
+    // 空状态引导：无角色时显示
+    showEmptyGuide() {
+        // 清空其他面板
+        ['player-info-content', 'online-users-content', 'leaderboard-content'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.innerHTML = '';
+        });
+        // 在匹配区渲染引导卡片
+        const matchContent = document.getElementById('match-content');
+        if (!matchContent) return;
+        matchContent.innerHTML = `
+            <div class="lobby-empty-guide" style="text-align:center;padding:48px 24px;">
+                <div style="font-size:64px;margin-bottom:16px;">📜</div>
+                <h3 style="font-family:var(--font-family-brush);font-size:22px;color:var(--old-gold);margin-bottom:12px;">尚未结识任何角色</h3>
+                <p style="color:var(--text-secondary);font-size:14px;line-height:1.7;margin-bottom:24px;max-width:360px;margin-left:auto;margin-right:auto;">
+                    对战需要至少一名角色。请前往典籍库选择一本书，<br>通过剧情推进结识你的第一位伙伴。
+                </p>
+                <button class="btn btn-primary" style="min-width:160px;" onclick="App.navigate('library')">📖 前往典籍库</button>
+            </div>
+        `;
+    },
+
     // 渲染玩家信息
     async renderPlayerInfo() {
         const user = App.state.user;
@@ -257,27 +279,24 @@ const Lobby = {
         content.innerHTML = `
             <div class="online-list">
                 ${users.map(u => {
-                    // 机器人玩家卡片
                     if (u.is_bot) {
                         return `
-                            <div class="online-item user-card bot-card">
-                                <span class="bot-badge">🤖 机器人</span>
+                            <div class="online-item">
                                 <div class="avatar">${escapeHtml(u.avatar || '🤖')}</div>
                                 <div class="info">
-                                    <div class="name">${escapeHtml(u.nickname || u.username)}</div>
-                                    <div class="status ${u.status}">${statusNames[u.status] || u.status}</div>
+                                    <div class="name">${escapeHtml(u.nickname || u.username)}<span class="bot-badge">🤖</span></div>
+                                    <span class="status ${u.status}">${statusNames[u.status] || u.status}</span>
                                 </div>
                                 <button class="invite-btn" ${u.status !== 'lobby' ? 'disabled' : ''} onclick="Lobby.challengeBot(${u.id})">挑战</button>
                             </div>
                         `;
                     }
-                    // 真人玩家卡片
                     return `
                         <div class="online-item">
                             <div class="avatar">${escapeHtml(u.avatar || '🎮')}</div>
                             <div class="info">
                                 <div class="name">${escapeHtml(u.nickname || u.username)}</div>
-                                <div class="status ${u.status}">${statusNames[u.status] || u.status}</div>
+                                <span class="status ${u.status}">${statusNames[u.status] || u.status}</span>
                             </div>
                             <button class="invite-btn" ${u.status !== 'lobby' ? 'disabled' : ''} onclick="Lobby.inviteUser(${u.id})">邀请对战</button>
                         </div>

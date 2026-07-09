@@ -1,0 +1,266 @@
+/* base.css - 藏经阁主题基础变量与重置 v=20260702c */
+
+:root {
+    --sutra-bg: #0d0a08;
+    --sutra-dark: #080605;
+    --sutra-light: #1a1510;
+    --sutra-panel: rgba(26, 21, 16, 0.98);
+    --sutra-panel-light: rgba(40, 32, 24, 0.95);
+    
+    --wood-deep: #120f0b;
+    --wood-medium: #2d241b;
+    --wood-light: #4a3824;
+    --wood-highlight: #6b533a;
+    --wood-texture: #5c4a35;
+    
+    --bronze: #a67c52;
+    --bronze-light: #c49a6c;
+    --bronze-dark: #8a6542;
+    --gold-ancient: #c9a962;
+    --gold-shine: #e8c57a;
+    --gold-bright: #ffd700;
+    --gold-warm: #f5d061;
+    --gold-dark: #8b6f3a;
+    --gold-glow: rgba(201, 169, 98, 0.4);
+    
+    --vermillion: #c23b22;
+    --vermillion-light: #d44a33;
+    --vermillion-dark: #a02f1a;
+    --cinnabar: #b22222;
+    
+    --paper-bg: #f8f4ec;
+    --paper-light: #fdfbf7;
+    --paper-dark: #e8e0d0;
+    --paper-warm: #ffe4c4;
+    --paper-cream: #f5efe6;
+    
+    --text-primary: #faf6f0;
+    --text-secondary: #d9d0c0;
+    --text-muted: #9a8c7a;
+    --text-on-light: #0d0a08;
+    --text-on-dark: #faf6f0;
+    
+    --border-wood: rgba(107, 83, 58, 0.3);
+    --border-gold: rgba(201, 169, 98, 0.35);
+    --border-shadow: rgba(0, 0, 0, 0.4);
+    --border-paper: rgba(201, 169, 98, 0.2);
+    --border-glow: rgba(201, 169, 98, 0.4);
+    
+    --glow-gold: rgba(201, 169, 98, 0.4);
+    --glow-gold-intense: rgba(255, 215, 0, 0.6);
+    --glow-cyan: rgba(0, 255, 255, 0.25);
+    --glow-vermillion: rgba(194, 59, 34, 0.4);
+    --glow-purple: rgba(138, 43, 226, 0.3);
+    
+    --light-ray-gold: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
+    --light-ray-cyan: linear-gradient(135deg, rgba(0, 255, 255, 0.08) 0%, transparent 50%);
+    
+    --glass-bg-xs: rgba(13, 10, 8, 0.5);
+    --glass-bg-sm: rgba(13, 10, 8, 0.7);
+    --glass-bg-md: rgba(13, 10, 8, 0.85);
+    --glass-bg-lg: rgba(13, 10, 8, 0.92);
+    --glass-bg-xl: rgba(13, 10, 8, 0.96);
+    --glass-bg-xxl: rgba(13, 10, 8, 0.98);
+    
+    --glass-blur-xs: 8px;
+    --glass-blur-sm: 12px;
+    --glass-blur-md: 16px;
+    --glass-blur-lg: 24px;
+    --glass-blur-xl: 32px;
+    --glass-blur-xxl: 40px;
+    
+    --glass-border-sm: rgba(201, 169, 98, 0.15);
+    --glass-border-md: rgba(201, 169, 98, 0.25);
+    --glass-border-lg: rgba(201, 169, 98, 0.4);
+    --glass-border-glow: rgba(201, 169, 98, 0.6);
+    
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
+    --shadow-glow: 0 0 20px rgba(201, 169, 98, 0.15);
+    --shadow-glow-gold: 0 0 30px rgba(201, 169, 98, 0.3), 0 0 60px rgba(201, 169, 98, 0.15);
+    --shadow-glow-cyan: 0 0 25px rgba(0, 255, 255, 0.18), 0 0 50px rgba(0, 255, 255, 0.1);
+    --shadow-inset-gold: inset 0 0 30px rgba(201, 169, 98, 0.1);
+    
+    --tech-grid-size: 50px;
+    --tech-grid-color: rgba(201, 169, 98, 0.05);
+    --tech-grid-line: rgba(201, 169, 98, 0.1);
+    
+    --scan-line-color: rgba(201, 169, 98, 0.03);
+    --scan-line-height: 2px;
+    
+    --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-ease-out: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --transition-bounce: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    
+    --animation-pulse-glow: pulse-glow 2s ease-in-out infinite;
+    --animation-float: float 6s ease-in-out infinite;
+    --animation-scan: scan 8s linear infinite;
+    --animation-shimmer: shimmer 3s ease-in-out infinite;
+    
+    --font-family-serif: 'Noto Serif SC', 'Songti SC', 'STSong', serif;
+    --font-family-brush: 'Ma Shan Zheng', 'ZCOOL KuaiLe', 'STKaiti', cursive;
+    --font-family-隶书: 'LiSu', 'STLiti', 'FZLiShu', serif;
+    
+    --fs-body: 15px;
+    --fs-small: 13px;
+    --fs-tiny: 12px;
+    --fs-h1: 40px;
+    --fs-h2: 28px;
+    --fs-h3: 24px;
+    --fs-h4: 20px;
+    --fs-h5: 17px;
+    
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --radius-xl: 18px;
+    --radius-xxl: 24px;
+    --radius-full: 9999px;
+    
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --spacing-xxl: 48px;
+    
+    --depth-layer-1: 0;
+    --depth-layer-2: 10;
+    --depth-layer-3: 20;
+    --depth-layer-4: 30;
+    --depth-layer-5: 100;
+    --depth-layer-modal: 1000;
+    
+    --ink-black: #0d0a08;
+    --old-gold: #c9a962;
+    --old-gold-dark: #a67c52;
+    --old-gold-light: #e8c57a;
+    
+    --gradient-gold: linear-gradient(135deg, var(--gold-ancient) 0%, var(--gold-dark) 100%);
+    --gradient-vermillion: linear-gradient(135deg, var(--vermillion) 0%, var(--vermillion-dark) 100%);
+    --gradient-purple: linear-gradient(135deg, #6d28d9 0%, #4f46e5 100%);
+    --gradient-glass: linear-gradient(145deg, rgba(26, 21, 16, 0.9) 0%, rgba(13, 10, 8, 0.98) 100%);
+    
+    --gradient-border: linear-gradient(90deg, transparent, rgba(201, 169, 98, 0.5), transparent);
+    --gradient-shimmer: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-family-serif);
+    font-size: var(--fs-body);
+    background-color: var(--sutra-bg);
+    color: var(--text-primary);
+    line-height: 1.7;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--sutra-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--wood-medium);
+    border-radius: 4px;
+    border: 2px solid var(--sutra-dark);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--bronze);
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: var(--gold-ancient);
+}
+
+::selection {
+    background: rgba(201, 169, 98, 0.35);
+    color: var(--gold-shine);
+}
+
+::-moz-selection {
+    background: rgba(201, 169, 98, 0.35);
+    color: var(--gold-shine);
+}
+
+.sutra-container {
+    position: relative;
+    z-index: var(--depth-layer-3);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.title-brush {
+    font-family: var(--font-family-brush);
+    color: var(--gold-ancient);
+    text-shadow: 0 2px 12px rgba(201, 169, 98, 0.35);
+}
+
+.title-隶书 {
+    font-family: var(--font-family-隶书);
+    color: var(--vermillion);
+}
+
+.glass-panel {
+    background: var(--glass-bg-lg);
+    backdrop-filter: blur(var(--glass-blur-lg));
+    -webkit-backdrop-filter: blur(var(--glass-blur-lg));
+    border: 1px solid var(--glass-border-md);
+    border-radius: var(--radius-lg);
+}
+
+.glow-border {
+    box-shadow: var(--shadow-glow-gold);
+    border: 1px solid var(--glass-border-glow);
+}
+
+.hover-lift {
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.focus-ring:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(201, 169, 98, 0.15);
+    border-color: var(--gold-ancient);
+}
+
+.gradient-text {
+    background: var(--gradient-gold);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.text-gradient-gold {
+    background: linear-gradient(135deg, var(--gold-shine) 0%, var(--gold-ancient) 50%, var(--gold-dark) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}

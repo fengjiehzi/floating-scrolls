@@ -1,0 +1,358 @@
+/* game.css - 游戏化视觉增强 v=20260701a */
+
+/* ====== 角色卡片基础样式 ====== */
+.char-card {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(201, 169, 98, 0.2);
+    background: rgba(13, 10, 8, 0.8);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.char-card::before {
+    content: '';
+    display: block;
+    padding-top: 133.33%;
+}
+
+.char-card-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.char-card-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 0;
+}
+
+.char-card-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.char-card-overlay {
+    position: relative;
+    z-index: 10;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, transparent 100%);
+}
+
+.char-stats-mini {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    padding: 6px 10px;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    border-radius: 8px;
+    margin: 0 8px 4px;
+}
+
+.stat-mini {
+    text-align: center;
+}
+
+.stat-mini .label {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 1px;
+}
+
+.stat-mini .value {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--gold-ancient);
+}
+
+.char-actions {
+    display: flex;
+    gap: 6px;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+    border-top: 1px solid rgba(201, 169, 98, 0.1);
+    margin: 0 8px 8px;
+    border-radius: 8px;
+}
+
+.char-actions .btn {
+    flex: 1;
+    padding: 6px 12px;
+    font-size: 12px;
+}
+
+.char-actions .btn-primary:active,
+.char-actions .btn-vermillion:active {
+    transform: translateY(0) scale(0.96);
+    box-shadow: 0 2px 8px rgba(201, 169, 98, 0.3);
+}
+
+.char-card .char-image {
+    flex: 1;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.char-card .char-info {
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(201, 169, 98, 0.1);
+}
+
+.char-card .char-name {
+    font-family: var(--font-family-brush);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--gold-ancient);
+    text-align: center;
+    margin-bottom: 4px;
+}
+
+.char-card .char-grade {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+/* ====== 稀有度光效（激活 themes.css 已定义变量） ====== */
+.char-card[data-grade="S"] {
+    box-shadow: 0 0 20px var(--rarity-ssr-glow, rgba(255, 215, 0, 0.4));
+    border-color: var(--rarity-ssr-color, #ffd700);
+}
+
+.char-card[data-grade="S"]::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(135deg, transparent 40%, rgba(255, 215, 0, 0.15) 50%, transparent 60%);
+    animation: rarity-shine 3s infinite;
+    pointer-events: none;
+}
+
+.char-card[data-grade="A"] {
+    box-shadow: 0 0 16px var(--rarity-sr-glow, rgba(168, 85, 247, 0.3));
+    border-color: var(--rarity-sr-color, #a855f7);
+}
+
+.char-card[data-grade="A"]::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(135deg, transparent 40%, rgba(168, 85, 247, 0.12) 50%, transparent 60%);
+    animation: rarity-shine 3s infinite;
+    pointer-events: none;
+}
+
+.char-card[data-grade="B"] {
+    box-shadow: 0 0 12px var(--rarity-r-glow, rgba(59, 130, 246, 0.25));
+    border-color: var(--rarity-r-color, #3b82f6);
+}
+
+.char-card[data-grade="C"] {
+    box-shadow: 0 0 8px var(--rarity-n-glow, rgba(156, 163, 175, 0.2));
+    border-color: var(--rarity-n-color, #9ca3af);
+}
+
+@keyframes rarity-shine {
+    0%, 100% { transform: translateX(-100%); }
+    50% { transform: translateX(100%); }
+}
+
+/* ====== 道具槽稀有度光效 ====== */
+.item-slot[data-rarity="ssr"] {
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
+    border-color: #ffd700;
+}
+
+.item-slot[data-rarity="sr"] {
+    box-shadow: 0 0 8px rgba(168, 85, 247, 0.25);
+    border-color: #a855f7;
+}
+
+.item-slot[data-rarity="r"] {
+    box-shadow: 0 0 6px rgba(59, 130, 246, 0.2);
+    border-color: #3b82f6;
+}
+
+/* ====== 配色净化（覆盖紫色残留） ====== */
+.hp-bar-fill {
+    background: linear-gradient(90deg, var(--vermillion), var(--vermillion-dark), var(--old-gold-dark)) !important;
+}
+
+.char-avatar {
+    background: linear-gradient(135deg, var(--paper-dark), var(--old-gold-light)) !important;
+}
+
+/* ====== 数字滚动动画 ====== */
+.stat-value,
+.hp-text {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.stat-value.rolling,
+.hp-text.rolling {
+    animation: number-roll 0.6s ease-out;
+}
+
+@keyframes number-roll {
+    0% { transform: scale(1); color: var(--old-gold); }
+    50% { transform: scale(1.3); color: var(--vermillion); }
+    100% { transform: scale(1); color: inherit; }
+}
+
+/* ====== 按钮按压反馈 ====== */
+.btn:active {
+    transform: scale(0.96);
+    box-shadow: inset 0 2px 8px rgba(13, 13, 13, 0.15);
+}
+
+/* ====== 导航项 active 指示 ====== */
+.nav-item.active {
+    position: relative;
+    background: rgba(201, 169, 98, 0.1);
+    color: var(--vermillion);
+}
+
+.nav-item.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 3px;
+    background: var(--vermillion);
+    border-radius: 0 2px 2px 0;
+}
+
+.mobile-nav-item.active {
+    color: var(--vermillion);
+    background: rgba(201, 169, 98, 0.1);
+}
+
+/* ====== 卡片 3D hover ====== */
+.char-card:hover {
+    transform: perspective(800px) rotateX(1deg) rotateY(-1deg) translateY(-4px) scale(1.02);
+    transition: transform 0.3s ease;
+}
+
+/* ====== 战斗背景呼吸光晕 ====== */
+.battle-bg-glow {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 30% 50%, rgba(194, 59, 34, 0.08), transparent 50%),
+        radial-gradient(circle at 70% 50%, rgba(201, 169, 98, 0.06), transparent 50%);
+    animation: battle-breathe 8s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes battle-breathe {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+/* ====== 输入框 focus 动画增强 ====== */
+.form-input:focus,
+.input-field:focus,
+.ai-select:focus,
+.ai-input:focus {
+    border-color: var(--vermillion);
+    box-shadow: 0 0 0 3px rgba(194, 59, 34, 0.12);
+}
+
+/* ====== 滚动条样式增强 ====== */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--sutra-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--wood-medium);
+    border-radius: 4px;
+    border: 2px solid var(--sutra-dark);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--bronze);
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: var(--gold-ancient);
+}
+
+::-moz-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-moz-scrollbar-track {
+    background: var(--sutra-dark);
+}
+
+::-moz-scrollbar-thumb {
+    background: var(--wood-medium);
+    border-radius: 4px;
+    border: 2px solid var(--sutra-dark);
+}
+
+/* ====== 战斗胜利/失败增强 ====== */
+.battle-victory-effect {
+    animation: victory-zoom 0.8s ease-out;
+}
+
+.battle-defeat-effect {
+    animation: defeat-fall 0.6s ease-in;
+}
+
+/* ====== 解锁横幅增强 ====== */
+.se-unlock-banner {
+    animation: unlock-glow 2s ease-in-out infinite;
+}
+
+@keyframes unlock-glow {
+    0%, 100% { box-shadow: 0 0 8px rgba(201, 169, 98, 0.3); }
+    50% { box-shadow: 0 0 16px rgba(201, 169, 98, 0.6); }
+}
+
+/* ====== 节点类型 badge 增强 ====== */
+.se-node-badge {
+    transition: all var(--transition-fast);
+}
+
+.se-node-badge:hover {
+    transform: scale(1.05);
+}
