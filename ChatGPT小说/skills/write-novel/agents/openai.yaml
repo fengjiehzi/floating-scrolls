@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI 小说工作流"
+  short_description: "调用项目内设定、规划、建章、写作、审稿和定稿的完整闭环流程"
+  default_prompt: "使用 $write-novel 根据当前项目状态继续下一步小说创作流程。"
