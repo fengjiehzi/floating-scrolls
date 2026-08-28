@@ -5,6 +5,12 @@ import path from 'path'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  server: {
+    proxy: {
+      '/api': 'http://127.0.0.1:8888',
+      '/images': 'http://127.0.0.1:8888',
+    },
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

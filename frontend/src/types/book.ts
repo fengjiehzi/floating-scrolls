@@ -1,3 +1,6 @@
+export type BookSourceType = 'classic' | 'upload'
+export type BookReadingStatus = 'not_started' | 'reading' | 'completed'
+
 export interface Book {
   id: string
   title: string
@@ -9,4 +12,10 @@ export interface Book {
   charactersExtracted: string[]
   createdAt: string
   updatedAt: string
+  sourceType: BookSourceType
+  readingStatus: BookReadingStatus
+  currentChapter: number
+  totalChapters: number
+  lastReadAt: string | null
+  isFavorite: boolean
 }

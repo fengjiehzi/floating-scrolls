@@ -61,8 +61,13 @@ npm start
 │   ├── ws-server.js      # WebSocket 对战服务器
 │   ├── ai-service.js     # AI 服务封装
 │   └── public/           # 前端静态资源
-├── frontend/             # React 前端项目（Vite + TypeScript）
-├── docs/                 # 技术文档与 ADR
+├── frontend/             # 独立 React 前端项目（Vite + TypeScript）
+├── docs/                 # 项目文档
+│   ├── planning/         # 策划案与产品规划
+│   ├── technical/        # 技术文档与架构说明
+│   └── adr/              # 架构决策记录
+├── data/private/         # 本地私有导入数据（不纳入 Git）
+├── releases/archive/     # 历史压缩备份（不纳入 Git）
 └── README.md             # 项目说明
 ```
 

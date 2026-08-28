@@ -8,27 +8,36 @@ interface ProgressBarProps {
 }
 
 const colorClasses = {
-  gold: 'from-accent-gold to-border-gold',
-  red: 'from-accent-red to-red-400',
-  blue: 'from-blue-500 to-blue-400',
-  green: 'from-green-500 to-green-400',
+  gold: 'progress-gold',
+  red: 'progress-red',
+  blue: 'progress-blue',
+  green: 'progress-green',
 }
 
 export function ProgressBar({ progress, max = 100, label, color = 'gold', height = 8, showValue = true }: ProgressBarProps) {
   const percent = Math.min((progress / max) * 100, 100)
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="progress-root">
       {label && (
-        <div className="flex items-center justify-between text-xs text-text-secondary">
+        <div className="progress-label">
           <span>{label}</span>
           {showValue && <span>{progress}/{max}</span>}
         </div>
       )}
-      <div className="h-2 bg-bg-secondary rounded-full overflow-hidden">
+      <div
+        className="progress-track"
+        role="progressbar"
+        aria-label={label || '进度'}
+        aria-valuemin={0}
+        aria-valuemax={max}
+        aria-valuenow={progress}
+        style={{ height: `${height}px` }}
+      >
         <div
-          className={`h-full bg-gradient-to-r ${colorClasses[color]} transition-all duration-500 ease-out`}
-          style={{ width: `${percent}%`, height: `${height}px` }}
+          className={`progress-fill ${colorClasses[color]}`}
+          style={{ transform: `scaleX(${percent / 100})` }}
+          aria-hidden="true"
         />
       </div>
     </div>

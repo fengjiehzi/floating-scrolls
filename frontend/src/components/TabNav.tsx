@@ -6,16 +6,15 @@ interface TabNavProps {
 
 export function TabNav({ tabs, activeTab, onChange }: TabNavProps) {
   return (
-    <div className="flex gap-1 p-1 bg-bg-secondary rounded-lg">
+    <div className="tab-nav" role="tablist" aria-label="设置分类">
       {tabs.map((tab) => (
         <button
           key={tab.id}
+          type="button"
+          role="tab"
+          aria-selected={activeTab === tab.id}
           onClick={() => onChange(tab.id)}
-          className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-            activeTab === tab.id
-              ? 'bg-gradient-card text-gradient-gold border border-border-gold/30'
-              : 'text-text-secondary hover:text-text-primary hover:bg-bg-card'
-          }`}
+          className={`tab-nav-button${activeTab === tab.id ? ' is-active' : ''}`}
         >
           {tab.label}
         </button>

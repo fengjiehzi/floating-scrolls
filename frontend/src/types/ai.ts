@@ -1,6 +1,6 @@
 export interface AIConfig {
   apiKey: string
-  provider: 'openai' | 'anthropic' | 'google' | 'custom'
+  provider: string
   model: string
   temperature: number
   maxTokens: number

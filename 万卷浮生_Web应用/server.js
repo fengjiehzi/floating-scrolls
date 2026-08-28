@@ -34,7 +34,7 @@ const storyDag = require('./story-dag');
 const battleEngine = require('./battle-engine');
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8888;
 
 // 中间件
 app.use(cors());
@@ -2915,7 +2915,8 @@ const server = http.createServer(app);
 // 初始化WebSocket服务器（与HTTP共享同一端口）
 initWSServer(server);
 
-server.listen(PORT, () => {
+const HOST = process.env.HOST || '127.0.0.1';
+server.listen(PORT, HOST, () => {
     console.log('========================================');
     console.log('  万卷浮生 Web应用 已启动');
     console.log('========================================');

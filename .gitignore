@@ -55,3 +55,6 @@ test.txt
 
 # Standalone repositories
 /ChatGPT小说/
+
+# Local/private imported data
+/data/private/

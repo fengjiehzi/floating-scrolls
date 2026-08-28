@@ -28,3 +28,20 @@ export interface BattleState {
   isPlayerTurn: boolean
   winner: 'player' | 'enemy' | null
 }
+
+export interface BattleResult {
+  id: string
+  winner: 'player' | 'enemy'
+  player: Character
+  enemy: Character
+  rounds: number
+  damageDealt: number
+  damageTaken: number
+  healing: number
+  keyMoments: BattleLog[]
+  rewards: {
+    experience: number
+    itemName?: string
+  }
+  completedAt: number
+}

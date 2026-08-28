@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useId, useRef } from 'react'
 import { X } from 'lucide-react'
 
 interface ModalProps {
@@ -18,71 +18,79 @@ const sizeClasses = {
 
 export function Modal({ isOpen, onClose, title, children, size = 'md' }: ModalProps) {
   const modalRef = useRef<HTMLDivElement>(null)
+  const previousFocusRef = useRef<HTMLElement | null>(null)
+  const previousOverflowRef = useRef('')
+  const onCloseRef = useRef(onClose)
+  const titleId = useId()
+
+  useEffect(() => {
+    onCloseRef.current = onClose
+  }, [onClose])
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
-    }
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscape)
-      document.body.style.overflow = 'hidden'
-    }
-    return () => {
-      document.removeEventListener('keydown', handleEscape)
-      document.body.style.overflow = ''
-    }
-  }, [isOpen, onClose])
+      if (e.key === 'Escape') onCloseRef.current()
+      if (e.key !== 'Tab' || !modalRef.current) return
 
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-        onClose()
+      const focusable = Array.from(modalRef.current.querySelectorAll<HTMLElement>(
+        'button:not(:disabled), [href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])'
+      ))
+      if (focusable.length === 0) return
+
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault()
+        first.focus()
       }
     }
     if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside)
+      previousFocusRef.current = document.activeElement as HTMLElement | null
+      previousOverflowRef.current = document.body.style.overflow
+      document.addEventListener('keydown', handleEscape)
+      document.body.style.overflow = 'hidden'
+      requestAnimationFrame(() => {
+        modalRef.current?.querySelector<HTMLElement>('button, input, select, textarea, [href]')?.focus()
+      })
     }
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [isOpen, onClose])
+    return () => {
+      document.removeEventListener('keydown', handleEscape)
+      document.body.style.overflow = previousOverflowRef.current
+      previousFocusRef.current?.focus()
+    }
+  }, [isOpen])
 
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm animate-fade-in" />
+    <div className="modal-root">
+      <button type="button" className="modal-backdrop" onClick={onClose} aria-label="关闭对话框" />
       <div
         ref={modalRef}
-        className={`relative w-full ${sizeClasses[size]} bg-gradient-card border border-border-gold/30 rounded-xl card-shadow animate-scale-in`}
+        className={`modal-panel ${sizeClasses[size]}`}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={title ? titleId : undefined}
+        aria-label={title ? undefined : '对话框'}
       >
         {title && (
-          <div className="flex items-center justify-between px-6 py-4 border-b border-border-gold/20">
-            <h2 className="text-xl font-bold text-gradient-gold">{title}</h2>
+          <div className="modal-header">
+            <h2 id={titleId}>{title}</h2>
             <button
+              type="button"
               onClick={onClose}
-              className="p-2 text-text-secondary hover:text-text-primary hover:bg-bg-secondary rounded-lg transition-all duration-200"
+              className="icon-button"
+              aria-label="关闭对话框"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
         )}
-        <div className="p-6">{children}</div>
+        <div className="modal-content">{children}</div>
       </div>
-      <style>{`
-        @keyframes fade-in {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        @keyframes scale-in {
-          from { opacity: 0; transform: scale(0.95); }
-          to { opacity: 1; transform: scale(1); }
-        }
-        .animate-fade-in {
-          animation: fade-in 0.2s ease-out;
-        }
-        .animate-scale-in {
-          animation: scale-in 0.2s ease-out;
-        }
-      `}</style>
     </div>
   )
 }

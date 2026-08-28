@@ -1,351 +1,241 @@
-import React, { useState, useEffect } from 'react'
-import { Swords, Heart, Shield, Zap, RotateCcw, BookOpen } from 'lucide-react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { ArrowLeft, BookOpen, Bot, FastForward, Heart, PackageOpen, Shield, Sparkles, Swords, X, Zap } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import { CharacterCard } from '@/components/CharacterCard'
-import { SkillButton } from '@/components/SkillButton'
+import { PageState } from '@/components/PageState'
 import { ProgressBar } from '@/components/ProgressBar'
 import { useGameStore } from '@/store/gameStore'
-import { eventBus } from '@/utils/eventBus'
-import type { Character, Skill } from '@/types'
+import type { Character, CharacterSkill } from '@/types'
+
+interface DamageResult {
+  damage: number
+  critical: boolean
+}
+
+function calculateDamage(attacker: Character, defender: Character, multiplier = 1, reduction = 1): DamageResult {
+  const base = attacker.stats.attack * Math.max(0.7, multiplier)
+  const defenseReduction = 1 - (defender.stats.defense / (defender.stats.defense + 200))
+  const critical = Math.random() < ((attacker.stats.critRate || 0) / 100)
+  const criticalMultiplier = critical ? 1.5 : 1
+  return {
+    damage: Math.max(1, Math.round(base * defenseReduction * criticalMultiplier * reduction)),
+    critical,
+  }
+}
 
 export function BattleView() {
+  const navigate = useNavigate()
   const {
     characters,
+    charactersStatus,
+    charactersError,
+    preferredFighterId,
     battle,
     startBattle,
     updateBattleState,
     addBattleLog,
     endBattle,
-    setCurrentView,
+    resetBattle,
+    loadCharacters,
   } = useGameStore()
-
   const [selectedPlayer, setSelectedPlayer] = useState<Character | null>(null)
   const [selectedEnemy, setSelectedEnemy] = useState<Character | null>(null)
-  const logsContainerRef = React.createRef<HTMLDivElement>()
+  const [speed, setSpeed] = useState<1 | 2>(1)
+  const [cooldowns, setCooldowns] = useState<Record<string, number>>({})
+  const [itemUsed, setItemUsed] = useState(false)
+  const [feedback, setFeedback] = useState('')
+  const enemyTimerRef = useRef<number | null>(null)
+  const feedbackTimerRef = useRef<number | null>(null)
+  const defendingRef = useRef(false)
 
   useEffect(() => {
-    if (logsContainerRef.current) {
-      logsContainerRef.current.scrollTop = logsContainerRef.current.scrollHeight
-    }
-  }, [battle.logs])
+    if (battle.isActive || selectedPlayer || characters.length === 0) return
+    const preferred = characters.find((character) => character.id === preferredFighterId) || characters[0]
+    setSelectedPlayer(preferred)
+    setSelectedEnemy(characters.find((character) => character.id !== preferred.id) || null)
+  }, [battle.isActive, characters, preferredFighterId, selectedPlayer])
 
   useEffect(() => {
-    const handleDamage = (data: { attacker: string; target: string; damage: number; skillName: string; isCritical?: boolean }) => {
-      addBattleLog({
-        message: `${data.attacker} 使用 ${data.skillName} 对 ${data.target} 造成 ${data.damage} 点${data.isCritical ? '暴击' : ''}伤害！`,
+    if (!battle.isActive || battle.isPlayerTurn || battle.winner) return
+    enemyTimerRef.current = window.setTimeout(() => {
+      const state = useGameStore.getState()
+      const current = state.battle
+      if (!current.isActive || current.winner || !current.player || !current.enemy || current.enemyHealth <= 0) return
+
+      const enemySkill = current.enemy.skills.find((skill) => ['physical_attack', 'magic_attack', 'speed_attack', 'summon'].includes(skill.type))
+      const result = calculateDamage(current.enemy, current.player, enemySkill?.multiplier || 1, defendingRef.current ? 0.5 : 1)
+      defendingRef.current = false
+      const nextHealth = Math.max(0, current.playerHealth - result.damage)
+      state.addBattleLog({
+        message: `${current.enemy.name} 使用 ${enemySkill?.name || '普通攻击'}，造成 ${result.damage} 点${result.critical ? '暴击' : ''}伤害。`,
         type: 'damage',
-        data,
+        data: { attacker: current.enemy.name, target: current.player.name, damage: result.damage, skillName: enemySkill?.name || '普通攻击', isCritical: result.critical },
       })
+      state.updateBattleState({ playerHealth: nextHealth })
+      setFeedback(`-${result.damage}`)
 
-      if (data.target === battle.player?.name) {
-        updateBattleState({ playerHealth: Math.max(0, battle.playerHealth - data.damage) })
-      } else {
-        updateBattleState({ enemyHealth: Math.max(0, battle.enemyHealth - data.damage) })
+      if (nextHealth <= 0) {
+        state.addBattleLog({ message: `${current.player.name} 被击败。`, type: 'end' })
+        state.endBattle('enemy')
+        navigate('/battle/result')
+        return
       }
-    }
 
-    eventBus.on('battle:damage', handleDamage)
-    return () => eventBus.off('battle:damage', handleDamage)
-  }, [addBattleLog, updateBattleState, battle.player?.name, battle.playerHealth, battle.enemyHealth])
+      state.updateBattleState({ isPlayerTurn: true, round: current.round + 1 })
+      state.addBattleLog({ message: `第 ${current.round + 1} 回合开始。`, type: 'round' })
+      setCooldowns((currentCooldowns) => Object.fromEntries(
+        Object.entries(currentCooldowns).map(([key, value]) => [key, Math.max(0, value - 1)])
+      ))
+    }, 900 / speed)
+
+    return () => {
+      if (enemyTimerRef.current) window.clearTimeout(enemyTimerRef.current)
+    }
+  }, [battle.isActive, battle.isPlayerTurn, battle.winner, navigate, speed])
+
+  useEffect(() => () => {
+    if (enemyTimerRef.current) window.clearTimeout(enemyTimerRef.current)
+    if (feedbackTimerRef.current) window.clearTimeout(feedbackTimerRef.current)
+  }, [])
 
   useEffect(() => {
-    if (battle.playerHealth <= 0) {
-      addBattleLog({ message: `${battle.player?.name} 被击败！`, type: 'end' })
-      endBattle('enemy')
-    } else if (battle.enemyHealth <= 0) {
-      addBattleLog({ message: `${battle.enemy?.name} 被击败！`, type: 'end' })
-      endBattle('player')
+    if (!feedback) return
+    feedbackTimerRef.current = window.setTimeout(() => setFeedback(''), 560)
+    return () => {
+      if (feedbackTimerRef.current) window.clearTimeout(feedbackTimerRef.current)
     }
-  }, [battle.playerHealth, battle.enemyHealth, battle.player?.name, battle.enemy?.name, addBattleLog, endBattle])
+  }, [feedback])
 
-  const handleStartBattle = () => {
-    if (selectedPlayer && selectedEnemy) {
-      startBattle(selectedPlayer, selectedEnemy)
-      addBattleLog({ message: `⚔️ 战斗开始！${selectedPlayer.name} VS ${selectedEnemy.name}`, type: 'round' })
-    }
+  const activeSkill = useMemo<CharacterSkill | null>(() => {
+    if (!battle.player) return null
+    return battle.player.skills.find((skill) => ['physical_attack', 'magic_attack', 'speed_attack', 'summon'].includes(skill.type)) || null
+  }, [battle.player])
+
+  const finishBattle = (winner: 'player' | 'enemy', defeatedName: string) => {
+    addBattleLog({ message: `${defeatedName} 被击败。`, type: 'end' })
+    endBattle(winner)
+    navigate('/battle/result')
   }
 
-  const handleSkill = (skill: Skill) => {
-    if (!battle.isPlayerTurn || !battle.isActive) return
+  const attackEnemy = (skill?: CharacterSkill) => {
+    const state = useGameStore.getState().battle
+    if (!state.isActive || !state.isPlayerTurn || !state.player || !state.enemy) return
+    if (skill && (cooldowns[skill.id] || 0) > 0) return
 
-    const damage = Math.floor(skill.damage * (1 + battle.player!.stats.critRate / 100))
-    const isCritical = Math.random() < battle.player!.stats.critRate / 100
-
-    eventBus.emit('battle:damage', {
-      attacker: battle.player!.name,
-      target: battle.enemy!.name,
-      damage: isCritical ? damage * 2 : damage,
-      skillName: skill.name,
-      isCritical,
+    const result = calculateDamage(state.player, state.enemy, skill?.multiplier || 1)
+    const nextHealth = Math.max(0, state.enemyHealth - result.damage)
+    addBattleLog({
+      message: `${state.player.name} 使用 ${skill?.name || '普通攻击'}，造成 ${result.damage} 点${result.critical ? '暴击' : ''}伤害。`,
+      type: 'damage',
+      data: { attacker: state.player.name, target: state.enemy.name, damage: result.damage, skillName: skill?.name || '普通攻击', isCritical: result.critical },
     })
-
-    updateBattleState({ isPlayerTurn: false })
-
-    setTimeout(() => {
-      if (battle.enemyHealth > 0) {
-        const enemySkills: Skill[] = [
-          { id: '1', name: '普通攻击', description: '基础攻击', damage: battle.enemy!.stats.attack, cooldown: 0, currentCooldown: 0, manaCost: 0, type: 'attack', effect: '', icon: '' },
-        ]
-        const randomSkill = enemySkills[0]
-        const enemyDamage = Math.floor(randomSkill.damage * (1 + battle.enemy!.stats.critRate / 100))
-        const enemyCrit = Math.random() < battle.enemy!.stats.critRate / 100
-
-        eventBus.emit('battle:damage', {
-          attacker: battle.enemy!.name,
-          target: battle.player!.name,
-          damage: enemyCrit ? enemyDamage * 2 : enemyDamage,
-          skillName: randomSkill.name,
-          isCritical: enemyCrit,
-        })
-
-        updateBattleState({ isPlayerTurn: true, round: battle.round + 1 })
-        addBattleLog({ message: `--- 第 ${battle.round + 1} 回合 ---`, type: 'round' })
-      }
-    }, 1500)
+    updateBattleState({ enemyHealth: nextHealth, isPlayerTurn: false })
+    setFeedback(`-${result.damage}`)
+    if (skill) setCooldowns((current) => ({ ...current, [skill.id]: 3 }))
+    if (nextHealth <= 0) finishBattle('player', state.enemy.name)
   }
 
-  const skills: Skill[] = [
-    { id: '1', name: '普通攻击', description: '基础攻击', damage: 50, cooldown: 0, currentCooldown: 0, manaCost: 0, type: 'attack', effect: '', icon: '' },
-    { id: '2', name: '技能一', description: '强力技能', damage: 100, cooldown: 3, currentCooldown: 0, manaCost: 20, type: 'attack', effect: '', icon: '' },
-    { id: '3', name: '技能二', description: '防御技能', damage: 0, cooldown: 4, currentCooldown: 0, manaCost: 15, type: 'defense', effect: '', icon: '' },
-    { id: '4', name: '必杀技', description: '终极技能', damage: 200, cooldown: 6, currentCooldown: 0, manaCost: 50, type: 'attack', effect: '', icon: '' },
-  ]
+  const defend = () => {
+    if (!battle.isActive || !battle.isPlayerTurn) return
+    defendingRef.current = true
+    addBattleLog({ message: `${battle.player?.name} 进入防御姿态，下次承受伤害减半。`, type: 'buff' })
+    updateBattleState({ isPlayerTurn: false })
+  }
 
-  if (!battle.isActive) {
+  const useItem = () => {
+    const state = useGameStore.getState().battle
+    if (!state.isActive || !state.isPlayerTurn || !state.player || itemUsed || state.playerHealth >= state.player.stats.maxHealth) return
+    const amount = Math.min(Math.round(state.player.stats.maxHealth * 0.2), state.player.stats.maxHealth - state.playerHealth)
+    addBattleLog({ message: `${state.player.name} 使用疗愈墨，恢复 ${amount} 点生命。`, type: 'heal', data: { target: state.player.name, amount } })
+    updateBattleState({ playerHealth: state.playerHealth + amount, isPlayerTurn: false })
+    setItemUsed(true)
+    setFeedback(`+${amount}`)
+  }
+
+  const handleStart = () => {
+    if (!selectedPlayer || !selectedEnemy) return
+    setCooldowns({})
+    setItemUsed(false)
+    defendingRef.current = false
+    startBattle(selectedPlayer, selectedEnemy)
+    addBattleLog({ message: `战斗开始：${selectedPlayer.name} 对阵 ${selectedEnemy.name}。`, type: 'round' })
+  }
+
+  if (!battle.isActive && !battle.winner) {
     return (
-      <div className="min-h-screen p-4 md:p-8">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h1 className="text-3xl font-bold text-gradient-gold mb-2">战斗竞技场</h1>
-              <p className="text-text-secondary">选择你的角色进行对决</p>
-            </div>
-            <button
-              onClick={() => setCurrentView('welcome')}
-              className="flex items-center gap-2 px-4 py-2 bg-bg-secondary border border-text-muted/30 rounded-lg text-text-secondary hover:text-text-primary transition-colors"
-            >
-              <BookOpen className="w-5 h-5" />
-              <span>返回主页</span>
-            </button>
-          </div>
+      <main className="battle-select-page">
+        <header className="battle-select-header">
+          <button type="button" className="button-secondary" onClick={() => navigate('/')}><ArrowLeft aria-hidden="true" />返回卷首</button>
+          <div><span className="section-kicker">演武场</span><h1>择定对阵双方</h1><p>从角色库选择我方与敌手，战斗将在全屏 HUD 中展开。</p></div>
+          <span className="battle-mode-chip"><Bot aria-hidden="true" />本地演示战斗</span>
+        </header>
 
-          <div className="grid md:grid-cols-2 gap-8">
-            <div>
-              <h2 className="text-xl font-bold text-text-primary mb-4 flex items-center gap-2">
-                <Heart className="w-5 h-5 text-red-400" />
-                选择你的角色
-              </h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                {characters.length === 0 ? (
-                  <p className="col-span-full text-text-secondary">请先从书库提取角色</p>
-                ) : (
-                  characters.map((char) => (
-                    <CharacterCard
-                      key={char.id}
-                      character={char}
-                      selected={selectedPlayer?.id === char.id}
-                      onClick={() => setSelectedPlayer(char)}
-                    />
-                  ))
-                )}
-              </div>
+        {charactersStatus === 'loading' ? (
+          <PageState kind="loading" title="正在召集角色…" />
+        ) : charactersStatus === 'error' ? (
+          <PageState kind="error" title="演武场无法读取角色" message={charactersError} actionLabel="重新连接" onAction={() => void loadCharacters(true)} />
+        ) : characters.length < 2 ? (
+          <PageState kind="empty" title="可出战角色不足" message="至少需要两位角色才能开始对决。" icon={Swords} actionLabel="返回角色库" onAction={() => navigate('/characters')} />
+        ) : (
+          <>
+            <div className="duelist-grid">
+              <section className="duelist-panel panel">
+                <div className="duelist-heading"><div><span>我方</span><h2>{selectedPlayer?.name || '选择角色'}</h2></div><Heart aria-hidden="true" /></div>
+                <div className="battle-character-grid">
+                  {characters.map((character) => <CharacterCard key={character.id} character={character} selected={selectedPlayer?.id === character.id} onClick={() => {
+                    setSelectedPlayer(character)
+                    if (selectedEnemy?.id === character.id) setSelectedEnemy(characters.find((item) => item.id !== character.id) || null)
+                  }} />)}
+                </div>
+              </section>
+              <section className="duelist-panel panel">
+                <div className="duelist-heading is-enemy"><div><span>敌方</span><h2>{selectedEnemy?.name || '选择敌手'}</h2></div><Swords aria-hidden="true" /></div>
+                <div className="battle-character-grid">
+                  {characters.filter((character) => character.id !== selectedPlayer?.id).map((character) => <CharacterCard key={character.id} character={character} selected={selectedEnemy?.id === character.id} onClick={() => setSelectedEnemy(character)} />)}
+                </div>
+              </section>
             </div>
-
-            <div>
-              <h2 className="text-xl font-bold text-text-primary mb-4 flex items-center gap-2">
-                <Swords className="w-5 h-5 text-accent-red" />
-                选择对手
-              </h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                {characters.length === 0 ? (
-                  <p className="col-span-full text-text-secondary">请先从书库提取角色</p>
-                ) : (
-                  characters
-                    .filter((char) => char.id !== selectedPlayer?.id)
-                    .map((char) => (
-                      <CharacterCard
-                        key={char.id}
-                        character={char}
-                        selected={selectedEnemy?.id === char.id}
-                        onClick={() => setSelectedEnemy(char)}
-                      />
-                    ))
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-8 flex justify-center">
-            <button
-              onClick={handleStartBattle}
-              disabled={!selectedPlayer || !selectedEnemy}
-              className="px-8 py-4 bg-gradient-to-r from-accent-red/20 to-red-500/20 border-2 border-accent-red rounded-xl font-bold text-xl text-accent-red disabled:opacity-50 disabled:cursor-not-allowed hover:from-accent-red/30 hover:to-red-500/30 hover:shadow-lg hover:shadow-accent-red/20 transition-all duration-300 transform hover:scale-105 active:scale-95"
-            >
-              <div className="flex items-center gap-3">
-                <Swords className="w-6 h-6" />
-                <span>开始战斗</span>
-              </div>
-            </button>
-          </div>
-        </div>
-      </div>
+            <div className="battle-launch-bar"><span>{selectedPlayer && selectedEnemy ? `${selectedPlayer.name} / ${selectedEnemy.name}` : '双方角色就位后方可开战'}</span><button type="button" className="button-danger" disabled={!selectedPlayer || !selectedEnemy} onClick={handleStart}><Swords aria-hidden="true" />开始战斗</button></div>
+          </>
+        )}
+      </main>
     )
   }
 
   return (
-    <div className="min-h-screen p-4 md:p-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-3xl font-bold text-gradient-gold">战斗进行中</h1>
-          <div className="flex items-center gap-2 px-4 py-2 bg-bg-secondary rounded-lg">
-            <RotateCcw className="w-4 h-4 text-text-muted" />
-            <span className="text-text-secondary">回合 {battle.round}</span>
-          </div>
+    <main className="battle-hud">
+      <header className="battle-hud-topbar">
+        <div className="battle-round"><span>回合</span><strong>{String(battle.round).padStart(2, '0')}</strong></div>
+        <div className="battle-narration"><span>{battle.isPlayerTurn ? '我方行动' : '敌方行动'}</span><p>{battle.logs[battle.logs.length - 1]?.message || '双方正在对峙。'}</p></div>
+        <div className="battle-hud-tools">
+          <span><Bot aria-hidden="true" />本地模式</span>
+          <button type="button" className={speed === 2 ? 'is-active' : ''} onClick={() => setSpeed((value) => value === 1 ? 2 : 1)} aria-label="切换战斗速度"><FastForward aria-hidden="true" />{speed}×</button>
+          <button type="button" onClick={() => { resetBattle(); navigate('/') }} aria-label="退出战斗"><X aria-hidden="true" /></button>
+        </div>
+      </header>
+
+      <section className="battle-stage" aria-label="战斗场地">
+        <article className={`combatant combatant-player${battle.isPlayerTurn ? ' is-active' : ''}`}>
+          {battle.player && <>{battle.player.avatar ? <img src={battle.player.avatar} alt={battle.player.name} onError={(event) => { event.currentTarget.style.display = 'none' }} /> : <div className="combatant-placeholder" aria-hidden="true">{battle.player.name.slice(0, 1)}</div>}<div className="combatant-info"><span>我方 · {battle.isPlayerTurn ? '行动中' : '待机'}</span><h2>{battle.player.name}</h2><p>{battle.player.originBook} · 战力 {battle.player.combatPower}</p><ProgressBar progress={battle.playerHealth} max={battle.player.stats.maxHealth} label="生命" color="red" /><div className="combatant-mini-stats"><span><Shield />{battle.player.stats.defense}</span><span><Zap />{battle.player.stats.speed}</span><span><Sparkles />{battle.player.stats.mana}</span></div></div></>}
+        </article>
+
+        <div className="battle-playfield" aria-live="polite">
+          <div className="battle-seal"><Swords aria-hidden="true" /><span>对决</span></div>
+          {feedback && <strong className={feedback.startsWith('+') ? 'is-heal' : 'is-damage'}>{feedback}</strong>}
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 mb-8">
-          <div className={`p-6 rounded-xl border-2 ${battle.isPlayerTurn ? 'border-accent-gold glow-gold' : 'border-text-muted/30'} bg-gradient-card card-shadow`}>
-            <h3 className="text-lg font-bold text-text-primary mb-2">我方角色</h3>
-            {battle.player && (
-              <div className="flex items-center gap-4">
-                <img
-                  src={battle.player.avatar}
-                  alt={battle.player.name}
-                  className="w-24 h-24 rounded-lg object-cover"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement
-                    target.style.display = 'none'
-                  }}
-                />
-                <div className="flex-1">
-                  <h4 className="text-xl font-bold text-text-primary">{battle.player.name}</h4>
-                  <p className="text-sm text-text-secondary">{battle.player.originBook}</p>
-                  <ProgressBar
-                    progress={battle.playerHealth}
-                    max={battle.player.stats.maxHealth}
-                    label="生命值"
-                    color="red"
-                  />
-                  <div className="flex gap-4 mt-2 text-sm">
-                    <div className="flex items-center gap-1">
-                      <Swords className="w-4 h-4 text-accent-red" />
-                      <span className="text-text-secondary">{battle.player.stats.attack}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Shield className="w-4 h-4 text-blue-400" />
-                      <span className="text-text-secondary">{battle.player.stats.defense}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Zap className="w-4 h-4 text-yellow-400" />
-                      <span className="text-text-secondary">{battle.player.stats.speed}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
+        <article className={`combatant combatant-enemy${!battle.isPlayerTurn ? ' is-active' : ''}`}>
+          {battle.enemy && <>{battle.enemy.avatar ? <img src={battle.enemy.avatar} alt={battle.enemy.name} onError={(event) => { event.currentTarget.style.display = 'none' }} /> : <div className="combatant-placeholder" aria-hidden="true">{battle.enemy.name.slice(0, 1)}</div>}<div className="combatant-info"><span>敌方 · {!battle.isPlayerTurn ? '行动中' : '待机'}</span><h2>{battle.enemy.name}</h2><p>{battle.enemy.originBook} · 战力 {battle.enemy.combatPower}</p><ProgressBar progress={battle.enemyHealth} max={battle.enemy.stats.maxHealth} label="生命" color="red" /><div className="combatant-mini-stats"><span><Shield />{battle.enemy.stats.defense}</span><span><Zap />{battle.enemy.stats.speed}</span><span><Sparkles />{battle.enemy.stats.mana}</span></div></div></>}
+        </article>
+      </section>
 
-          <div className={`p-6 rounded-xl border-2 ${!battle.isPlayerTurn ? 'border-accent-red glow-red' : 'border-text-muted/30'} bg-gradient-card card-shadow`}>
-            <h3 className="text-lg font-bold text-text-primary mb-2">敌方角色</h3>
-            {battle.enemy && (
-              <div className="flex items-center gap-4">
-                <img
-                  src={battle.enemy.avatar}
-                  alt={battle.enemy.name}
-                  className="w-24 h-24 rounded-lg object-cover"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement
-                    target.style.display = 'none'
-                  }}
-                />
-                <div className="flex-1">
-                  <h4 className="text-xl font-bold text-text-primary">{battle.enemy.name}</h4>
-                  <p className="text-sm text-text-secondary">{battle.enemy.originBook}</p>
-                  <ProgressBar
-                    progress={battle.enemyHealth}
-                    max={battle.enemy.stats.maxHealth}
-                    label="生命值"
-                    color="red"
-                  />
-                  <div className="flex gap-4 mt-2 text-sm">
-                    <div className="flex items-center gap-1">
-                      <Swords className="w-4 h-4 text-accent-red" />
-                      <span className="text-text-secondary">{battle.enemy.stats.attack}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Shield className="w-4 h-4 text-blue-400" />
-                      <span className="text-text-secondary">{battle.enemy.stats.defense}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Zap className="w-4 h-4 text-yellow-400" />
-                      <span className="text-text-secondary">{battle.enemy.stats.speed}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className="bg-bg-secondary rounded-xl p-4 mb-8">
-          <h3 className="text-lg font-bold text-text-primary mb-4">战斗日志</h3>
-          <div
-            ref={logsContainerRef}
-            className="h-40 overflow-y-auto space-y-2 pr-2"
-          >
-            {battle.logs.map((log) => (
-              <div
-                key={log.id}
-                className={`text-sm py-1 px-2 rounded ${
-                  log.type === 'damage' ? 'text-red-400' :
-                  log.type === 'heal' ? 'text-green-400' :
-                  log.type === 'round' ? 'text-border-gold font-bold' :
-                  log.type === 'end' ? 'text-accent-red font-bold text-lg' :
-                  'text-text-secondary'
-                }`}
-              >
-                {log.message}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="bg-bg-secondary rounded-xl p-6">
-          <h3 className="text-lg font-bold text-text-primary mb-4">技能栏</h3>
-          <div className="flex flex-wrap gap-4">
-            {skills.map((skill) => (
-              <SkillButton
-                key={skill.id}
-                skill={skill}
-                onClick={() => handleSkill(skill)}
-                disabled={!battle.isPlayerTurn}
-              />
-            ))}
-          </div>
-          {!battle.isPlayerTurn && (
-            <p className="mt-4 text-center text-text-muted">敌方回合，请等待...</p>
-          )}
-        </div>
-
-        {battle.winner && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
-            <div className="bg-gradient-card border-2 border-border-gold rounded-xl p-8 text-center animate-scale-in">
-              <div className="text-6xl mb-4">{battle.winner === 'player' ? '🎉' : '💀'}</div>
-              <h2 className="text-3xl font-bold text-gradient-gold mb-2">
-                {battle.winner === 'player' ? '胜利！' : '失败！'}
-              </h2>
-              <p className="text-text-secondary mb-6">
-                {battle.winner === 'player' ? `${battle.player?.name} 击败了 ${battle.enemy?.name}` : `${battle.enemy?.name} 击败了 ${battle.player?.name}`}
-              </p>
-              <button
-                onClick={() => updateBattleState({ isActive: false, winner: null, logs: [] })}
-                className="px-6 py-3 bg-gradient-to-r from-accent-gold/20 to-border-gold/20 border border-border-gold rounded-lg text-accent-gold hover:from-accent-gold/30 hover:to-border-gold/30 transition-all"
-              >
-                返回选择
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
+      <section className="battle-action-tray" aria-label="战斗操作">
+        <button type="button" className="action-attack" disabled={!battle.isPlayerTurn || !battle.isActive} onClick={() => attackEnemy()}><Swords aria-hidden="true" /><span><strong>攻击</strong><small>普通攻击</small></span></button>
+        <button type="button" disabled={!battle.isPlayerTurn || !battle.isActive} onClick={defend}><Shield aria-hidden="true" /><span><strong>防御</strong><small>伤害减半</small></span></button>
+        <button type="button" disabled={!battle.isPlayerTurn || !battle.isActive || !activeSkill || Boolean(activeSkill && cooldowns[activeSkill.id])} onClick={() => activeSkill && attackEnemy(activeSkill)}><Sparkles aria-hidden="true" /><span><strong>{activeSkill?.name || '主动技能'}</strong><small>{activeSkill && cooldowns[activeSkill.id] ? `冷却 ${cooldowns[activeSkill.id]}` : '消耗灵力'}</small></span></button>
+        <button type="button" disabled={!battle.isPlayerTurn || !battle.isActive || itemUsed || battle.playerHealth >= (battle.player?.stats.maxHealth || 0)} onClick={useItem}><PackageOpen aria-hidden="true" /><span><strong>法宝</strong><small>{itemUsed ? '已使用' : '疗愈墨'}</small></span></button>
+        <button type="button" disabled={!battle.isPlayerTurn || !battle.isActive} onClick={() => updateBattleState({ isPlayerTurn: false })}><BookOpen aria-hidden="true" /><span><strong>结束回合</strong><small>交由敌方</small></span></button>
+      </section>
+    </main>
   )
 }

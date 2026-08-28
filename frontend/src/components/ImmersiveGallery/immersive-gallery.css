@@ -1,0 +1,875 @@
+/* ==========================================================================
+   《万卷浮生》沉浸式角色画廊 (Immersive Character Gallery) 样式系统
+   ========================================================================== */
+
+:root {
+  /* 语义化层级 Token (Z-Index Hierarchy) */
+  --z-gallery-bg: 1;
+  --z-gallery-building: 2;
+  --z-gallery-cave: 3;
+  --z-gallery-intro-ui: 4;
+  --z-gallery-sea-ui: 5;
+  --z-gallery-clouds: 6;
+  --z-gallery-controls: 10;
+  --z-gallery-cursor: 20;
+
+  /* 沉浸式专用色彩与材质 */
+  --gallery-ink-deep: #0a0712;
+  --gallery-paper-dark: #120d20;
+  --gallery-paper-card: rgba(22, 16, 36, 0.72);
+  --gallery-paper-card-fallback: #191228;
+  --gallery-gold-glow: rgba(230, 195, 120, 0.35);
+  --gallery-gold-border: rgba(235, 205, 135, 0.22);
+  --gallery-purple-mist: rgba(138, 75, 255, 0.18);
+  --gallery-cyan-jade: #5eead4;
+  --gallery-cinnabar: #f87171;
+  --gallery-amber: #fbbf24;
+}
+
+/* 根容器与滚动舞台 */
+.immersive-gallery-wrapper {
+  position: relative;
+  width: 100%;
+  background-color: var(--gallery-ink-deep);
+  color: #f3efe6;
+  overflow-x: clip;
+  font-family: var(--font-body, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+}
+
+/* 500vh 滚动高度舞台 */
+.gallery-scroll-track {
+  position: relative;
+  width: 100%;
+  height: 500vh;
+}
+
+/* 固定在视口的 100dvh 视口容器 */
+.gallery-sticky-viewport {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  user-select: none;
+  background: radial-gradient(circle at 50% 40%, #1f1435 0%, #0d091a 70%, #06040c 100%);
+}
+
+/* ==========================================================================
+   分层视差元素 (Visual Layers)
+   ========================================================================== */
+
+.gallery-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* 1. 天空背景层 */
+.layer-sky {
+  z-index: var(--z-gallery-bg);
+  background: radial-gradient(ellipse at 50% 30%, #3b1d60 0%, #1c1033 45%, #0a0614 90%);
+  overflow: hidden;
+  will-change: transform;
+}
+
+.sky-stars-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.75;
+  background-image:
+    radial-gradient(1.5px 1.5px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 70px 120px, #e9d5ff, rgba(0,0,0,0)),
+    radial-gradient(1.5px 1.5px at 150px 80px, #fde68a, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 220px 260px, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 350px 180px, #c084fc, rgba(0,0,0,0)),
+    radial-gradient(1.5px 1.5px at 480px 320px, #fbcfe8, rgba(0,0,0,0));
+  background-repeat: repeat;
+  background-size: 550px 550px;
+}
+
+.sky-nebula-glow {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70vw;
+  height: 50vh;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.28) 0%, rgba(236, 72, 153, 0.15) 35%, transparent 70%);
+  filter: blur(48px);
+}
+
+/* 2. 远景仙阙/万卷天阁层 */
+.layer-building {
+  z-index: var(--z-gallery-building);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.portal-building-container {
+  position: absolute;
+  top: 32%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 320px;
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portal-building-halo {
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(253, 230, 138, 0.32) 0%, rgba(192, 132, 252, 0.18) 45%, transparent 70%);
+  filter: blur(20px);
+  animation: pulse-halo 6s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-halo {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  100% { transform: scale(1.15); opacity: 1; }
+}
+
+.portal-building-svg {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  filter: drop-shadow(0 0 16px rgba(251, 191, 36, 0.45));
+}
+
+/* 3. 洞天岩壁/古卷镂空前景层 */
+.layer-cave {
+  z-index: var(--z-gallery-cave);
+  width: 100%;
+  height: 100%;
+  will-change: transform, opacity;
+  transform-origin: 50% 44%;
+}
+
+.cave-frame-svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 4. 前景流云遮罩层 */
+.layer-front-clouds {
+  z-index: var(--z-gallery-clouds);
+  top: auto;
+  bottom: -4%;
+  height: 38%;
+  width: 100%;
+  pointer-events: none;
+  background: linear-gradient(to top, #090611 15%, rgba(16, 11, 28, 0.85) 50%, rgba(30, 18, 52, 0.35) 80%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 100%);
+}
+
+.cloud-mist-svg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  opacity: 0.65;
+  animation: drift-clouds 28s linear infinite alternate;
+}
+
+@keyframes drift-clouds {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-25%); }
+}
+
+/* ==========================================================================
+   交互与导航顶栏 (Header & Controls)
+   ========================================================================== */
+
+.gallery-header {
+  position: relative;
+  z-index: var(--z-gallery-controls);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 2.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.gallery-nav-left,
+.gallery-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.gallery-back-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(22, 16, 36, 0.6);
+  border: 1px solid var(--gallery-gold-border);
+  color: #f3efe6;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.gallery-back-btn:hover {
+  transform: scale(1.05);
+  border-color: rgba(245, 215, 145, 0.6);
+  background: rgba(36, 24, 60, 0.8);
+}
+
+.gallery-back-btn:focus-visible {
+  outline: 2px solid #fbbf24;
+  outline-offset: 2px;
+}
+
+.gallery-brand-mark {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-display, "Noto Serif SC", serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: #fef08a;
+  text-shadow: 0 0 12px rgba(251, 191, 36, 0.4);
+}
+
+.gallery-star-icon {
+  color: #fde047;
+  animation: star-rotate 12s linear infinite;
+}
+
+@keyframes star-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.gallery-nav-link {
+  background: transparent;
+  border: none;
+  color: #d1c9db;
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.gallery-nav-link:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.gallery-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.9rem;
+  background: rgba(234, 179, 8, 0.15);
+  border: 1px solid rgba(234, 179, 8, 0.35);
+  color: #fef08a;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border-radius: 20px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
+}
+
+.gallery-toggle-btn:hover {
+  background: rgba(234, 179, 8, 0.28);
+  border-color: rgba(234, 179, 8, 0.6);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   第一阶段：洞天入胜 (Phase 1: Cave Intro Stage)
+   ========================================================================== */
+
+.phase1-intro-container {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-gallery-intro-ui);
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  align-items: center;
+  padding: 5rem 6vw;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.intro-narrative {
+  max-width: 540px;
+  pointer-events: auto;
+}
+
+.intro-kicker {
+  display: inline-block;
+  font-size: 0.85rem;
+  letter-spacing: 0.24em;
+  color: #fde047;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  font-family: var(--font-display, "Noto Serif SC", serif);
+  border-left: 2px solid #fde047;
+  padding-left: 0.6rem;
+}
+
+.intro-headline {
+  font-family: var(--font-display, "Noto Serif SC", serif);
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  margin: 0 0 1.25rem 0;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.85);
+}
+
+.intro-desc {
+  font-size: clamp(0.95rem, 1.1vw, 1.1rem);
+  line-height: 1.75;
+  color: #e2d9eb;
+  margin-bottom: 2rem;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+}
+
+.intro-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.intro-scroll-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.825rem;
+  letter-spacing: 0.1em;
+  color: #cbd5e1;
+  padding: 0.5rem 1rem;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.scroll-hint-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #facc15;
+  animation: hint-bounce 1.6s ease-in-out infinite;
+}
+
+@keyframes hint-bounce {
+  0%, 100% { transform: translateY(0); opacity: 0.4; }
+  50% { transform: translateY(4px); opacity: 1; }
+}
+
+/* 右侧三张半透明琉璃先行卡 */
+.hero-cards-deck {
+  position: relative;
+  height: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  pointer-events: auto;
+}
+
+.hero-glass-card {
+  position: absolute;
+  width: 250px;
+  padding: 1.25rem;
+  border-radius: 16px;
+  background: var(--gallery-paper-card);
+  backdrop-filter: blur(14px) saturate(1.15);
+  border: 1px solid var(--gallery-gold-border);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 16px 36px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1), border-color 0.3s ease;
+}
+
+@supports not (backdrop-filter: blur(14px)) {
+  .hero-glass-card {
+    background: var(--gallery-paper-card-fallback);
+  }
+}
+
+.hero-glass-card:hover {
+  transform: translateY(-6px) scale(1.02) !important;
+  border-color: rgba(245, 215, 145, 0.6);
+}
+
+.hero-card-1 {
+  right: 180px;
+  top: 40px;
+  transform: rotate(-5deg);
+  z-index: 1;
+}
+
+.hero-card-2 {
+  right: 80px;
+  top: 100px;
+  transform: rotate(2deg);
+  z-index: 2;
+}
+
+.hero-card-3 {
+  right: 0;
+  top: 170px;
+  transform: rotate(7deg);
+  z-index: 3;
+}
+
+.card-avatar-wrap {
+  position: relative;
+  width: 100%;
+  height: 140px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 0.9rem;
+  background: #1e1533;
+}
+
+.card-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.hero-glass-card:hover .card-avatar-img {
+  transform: scale(1.08);
+}
+
+.card-rarity-pill {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid currentColor;
+}
+
+.rarity-legendary { color: #fde047; }
+.rarity-epic { color: #c084fc; }
+.rarity-rare { color: #60a5fa; }
+
+.card-header-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 0.35rem;
+}
+
+.card-char-name {
+  font-family: var(--font-display, "Noto Serif SC", serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.card-char-origin {
+  font-size: 0.75rem;
+  color: #a78bfa;
+}
+
+.card-char-quote {
+  font-size: 0.775rem;
+  line-height: 1.45;
+  color: #c4b5fd;
+  margin: 0 0 0.8rem 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-stats-mini {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 0.6rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.725rem;
+  color: #94a3b8;
+}
+
+.card-stats-mini strong {
+  color: #fef08a;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   第二阶段：万界云海与诸神列阵 (Phase 2 & 3: Cloud Sea & Card Strip)
+   ========================================================================== */
+
+.phase3-sea-container {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-gallery-sea-ui);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 5.5rem 0 2rem 0;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.sea-headline-block {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  pointer-events: auto;
+}
+
+.sea-title-kicker {
+  font-size: 0.85rem;
+  letter-spacing: 0.3em;
+  color: #fde047;
+  text-transform: uppercase;
+  font-family: var(--font-display, "Noto Serif SC", serif);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.sea-title-main {
+  font-family: var(--font-display, "Noto Serif SC", serif);
+  font-size: clamp(2rem, 3.8vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #ffffff;
+  margin: 0 0 0.75rem 0;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.9);
+}
+
+.sea-title-desc {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #d8b4fe;
+  margin: 0 auto;
+  max-width: 480px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+/* 角色卡片带 (Floating Character Strip) */
+.gallery-strip-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+  padding: 1.5rem 0 3.5rem 0;
+  pointer-events: auto;
+}
+
+.gallery-strip-track {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0 6vw;
+  width: max-content;
+  will-change: transform;
+}
+
+/* 彩色仙玉卡牌样式 (Mythic Gem Cards) */
+.strip-character-card {
+  position: relative;
+  width: 220px;
+  padding: 1rem;
+  border-radius: 16px;
+  background: var(--gallery-paper-card);
+  backdrop-filter: blur(14px) saturate(1.15);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.12), 0 18px 36px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-sizing: border-box;
+  cursor: pointer;
+  transform-origin: center bottom;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.strip-character-card:hover {
+  transform: translateY(-4px) rotate(0deg) !important;
+  border-color: rgba(251, 191, 36, 0.6);
+  box-shadow: 0 22px 42px rgba(0, 0, 0, 0.75);
+}
+
+.strip-character-card:focus-visible {
+  outline: 2px solid #facc15;
+  outline-offset: 2px;
+}
+
+/* 阵营边框与主题色 */
+.faction-mythic {
+  border-color: rgba(245, 158, 11, 0.4);
+  background: linear-gradient(180deg, rgba(245, 158, 11, 0.08) 0%, rgba(20, 14, 34, 0.8) 100%);
+}
+
+.faction-immortal {
+  border-color: rgba(20, 184, 166, 0.4);
+  background: linear-gradient(180deg, rgba(20, 184, 166, 0.08) 0%, rgba(20, 14, 34, 0.8) 100%);
+}
+
+.faction-mortal {
+  border-color: rgba(244, 63, 94, 0.4);
+  background: linear-gradient(180deg, rgba(244, 63, 94, 0.08) 0%, rgba(20, 14, 34, 0.8) 100%);
+}
+
+.faction-fantasy {
+  border-color: rgba(168, 85, 247, 0.4);
+  background: linear-gradient(180deg, rgba(168, 85, 247, 0.08) 0%, rgba(20, 14, 34, 0.8) 100%);
+}
+
+.strip-card-img-wrap {
+  position: relative;
+  width: 100%;
+  height: 150px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+  background: #181126;
+}
+
+.strip-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.strip-character-card:hover .strip-card-img {
+  transform: scale(1.06);
+}
+
+.strip-card-badge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  font-size: 0.675rem;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #fef08a;
+  border: 1px solid rgba(254, 240, 138, 0.3);
+}
+
+.strip-card-name {
+  font-family: var(--font-display, "Noto Serif SC", serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.25rem 0;
+}
+
+.strip-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #cbd5e1;
+  margin-bottom: 0.5rem;
+}
+
+.strip-card-power {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.strip-card-power strong {
+  color: #f59e0b;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.875rem;
+}
+
+/* ==========================================================================
+   底栏控件与自动重放 (Bottom Bar & Controls)
+   ========================================================================== */
+
+.gallery-bottom-bar {
+  position: relative;
+  z-index: var(--z-gallery-controls);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 2.5rem 1.2rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.gallery-replay-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1rem;
+  border-radius: 20px;
+  background: rgba(22, 16, 36, 0.7);
+  border: 1px solid var(--gallery-gold-border);
+  color: #f3efe6;
+  font-size: 0.825rem;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: all 0.2s ease;
+}
+
+.gallery-replay-btn:hover {
+  background: rgba(45, 30, 75, 0.8);
+  border-color: rgba(251, 191, 36, 0.5);
+  color: #fde047;
+}
+
+.gallery-progress-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: #a78bfa;
+}
+
+.gallery-progress-bar-wrap {
+  width: 120px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.gallery-progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #c084fc, #fbbf24);
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+
+/* ==========================================================================
+   响应式断点 (Responsive Rules)
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+  .phase1-intro-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 4.5rem 5vw 2rem;
+    align-content: center;
+  }
+
+  .intro-headline {
+    font-size: 2.5rem;
+  }
+
+  .hero-cards-deck {
+    height: 280px;
+    justify-content: center;
+  }
+
+  .hero-glass-card {
+    width: 200px;
+    padding: 1rem;
+  }
+
+  .hero-card-1 { right: auto; left: 10%; top: 0; }
+  .hero-card-2 { right: auto; left: 35%; top: 20px; }
+  .hero-card-3 { right: auto; left: 60%; top: 40px; }
+
+  .gallery-header, .gallery-bottom-bar {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .gallery-nav-right .gallery-nav-link {
+    display: none;
+  }
+
+  .intro-headline {
+    font-size: 2rem;
+  }
+
+  .intro-desc {
+    font-size: 0.9rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-cards-deck {
+    display: none;
+  }
+
+  .phase1-intro-container {
+    padding: 4rem 1.25rem 2rem;
+  }
+
+  .sea-title-main {
+    font-size: 1.8rem;
+  }
+
+  .strip-character-card {
+    width: 180px;
+    padding: 0.75rem;
+  }
+
+  .strip-card-img-wrap {
+    height: 120px;
+  }
+}
+
+/* ==========================================================================
+   无障碍：减弱动态效果 (prefers-reduced-motion)
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .layer-cave,
+  .layer-sky,
+  .gallery-strip-track,
+  .cloud-mist-svg {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .gallery-scroll-track {
+    height: auto !important;
+  }
+
+  .gallery-sticky-viewport {
+    position: relative !important;
+    height: auto !important;
+    min-height: 100vh;
+  }
+
+  .phase1-intro-container,
+  .phase3-sea-container {
+    position: relative !important;
+    opacity: 1 !important;
+    transform: none !important;
+    pointer-events: auto !important;
+  }
+}

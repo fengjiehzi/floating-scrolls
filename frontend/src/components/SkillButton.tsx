@@ -10,11 +10,11 @@ interface SkillButtonProps {
 }
 
 const skillTypeColors = {
-  attack: 'from-red-600 to-red-800 hover:from-red-500 hover:to-red-700',
-  defense: 'from-blue-600 to-blue-800 hover:from-blue-500 hover:to-blue-700',
-  heal: 'from-green-600 to-green-800 hover:from-green-500 hover:to-green-700',
-  buff: 'from-purple-600 to-purple-800 hover:from-purple-500 hover:to-purple-700',
-  debuff: 'from-orange-600 to-orange-800 hover:from-orange-500 hover:to-orange-700',
+  attack: 'skill-attack',
+  defense: 'skill-defense',
+  heal: 'skill-heal',
+  buff: 'skill-buff',
+  debuff: 'skill-debuff',
 }
 
 export function SkillButton({ skill, onClick, disabled, isOnCooldown, cooldownRemaining }: SkillButtonProps) {
@@ -35,26 +35,22 @@ export function SkillButton({ skill, onClick, disabled, isOnCooldown, cooldownRe
     <button
       onClick={onClick}
       disabled={isDisabled}
-      className={`relative px-4 py-3 rounded-lg font-bold text-sm transition-all duration-200 transform ${
-        isDisabled
-          ? 'bg-gray-700 text-gray-500 cursor-not-allowed scale-100'
-          : `bg-gradient-to-r ${skillTypeColors[skill.type]} text-white hover:scale-105 active:scale-95`
-      }`}
+      className={`skill-button ${skillTypeColors[skill.type]}`}
     >
       {isOnCooldown || cooldown > 0 ? (
         <>
-          <span className="relative z-10">{cooldown}</span>
+          <span className="skill-button-label">冷却 {cooldown}</span>
           <div
-            className="absolute inset-0 bg-black/60 rounded-lg"
+            className="skill-cooldown"
             style={{
               clipPath: `inset(${((skill.cooldown - cooldown) / skill.cooldown) * 100}% 0 0 0)`,
             }}
           />
         </>
       ) : (
-        <span>{skill.name}</span>
+        <span className="skill-button-label">{skill.name}</span>
       )}
-      <span className="block text-xs opacity-70">{skill.damage} 伤害</span>
+      <span className="skill-button-meta">{skill.damage > 0 ? `${skill.damage} 伤害` : skill.description}</span>
     </button>
   )
 }

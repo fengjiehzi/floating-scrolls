@@ -4,8 +4,22 @@ export interface CharacterStats {
   health: number
   maxHealth: number
   speed: number
-  critRate: number
-  critDamage: number
+  intelligence: number
+  specialAbility: number
+  mana: number
+  maxMana: number
+  critRate?: number
+  critDamage?: number
+}
+
+export interface CharacterSkill {
+  id: string
+  name: string
+  type: string
+  description: string
+  multiplier: number
+  manaCost: number
+  narration: string
 }
 
 export interface CharacterForm {
@@ -24,8 +38,11 @@ export interface Character {
   description: string
   avatar: string
   stats: CharacterStats
+  skills: CharacterSkill[]
   forms: CharacterForm[]
   currentFormIndex: number
   rarity: 'common' | 'rare' | 'epic' | 'legendary'
-  type: 'myth' | 'human' | 'spirit' | 'demon'
+  grade: 'S' | 'A' | 'B' | 'C'
+  combatPower: number
+  type?: 'myth' | 'human' | 'spirit' | 'demon'
 }

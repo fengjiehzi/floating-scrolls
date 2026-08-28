@@ -1,224 +1,174 @@
-import { useState } from 'react'
-import { BookOpen, Play, RotateCcw, Sparkles } from 'lucide-react'
-import { Loading } from '@/components/Loading'
+import { useEffect, useRef, useState } from 'react'
+import { BookOpen, ChevronRight, Clapperboard, Lightbulb, ListTree, MapPin, RotateCcw, Sparkles, Users, X } from 'lucide-react'
+import { PageState } from '@/components/PageState'
 import { useGameStore } from '@/store/gameStore'
-import type { StoryNode, StoryChoice } from '@/types'
+
+interface DemoStoryNode {
+  id: string
+  chapter: number
+  title: string
+  speaker: string
+  text: string
+  choices?: Array<{ id: string; text: string; next: string; tone: 'gold' | 'jade' | 'red' }>
+  ending?: boolean
+}
+
+const storyNodes: Record<string, DemoStoryNode> = {
+  intro: {
+    id: 'intro', chapter: 1, title: '墨夜开卷', speaker: '旁白',
+    text: '夜雨叩窗，你在藏经阁最深处发现一册无名古卷。封面没有题字，只有一枚尚未干透的朱砂指印。指尖触及纸面时，远处忽然传来金铁交鸣，书页间浮出一行小字：入卷者，可改一人命数。',
+    choices: [
+      { id: 'open', text: '揭开朱砂封印，进入书中', next: 'city', tone: 'gold' },
+      { id: 'listen', text: '先循着金铁之声寻找线索', next: 'clue', tone: 'jade' },
+      { id: 'leave', text: '合上古卷，尝试离开藏经阁', next: 'sealed', tone: 'red' },
+    ],
+  },
+  city: {
+    id: 'city', chapter: 2, title: '长安异闻', speaker: '守卷人',
+    text: '墨色漫过视野。再睁眼时，你已立在长安城外，城门上的铜钉正一颗颗渗出金光。守卷人说，今夜有一位不属于此书的人物闯入城中；若不能在子时前找到他，两部典籍的命数都会纠缠在一起。',
+    choices: [
+      { id: 'gate', text: '查看城门留下的金色划痕', next: 'ending', tone: 'jade' },
+      { id: 'market', text: '前往西市打听陌生人的去向', next: 'ending', tone: 'gold' },
+    ],
+  },
+  clue: {
+    id: 'clue', chapter: 2, title: '残页低语', speaker: '神秘声音',
+    text: '声音来自书架背后。你抽出一页残纸，上面画着一根直指云端的铁棒，旁边却写着“三顾茅庐”四字。两个世界已开始重叠，而残页边缘的墨迹仍在向同一个名字聚拢。',
+    choices: [
+      { id: 'name', text: '读出墨迹聚成的名字', next: 'ending', tone: 'gold' },
+      { id: 'burn', text: '用灯火烧掉这张错乱的残页', next: 'sealed', tone: 'red' },
+    ],
+  },
+  sealed: {
+    id: 'sealed', chapter: 2, title: '无门可退', speaker: '守卷人',
+    text: '门没有打开。整座藏经阁像一页被折起的纸，四壁向中间缓慢合拢。你终于明白，拒绝选择本身也会成为命运的一笔。朱砂印重新浮在掌心，等待你作出决定。',
+    choices: [{ id: 'return', text: '回到卷首，重新选择', next: 'intro', tone: 'gold' }],
+  },
+  ending: {
+    id: 'ending', chapter: 3, title: '异客现身', speaker: '旁白',
+    text: '鼓声三响，长街尽头的雾被一道金光劈开。那位异客终于回头，身后的影子却同时属于两部典籍。你记下了他的名字，也因此获得改写下一章的资格。第一卷在晨光中缓缓合上。',
+    ending: true,
+  },
+}
 
 export function StoryView() {
-  const { characters, setCurrentView } = useGameStore()
+  const { characters } = useGameStore()
+  const [started, setStarted] = useState(false)
+  const [nodeId, setNodeId] = useState('intro')
   const [isGenerating, setIsGenerating] = useState(false)
-  const [currentNode, setCurrentNode] = useState<StoryNode | null>(null)
-  const [storyHistory, setStoryHistory] = useState<string[]>([])
+  const [history, setHistory] = useState<string[]>([])
+  const [drawer, setDrawer] = useState<'chapters' | 'context' | null>(null)
+  const timerRef = useRef<number | null>(null)
+  const node = storyNodes[nodeId]
 
-  const generateStory = async () => {
-    setIsGenerating(true)
-    
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+  useEffect(() => () => {
+    if (timerRef.current) window.clearTimeout(timerRef.current)
+  }, [])
 
-    const sampleNode: StoryNode = {
-      id: '1',
-      text: '夜幕降临，你走进了一座古老的藏书阁。书架上的古籍散发出淡淡的光芒，仿佛在诉说着千年的故事。突然，一本名为《万卷浮生》的古书从书架上掉落下来，书页自动翻开，露出了一行字："有缘人，你终于来了..."',
-      character: '神秘声音',
-      isEnding: false,
-      choices: [
-        { id: '1', text: '拿起古书，仔细阅读', nextNodeId: '2' },
-        { id: '2', text: '环顾四周，寻找声音的来源', nextNodeId: '3' },
-        { id: '3', text: '转身离开，假装什么都没发生', nextNodeId: '4' },
-      ],
+  useEffect(() => {
+    if (!drawer) return
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setDrawer(null)
     }
+    document.addEventListener('keydown', closeOnEscape)
+    return () => document.removeEventListener('keydown', closeOnEscape)
+  }, [drawer])
 
-    setCurrentNode(sampleNode)
-    setStoryHistory([sampleNode.text])
-    setIsGenerating(false)
+  const choose = (choice: NonNullable<DemoStoryNode['choices']>[number]) => {
+    setIsGenerating(true)
+    setHistory((current) => [...current, choice.text])
+    timerRef.current = window.setTimeout(() => {
+      setNodeId(choice.next)
+      setIsGenerating(false)
+      setDrawer(null)
+    }, 620)
   }
 
-  const handleChoice = async (choice: StoryChoice) => {
-    if (!currentNode) return
-
-    setIsGenerating(true)
-
-    await new Promise((resolve) => setTimeout(resolve, 1500))
-
-    const nextNodes: Record<string, StoryNode> = {
-      '2': {
-        id: '2',
-        text: '当你的手指触碰到书页的那一刻，一道金光闪过，你发现自己穿越到了书中的世界。眼前是一座宏伟的古代城池，城门上写着"长安"二字。街上人来人往，热闹非凡。',
-        character: '旁白',
-        isEnding: false,
-        choices: [
-          { id: '4', text: '走进城池，探索这个世界', nextNodeId: '5' },
-          { id: '5', text: '寻找回去的方法', nextNodeId: '6' },
-        ],
-      },
-      '3': {
-        id: '3',
-        text: '你仔细观察四周，发现书架后面有一道微弱的光芒。走近一看，原来是一位白发苍苍的老者，他手中拿着一盏古老的油灯。"年轻人，你能看到我，说明你是被选中的人。"老者缓缓说道。',
-        character: '神秘老者',
-        isEnding: false,
-        choices: [
-          { id: '6', text: '询问老者关于这座藏书阁的秘密', nextNodeId: '5' },
-          { id: '7', text: '请求老者送你回去', nextNodeId: '6' },
-        ],
-      },
-      '4': {
-        id: '4',
-        text: '你转身准备离开，但无论怎么走，都无法找到出口。身后传来一阵轻笑："既然来了，就别急着走嘛..." 你回头一看，发现整个藏书阁已经变了模样，书架变成了参天大树，书本变成了飞舞的蝴蝶。',
-        character: '神秘声音',
-        isEnding: false,
-        choices: [
-          { id: '8', text: '接受现实，开始探索', nextNodeId: '5' },
-          { id: '9', text: '大声呼救', nextNodeId: '6' },
-        ],
-      },
-      '5': {
-        id: '5',
-        text: '你决定勇敢地探索这个神秘的世界。在你的旅途中，你遇到了许多传奇人物——孙悟空的金箍棒在月光下闪烁，诸葛亮的羽扇轻摇，林黛玉的眼泪化作珍珠。你逐渐发现，这些角色似乎都在等待着你的到来。',
-        character: '旁白',
-        isEnding: false,
-        choices: [
-          { id: '10', text: '继续探索，揭开更多秘密', nextNodeId: '7' },
-          { id: '11', text: '选择一位角色，开始冒险', nextNodeId: '7' },
-        ],
-      },
-      '6': {
-        id: '6',
-        text: '"回去？"老者微微一笑，"你来的时候，你的世界就已经改变了。看看你的手掌，那里已经有了书卷的印记。你已经成为了万卷浮生的一部分..."',
-        character: '神秘老者',
-        isEnding: true,
-      },
-      '7': {
-        id: '7',
-        text: '恭喜你！你已经完成了这段奇幻之旅的第一章。在万卷浮生的世界里，每一个选择都将开启新的故事。未来的冒险正等待着你...',
-        character: '旁白',
-        isEnding: true,
-      },
-    }
-
-    const nextNode = nextNodes[choice.nextNodeId]
-    if (nextNode) {
-      setCurrentNode(nextNode)
-      setStoryHistory([...storyHistory, choice.text, nextNode.text])
-    }
-
+  const reset = () => {
+    if (timerRef.current) window.clearTimeout(timerRef.current)
+    setNodeId('intro')
+    setHistory([])
     setIsGenerating(false)
+    setStarted(false)
   }
 
-  const resetStory = () => {
-    setCurrentNode(null)
-    setStoryHistory([])
+  if (!started) {
+    return (
+      <main className="page-shell story-entry-page">
+        <div className="page-container">
+          <header className="page-header">
+            <div><span className="section-kicker">本地剧情演示</span><h1 className="page-title">浮生录</h1><p className="page-lead">让典籍人物走入同一页故事，每次选择都会留下新的墨迹。</p></div>
+          </header>
+          <section className="story-threshold panel">
+            <div className="story-sigil"><BookOpen aria-hidden="true" /><Sparkles aria-hidden="true" /></div>
+            <div><span className="section-kicker">卷一待启</span><h2>墨夜藏卷</h2><p>当前使用确定性的本地章节，不调用需要认证的 AI 剧情接口。</p></div>
+            <div className="story-threshold-action"><span>{characters.length > 0 ? `${characters.length} 位角色可作为故事线索` : '离线时仍可阅读演示章节'}</span><button type="button" className="button-primary" onClick={() => setStarted(true)}>展开第一卷<ChevronRight aria-hidden="true" /></button></div>
+          </section>
+        </div>
+      </main>
+    )
   }
 
   return (
-    <div className="min-h-screen p-4 md:p-8">
-      <div className="max-w-3xl mx-auto">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-gradient-gold mb-2">剧情生成</h1>
-            <p className="text-text-secondary">开启属于你的传奇故事</p>
-          </div>
-          <button
-            onClick={() => setCurrentView('welcome')}
-            className="flex items-center gap-2 px-4 py-2 bg-bg-secondary border border-text-muted/30 rounded-lg text-text-secondary hover:text-text-primary transition-colors"
-          >
-            <BookOpen className="w-5 h-5" />
-            <span>返回主页</span>
-          </button>
+    <main className="story-reader">
+      <header className="story-reader-topbar">
+        <div><span className="section-kicker">浮生录 · 本地演示</span><strong>{node.title}</strong></div>
+        <div className="story-mobile-tools">
+          <button type="button" onClick={() => setDrawer('chapters')}><ListTree aria-hidden="true" />章节</button>
+          <button type="button" onClick={() => setDrawer('context')}><Lightbulb aria-hidden="true" />线索</button>
         </div>
+        <button type="button" className="story-reset" onClick={reset}><RotateCcw aria-hidden="true" />重新起卷</button>
+      </header>
 
-        {!currentNode ? (
-          <div className="flex flex-col items-center justify-center py-20">
-            <div className="relative mb-8">
-              <BookOpen className="w-24 h-24 text-gradient-gold animate-float" />
-              <Sparkles className="absolute -top-2 -right-2 w-8 h-8 text-accent-gold animate-pulse" />
-            </div>
-            <h2 className="text-2xl font-bold text-text-primary mb-4">选择你的故事起点</h2>
-            <p className="text-text-secondary mb-8 text-center max-w-md">
-              从你收集的角色中选择，AI将为你生成独特的剧情故事
-            </p>
-            <button
-              onClick={generateStory}
-              disabled={characters.length === 0}
-              className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-accent-gold/20 to-border-gold/20 border-2 border-border-gold rounded-xl font-bold text-lg text-accent-gold disabled:opacity-50 disabled:cursor-not-allowed hover:from-accent-gold/30 hover:to-border-gold/30 hover:shadow-lg hover:shadow-accent-gold/20 transition-all duration-300 transform hover:scale-105 active:scale-95"
-            >
-              <Play className="w-6 h-6" />
-              <span>开始故事</span>
-            </button>
-            {characters.length === 0 && (
-              <p className="mt-4 text-text-muted text-sm">请先从书库提取角色</p>
-            )}
-          </div>
-        ) : (
-          <div className="space-y-6">
-            <div className="bg-gradient-card border border-border-gold/30 rounded-xl p-6 card-shadow">
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-sm text-text-muted">{currentNode.character}</span>
-                <button
-                  onClick={resetStory}
-                  className="flex items-center gap-1 text-xs text-text-muted hover:text-text-secondary transition-colors"
-                >
-                  <RotateCcw className="w-3 h-3" />
-                  <span>重新开始</span>
-                </button>
-              </div>
-              <div className="prose prose-invert max-w-none">
-                <p className="text-lg text-text-primary leading-relaxed whitespace-pre-line">
-                  {currentNode.text}
-                </p>
-              </div>
-            </div>
+      <div className="story-reader-layout">
+        <aside className={`story-chapters${drawer === 'chapters' ? ' is-open' : ''}`} aria-label="章节卷轴">
+          <button type="button" className="drawer-close" onClick={() => setDrawer(null)} aria-label="关闭章节"><X /></button>
+          <span className="section-kicker">章节</span>
+          <ol>
+            {[1, 2, 3].map((chapter) => (
+              <li key={chapter} className={node.chapter === chapter ? 'is-active' : node.chapter > chapter ? 'is-complete' : ''}>
+                <span>{String(chapter).padStart(2, '0')}</span>
+                <div><strong>{chapter === 1 ? '墨夜开卷' : chapter === 2 ? '长安异闻' : '异客现身'}</strong><small>{node.chapter > chapter ? '已阅' : node.chapter === chapter ? '当前' : '未解锁'}</small></div>
+              </li>
+            ))}
+          </ol>
+          <div className="story-history-compact"><span>你的选择</span>{history.length > 0 ? history.map((choice, index) => <p key={`${choice}-${index}`}>{choice}</p>) : <p>尚未落笔</p>}</div>
+        </aside>
 
-            {isGenerating && (
-              <div className="flex justify-center py-8">
-                <Loading message="正在生成剧情..." />
-              </div>
-            )}
+        <article className="story-manuscript">
+          {isGenerating ? (
+            <PageState kind="loading" title="墨迹正在续写下一页…" />
+          ) : (
+            <>
+              <header><span>卷 {node.chapter}</span><h1>{node.title}</h1><p>{node.speaker}</p></header>
+              <p className="story-prose">{node.text}</p>
+              {node.ending ? (
+                <div className="story-ending"><Sparkles aria-hidden="true" /><h2>第一卷已合</h2><p>下一段命数将在新的选择中展开。</p><button type="button" className="button-primary" onClick={reset}>重开一卷</button></div>
+              ) : (
+                <section className="story-choice-list" aria-labelledby="story-choices-title">
+                  <div className="story-section-heading"><span>抉择</span><h2 id="story-choices-title">下一笔如何落下</h2></div>
+                  {node.choices?.map((choice, index) => (
+                    <button key={choice.id} type="button" className={`story-choice tone-${choice.tone}`} onClick={() => choose(choice)}>
+                      <span>{String(index + 1).padStart(2, '0')}</span><strong>{choice.text}</strong><ChevronRight aria-hidden="true" />
+                    </button>
+                  ))}
+                </section>
+              )}
+              <footer>第 {node.chapter} 章 · 墨夜藏卷</footer>
+            </>
+          )}
+        </article>
 
-            {!isGenerating && !currentNode.isEnding && currentNode.choices && (
-              <div className="space-y-3">
-                <h3 className="text-lg font-bold text-text-primary">你的选择</h3>
-                {currentNode.choices.map((choice) => (
-                  <button
-                    key={choice.id}
-                    onClick={() => handleChoice(choice)}
-                    className="w-full p-4 bg-bg-secondary border border-text-muted/30 rounded-xl text-left hover:border-border-gold/50 hover:bg-bg-card transition-all duration-200 group"
-                  >
-                    <span className="text-text-primary group-hover:text-gradient-gold transition-colors">
-                      {choice.text}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            )}
-
-            {!isGenerating && currentNode.isEnding && (
-              <div className="flex justify-center">
-                <button
-                  onClick={resetStory}
-                  className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-accent-gold/20 to-border-gold/20 border border-border-gold rounded-lg text-accent-gold hover:from-accent-gold/30 hover:to-border-gold/30 transition-all"
-                >
-                  <RotateCcw className="w-5 h-5" />
-                  <span>重新开始</span>
-                </button>
-              </div>
-            )}
-
-            <div className="bg-bg-secondary rounded-xl p-4">
-              <h3 className="text-sm font-bold text-text-muted mb-2">故事记录</h3>
-              <div className="h-32 overflow-y-auto space-y-2">
-                {storyHistory.map((text, index) => (
-                  <div key={index} className="text-sm text-text-secondary">
-                    {index % 2 === 0 ? (
-                      <span className="text-text-primary">{text}</span>
-                    ) : (
-                      <span className="text-accent-gold">→ {text}</span>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
+        <aside className={`story-context${drawer === 'context' ? ' is-open' : ''}`} aria-label="剧情信息">
+          <button type="button" className="drawer-close" onClick={() => setDrawer(null)} aria-label="关闭线索"><X /></button>
+          <section><div className="story-aside-heading"><Users aria-hidden="true" /><h2>当前角色</h2></div><div className="story-character-list">{characters.slice(0, 3).map((character) => <span key={character.id}>{character.name}<small>{character.originBook}</small></span>)}{characters.length === 0 && <span>守卷人<small>本地演示</small></span>}</div></section>
+          <section><div className="story-aside-heading"><Lightbulb aria-hidden="true" /><h2>线索</h2></div><ul><li>未干的朱砂指印</li><li>跨越典籍的金铁之声</li><li>正在聚拢的墨迹</li></ul></section>
+          <section><div className="story-aside-heading"><MapPin aria-hidden="true" /><h2>当前目标</h2></div><p>在子时前确认异客身份，并避免两部典籍的命数彻底重叠。</p></section>
+          <section className="story-ai-note"><Clapperboard aria-hidden="true" /><div><strong>演示状态</strong><span>剧情内容来自本地固定节点。</span></div></section>
+        </aside>
       </div>
-    </div>
+
+      {drawer && <button type="button" className="drawer-scrim" onClick={() => setDrawer(null)} aria-label="关闭抽屉" />}
+    </main>
   )
 }
