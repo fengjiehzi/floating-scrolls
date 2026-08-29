@@ -1,0 +1,31 @@
+- generic [ref=e3]:
+  - complementary "主要导航" [ref=e4]:
+    - button "返回万卷浮生首页" [ref=e5]:
+      - generic [ref=e9]: 万卷
+    - generic [ref=e10]:
+      - button "书库" [ref=e11]
+      - button "角色" [ref=e15]
+      - button "战斗" [ref=e22]
+      - button "剧情" [ref=e33]
+    - button "设置" [ref=e39]
+  - main [ref=e45]:
+    - generic [ref=e46]:
+      - generic [ref=e47]:
+        - generic [ref=e48]:
+          - heading "角色对决" [level=1] [ref=e49]
+          - paragraph [ref=e50]: 从已收录的角色中择定双方，开始一场回合战斗。
+        - button "返回卷首" [ref=e51]
+      - generic [ref=e54]:
+        - region [ref=e55]:
+          - generic [ref=e57]:
+            - heading "择定我方" [level=2] [ref=e58]
+            - paragraph [ref=e59]: 选择出战角色
+          - generic [ref=e62]: 请先前往书库提取角色。
+        - region [ref=e64]:
+          - generic [ref=e66]:
+            - heading "择定敌手" [level=2] [ref=e67]
+            - paragraph [ref=e68]: 选择挑战对象
+          - generic [ref=e78]: 尚无可挑战角色。
+      - generic [ref=e80]:
+        - generic [ref=e81]: 双方角色就位后方可开战
+        - button "开始战斗" [disabled] [ref=e82]

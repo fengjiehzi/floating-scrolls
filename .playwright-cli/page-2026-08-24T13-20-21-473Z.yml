@@ -1,0 +1,56 @@
+- generic [ref=e3]:
+  - main [ref=e2215]:
+    - generic [ref=e2216]:
+      - generic [ref=e2217]: 万卷浮生 · 战报
+      - button "返回卷首" [ref=e2221]
+    - generic [ref=e2225]:
+      - generic [ref=e2226]:
+        - generic [ref=e2234]: 本场结局
+        - heading "大捷" [level=1] [ref=e2235]
+        - paragraph [ref=e2236]: 孙悟空 击败了 赵云
+      - generic [ref=e2237]:
+        - generic [ref=e2238]:
+          - generic [ref=e2239]:
+            - generic [ref=e2240]: 数
+            - heading "战斗统计" [level=2] [ref=e2241]
+          - generic [ref=e2242]:
+            - generic [ref=e2243]:
+              - term [ref=e2244]: 造成伤害
+              - definition [ref=e2245]: "1016"
+            - generic [ref=e2246]:
+              - term [ref=e2247]: 承受伤害
+              - definition [ref=e2248]: "721"
+            - generic [ref=e2249]:
+              - term [ref=e2250]: 治疗量
+              - definition [ref=e2251]: "29"
+            - generic [ref=e2252]:
+              - term [ref=e2253]: 总回合
+              - definition [ref=e2254]: "12"
+        - generic [ref=e2255]:
+          - generic [ref=e2256]:
+            - generic [ref=e2257]: 记
+            - heading "关键回合" [level=2] [ref=e2258]
+          - list [ref=e2259]:
+            - listitem [ref=e2260]:
+              - paragraph [ref=e2265]: 第 11 回合开始。
+            - listitem [ref=e2266]:
+              - paragraph [ref=e2277]: 孙悟空 使用 如意金箍棒·砸，造成 105 点伤害。
+            - listitem [ref=e2278]:
+              - paragraph [ref=e2289]: 赵云 使用 普通攻击，造成 86 点暴击伤害。
+            - listitem [ref=e2290]:
+              - paragraph [ref=e2295]: 第 12 回合开始。
+            - listitem [ref=e2296]:
+              - paragraph [ref=e2307]: 孙悟空 使用 普通攻击，造成 105 点暴击伤害。
+            - listitem [ref=e2308]:
+              - paragraph [ref=e2313]: 赵云 被击败。
+      - generic [ref=e2314]:
+        - generic [ref=e2318]:
+          - text: 本场收获
+          - heading "经验 +216" [level=2] [ref=e2319]
+        - paragraph [ref=e2320]: 获得：残卷墨印
+      - generic [ref=e2321]:
+        - button "再次挑战" [ref=e2322]
+        - button "返回角色库" [ref=e2326]
+        - button "生成战报图" [active] [ref=e2330]
+  - status [ref=e2335]:
+    - generic [ref=e2339]: 战报图片已生成

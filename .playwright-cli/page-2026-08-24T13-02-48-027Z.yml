@@ -1,0 +1,480 @@
+- generic [ref=e3]:
+  - complementary "主要导航" [ref=e4]:
+    - button "返回万卷浮生首页" [ref=e5]:
+      - generic [ref=e9]: 万卷
+    - generic [ref=e10]:
+      - button "书库" [ref=e11]
+      - button "角色 9+" [ref=e77]:
+        - generic [ref=e21]: 角色
+        - generic [ref=e78]: 9+
+      - button "法宝" [ref=e22]
+      - button "战斗" [ref=e28]
+      - button "剧情" [ref=e39]
+    - button "设置" [ref=e45]
+  - main [ref=e51]:
+    - generic [ref=e52]:
+      - generic [ref=e53]:
+        - generic [ref=e54]:
+          - text: 器藏万象
+          - heading "法宝库" [level=1] [ref=e55]
+          - paragraph [ref=e56]: 浏览典籍中的兵刃、护具与法器，查看出处、稀有度和属性加成。
+        - generic [ref=e57]:
+          - strong [ref=e58]: "31"
+          - generic [ref=e59]: 件法宝
+      - region "法宝筛选" [ref=e60]:
+        - generic [ref=e61]:
+          - generic [ref=e65]: 搜索法宝
+          - textbox "搜索法宝" [ref=e66]:
+            - /placeholder: 按名称或出处检索
+        - generic [ref=e67]:
+          - combobox "按出处筛选" [ref=e69]:
+            - option "全部出处" [selected]
+            - option "西游记"
+            - option "三国演义"
+            - option "水浒传"
+            - option "红楼梦"
+            - option "封神演义"
+          - combobox "按类型筛选" [ref=e70]:
+            - option "全部类型" [selected]
+            - option "weapon"
+            - option "accessory"
+            - option "consumable"
+          - combobox "按稀有度筛选" [ref=e71]:
+            - option "全部稀有度" [selected]
+            - option "传说"
+            - option "史诗"
+            - option "稀有"
+            - option "普通"
+      - generic [ref=e79]:
+        - button "如意金箍棒 传说 如意金箍棒 西游记 兵刃 属性加成" [ref=e80]:
+          - generic [ref=e81]:
+            - img "如意金箍棒" [ref=e85]
+            - generic [ref=e86]: 传说
+          - generic [ref=e87]:
+            - generic [ref=e88]:
+              - generic [ref=e89]:
+                - heading "如意金箍棒" [level=3] [ref=e90]
+                - paragraph [ref=e91]: 西游记
+              - generic [ref=e92]: 兵刃
+            - generic "属性加成" [ref=e93]:
+              - generic [ref=e94]: "+15"
+              - generic [ref=e104]: "+5"
+        - button "九环锡杖 史诗 九环锡杖 西游记 兵刃 属性加成" [ref=e107]:
+          - generic [ref=e108]:
+            - img "九环锡杖" [ref=e112]
+            - generic [ref=e113]: 史诗
+          - generic [ref=e114]:
+            - generic [ref=e115]:
+              - generic [ref=e116]:
+                - heading "九环锡杖" [level=3] [ref=e117]
+                - paragraph [ref=e118]: 西游记
+              - generic [ref=e119]: 兵刃
+            - generic "属性加成" [ref=e120]:
+              - generic [ref=e121]: "+5"
+              - generic [ref=e131]: "+12"
+        - button "九齿钉耙 史诗 九齿钉耙 西游记 兵刃 属性加成" [ref=e134]:
+          - generic [ref=e135]:
+            - img "九齿钉耙" [ref=e139]
+            - generic [ref=e140]: 史诗
+          - generic [ref=e141]:
+            - generic [ref=e142]:
+              - generic [ref=e143]:
+                - heading "九齿钉耙" [level=3] [ref=e144]
+                - paragraph [ref=e145]: 西游记
+              - generic [ref=e146]: 兵刃
+            - generic "属性加成" [ref=e147]:
+              - generic [ref=e148]: "+12"
+              - generic [ref=e158]: "+8"
+        - button "紧箍咒 传说 紧箍咒 西游记 佩饰 属性加成" [ref=e161]:
+          - generic [ref=e162]:
+            - img "紧箍咒" [ref=e166]
+            - generic [ref=e167]: 传说
+          - generic [ref=e168]:
+            - generic [ref=e169]:
+              - generic [ref=e170]:
+                - heading "紧箍咒" [level=3] [ref=e171]
+                - paragraph [ref=e172]: 西游记
+              - generic [ref=e173]: 佩饰
+            - generic "属性加成" [ref=e174]:
+              - generic [ref=e175]: "+10"
+              - generic [ref=e185]: "+15"
+        - button "通关文牒 稀有 通关文牒 西游记 consumable 属性加成" [ref=e188]:
+          - generic [ref=e189]:
+            - img "通关文牒" [ref=e193]
+            - generic [ref=e194]: 稀有
+          - generic [ref=e195]:
+            - generic [ref=e196]:
+              - generic [ref=e197]:
+                - heading "通关文牒" [level=3] [ref=e198]
+                - paragraph [ref=e199]: 西游记
+              - generic [ref=e200]: consumable
+            - generic "属性加成" [ref=e201]:
+              - generic [ref=e202]: "+8"
+              - generic [ref=e212]: "+5"
+        - button "青龙偃月刀 传说 青龙偃月刀 三国演义 兵刃 属性加成" [ref=e215]:
+          - generic [ref=e216]:
+            - img "青龙偃月刀" [ref=e220]
+            - generic [ref=e221]: 传说
+          - generic [ref=e222]:
+            - generic [ref=e223]:
+              - generic [ref=e224]:
+                - heading "青龙偃月刀" [level=3] [ref=e225]
+                - paragraph [ref=e226]: 三国演义
+              - generic [ref=e227]: 兵刃
+            - generic "属性加成" [ref=e228]:
+              - generic [ref=e229]: "+18"
+              - generic [ref=e239]: "+5"
+        - button "羽扇 史诗 羽扇 三国演义 佩饰 属性加成" [ref=e242]:
+          - generic [ref=e243]:
+            - img "羽扇" [ref=e247]
+            - generic [ref=e248]: 史诗
+          - generic [ref=e249]:
+            - generic [ref=e250]:
+              - generic [ref=e251]:
+                - heading "羽扇" [level=3] [ref=e252]
+                - paragraph [ref=e253]: 三国演义
+              - generic [ref=e254]: 佩饰
+            - generic "属性加成" [ref=e255]:
+              - generic [ref=e256]: "+15"
+              - generic [ref=e266]: "+8"
+        - button "双股剑 史诗 双股剑 三国演义 兵刃 属性加成" [ref=e269]:
+          - generic [ref=e270]:
+            - img "双股剑" [ref=e274]
+            - generic [ref=e275]: 史诗
+          - generic [ref=e276]:
+            - generic [ref=e277]:
+              - generic [ref=e278]:
+                - heading "双股剑" [level=3] [ref=e279]
+                - paragraph [ref=e280]: 三国演义
+              - generic [ref=e281]: 兵刃
+            - generic "属性加成" [ref=e282]:
+              - generic [ref=e283]: "+10"
+              - generic [ref=e293]: "+10"
+        - button "虎符兵符 史诗 虎符兵符 三国演义 佩饰 属性加成" [ref=e296]:
+          - generic [ref=e297]:
+            - img "虎符兵符" [ref=e301]
+            - generic [ref=e302]: 史诗
+          - generic [ref=e303]:
+            - generic [ref=e304]:
+              - generic [ref=e305]:
+                - heading "虎符兵符" [level=3] [ref=e306]
+                - paragraph [ref=e307]: 三国演义
+              - generic [ref=e308]: 佩饰
+            - generic "属性加成" [ref=e309]:
+              - generic [ref=e310]: "+8"
+              - generic [ref=e320]: "+12"
+        - button "赤壁火船 传说 赤壁火船 三国演义 consumable 属性加成" [ref=e323]:
+          - generic [ref=e324]:
+            - img "赤壁火船" [ref=e328]
+            - generic [ref=e329]: 传说
+          - generic [ref=e330]:
+            - generic [ref=e331]:
+              - generic [ref=e332]:
+                - heading "赤壁火船" [level=3] [ref=e333]
+                - paragraph [ref=e334]: 三国演义
+              - generic [ref=e335]: consumable
+            - generic "属性加成" [ref=e336]:
+              - generic [ref=e337]: "+10"
+              - generic [ref=e347]: "+20"
+        - button "战阵图 稀有 战阵图 三国演义 consumable 属性加成" [ref=e350]:
+          - generic [ref=e351]:
+            - img "战阵图" [ref=e355]
+            - generic [ref=e356]: 稀有
+          - generic [ref=e357]:
+            - generic [ref=e358]:
+              - generic [ref=e359]:
+                - heading "战阵图" [level=3] [ref=e360]
+                - paragraph [ref=e361]: 三国演义
+              - generic [ref=e362]: consumable
+            - generic "属性加成" [ref=e363]:
+              - generic [ref=e364]: "+10"
+              - generic [ref=e374]: "+5"
+        - button "月牙铲 史诗 月牙铲 水浒传 兵刃 属性加成" [ref=e377]:
+          - generic [ref=e378]:
+            - img "月牙铲" [ref=e382]
+            - generic [ref=e383]: 史诗
+          - generic [ref=e384]:
+            - generic [ref=e385]:
+              - generic [ref=e386]:
+                - heading "月牙铲" [level=3] [ref=e387]
+                - paragraph [ref=e388]: 水浒传
+              - generic [ref=e389]: 兵刃
+            - generic "属性加成" [ref=e390]:
+              - generic [ref=e391]: "+15"
+              - generic [ref=e401]: "+8"
+        - button "花枪 史诗 花枪 水浒传 兵刃 属性加成" [ref=e404]:
+          - generic [ref=e405]:
+            - img "花枪" [ref=e409]
+            - generic [ref=e410]: 史诗
+          - generic [ref=e411]:
+            - generic [ref=e412]:
+              - generic [ref=e413]:
+                - heading "花枪" [level=3] [ref=e414]
+                - paragraph [ref=e415]: 水浒传
+              - generic [ref=e416]: 兵刃
+            - generic "属性加成" [ref=e417]:
+              - generic [ref=e418]: "+12"
+              - generic [ref=e428]: "+10"
+        - button "双戒刀 稀有 双戒刀 水浒传 兵刃 属性加成" [ref=e431]:
+          - generic [ref=e432]:
+            - img "双戒刀" [ref=e436]
+            - generic [ref=e437]: 稀有
+          - generic [ref=e438]:
+            - generic [ref=e439]:
+              - generic [ref=e440]:
+                - heading "双戒刀" [level=3] [ref=e441]
+                - paragraph [ref=e442]: 水浒传
+              - generic [ref=e443]: 兵刃
+            - generic "属性加成" [ref=e444]:
+              - generic [ref=e445]: "+10"
+              - generic [ref=e455]: "+12"
+        - button "酒碗 稀有 酒碗 水浒传 consumable 属性加成" [ref=e458]:
+          - generic [ref=e459]:
+            - img "酒碗" [ref=e463]
+            - generic [ref=e464]: 稀有
+          - generic [ref=e465]:
+            - generic [ref=e466]:
+              - generic [ref=e467]:
+                - heading "酒碗" [level=3] [ref=e468]
+                - paragraph [ref=e469]: 水浒传
+              - generic [ref=e470]: consumable
+            - generic "属性加成" [ref=e471]:
+              - generic [ref=e472]: "+8"
+              - generic [ref=e482]: "+5"
+        - button "白虎节堂 史诗 白虎节堂 水浒传 佩饰 属性加成" [ref=e485]:
+          - generic [ref=e486]:
+            - img "白虎节堂" [ref=e490]
+            - generic [ref=e491]: 史诗
+          - generic [ref=e492]:
+            - generic [ref=e493]:
+              - generic [ref=e494]:
+                - heading "白虎节堂" [level=3] [ref=e495]
+                - paragraph [ref=e496]: 水浒传
+              - generic [ref=e497]: 佩饰
+            - generic "属性加成" [ref=e498]:
+              - generic [ref=e499]: "+12"
+              - generic [ref=e509]: "+8"
+        - button "梁山大旗 传说 梁山大旗 水浒传 佩饰 属性加成" [ref=e512]:
+          - generic [ref=e513]:
+            - img "梁山大旗" [ref=e517]
+            - generic [ref=e518]: 传说
+          - generic [ref=e519]:
+            - generic [ref=e520]:
+              - generic [ref=e521]:
+                - heading "梁山大旗" [level=3] [ref=e522]
+                - paragraph [ref=e523]: 水浒传
+              - generic [ref=e524]: 佩饰
+            - generic "属性加成" [ref=e525]:
+              - generic [ref=e526]: "+8"
+              - generic [ref=e536]: "+8"
+              - generic [ref=e539]: "+18"
+        - button "哨棒 普通 哨棒 水浒传 兵刃 属性加成" [ref=e544]:
+          - generic [ref=e545]:
+            - img "哨棒" [ref=e549]
+            - generic [ref=e550]: 普通
+          - generic [ref=e551]:
+            - generic [ref=e552]:
+              - generic [ref=e553]:
+                - heading "哨棒" [level=3] [ref=e554]
+                - paragraph [ref=e555]: 水浒传
+              - generic [ref=e556]: 兵刃
+            - generic "属性加成" [ref=e557]:
+              - generic [ref=e558]: "+5"
+              - generic [ref=e568]: "+5"
+        - button "通灵宝玉 传说 通灵宝玉 红楼梦 佩饰 属性加成" [ref=e571]:
+          - generic [ref=e572]:
+            - img "通灵宝玉" [ref=e576]
+            - generic [ref=e577]: 传说
+          - generic [ref=e578]:
+            - generic [ref=e579]:
+              - generic [ref=e580]:
+                - heading "通灵宝玉" [level=3] [ref=e581]
+                - paragraph [ref=e582]: 红楼梦
+              - generic [ref=e583]: 佩饰
+            - generic "属性加成" [ref=e584]:
+              - generic [ref=e585]: "+10"
+              - generic [ref=e595]: "+5"
+              - generic [ref=e598]: "+20"
+        - button "金锁 史诗 金锁 红楼梦 佩饰 属性加成" [ref=e603]:
+          - generic [ref=e604]:
+            - img "金锁" [ref=e608]
+            - generic [ref=e609]: 史诗
+          - generic [ref=e610]:
+            - generic [ref=e611]:
+              - generic [ref=e612]:
+                - heading "金锁" [level=3] [ref=e613]
+                - paragraph [ref=e614]: 红楼梦
+              - generic [ref=e615]: 佩饰
+            - generic "属性加成" [ref=e616]:
+              - generic [ref=e617]: "+10"
+              - generic [ref=e627]: "+12"
+        - button "葬花锄头 史诗 葬花锄头 红楼梦 佩饰 属性加成" [ref=e630]:
+          - generic [ref=e631]:
+            - img "葬花锄头" [ref=e635]
+            - generic [ref=e636]: 史诗
+          - generic [ref=e637]:
+            - generic [ref=e638]:
+              - generic [ref=e639]:
+                - heading "葬花锄头" [level=3] [ref=e640]
+                - paragraph [ref=e641]: 红楼梦
+              - generic [ref=e642]: 佩饰
+            - generic "属性加成" [ref=e643]:
+              - generic [ref=e644]: "+12"
+              - generic [ref=e654]: "+10"
+        - button "团扇 稀有 团扇 红楼梦 佩饰 属性加成" [ref=e657]:
+          - generic [ref=e658]:
+            - img "团扇" [ref=e662]
+            - generic [ref=e663]: 稀有
+          - generic [ref=e664]:
+            - generic [ref=e665]:
+              - generic [ref=e666]:
+                - heading "团扇" [level=3] [ref=e667]
+                - paragraph [ref=e668]: 红楼梦
+              - generic [ref=e669]: 佩饰
+            - generic "属性加成" [ref=e670]:
+              - generic [ref=e671]: "+8"
+              - generic [ref=e681]: "+8"
+        - button "诗稿 稀有 诗稿 红楼梦 consumable 属性加成" [ref=e684]:
+          - generic [ref=e685]:
+            - img "诗稿" [ref=e689]
+            - generic [ref=e690]: 稀有
+          - generic [ref=e691]:
+            - generic [ref=e692]:
+              - generic [ref=e693]:
+                - heading "诗稿" [level=3] [ref=e694]
+                - paragraph [ref=e695]: 红楼梦
+              - generic [ref=e696]: consumable
+            - generic "属性加成" [ref=e697]:
+              - generic [ref=e698]: "+10"
+              - generic [ref=e708]: "+100"
+        - button "赏花令 稀有 赏花令 红楼梦 consumable 属性加成" [ref=e711]:
+          - generic [ref=e712]:
+            - img "赏花令" [ref=e716]
+            - generic [ref=e717]: 稀有
+          - generic [ref=e718]:
+            - generic [ref=e719]:
+              - generic [ref=e720]:
+                - heading "赏花令" [level=3] [ref=e721]
+                - paragraph [ref=e722]: 红楼梦
+              - generic [ref=e723]: consumable
+            - generic "属性加成" [ref=e724]:
+              - generic [ref=e725]: "+8"
+              - generic [ref=e735]: "+200"
+        - button "打神鞭 传说 打神鞭 封神演义 兵刃 属性加成" [ref=e738]:
+          - generic [ref=e739]:
+            - img "打神鞭" [ref=e743]
+            - generic [ref=e744]: 传说
+          - generic [ref=e745]:
+            - generic [ref=e746]:
+              - generic [ref=e747]:
+                - heading "打神鞭" [level=3] [ref=e748]
+                - paragraph [ref=e749]: 封神演义
+              - generic [ref=e750]: 兵刃
+            - generic "属性加成" [ref=e751]:
+              - generic [ref=e752]: "+15"
+              - generic [ref=e762]: "+15"
+        - button "风火轮 史诗 风火轮 封神演义 佩饰 属性加成" [ref=e765]:
+          - generic [ref=e766]:
+            - img "风火轮" [ref=e770]
+            - generic [ref=e771]: 史诗
+          - generic [ref=e772]:
+            - generic [ref=e773]:
+              - generic [ref=e774]:
+                - heading "风火轮" [level=3] [ref=e775]
+                - paragraph [ref=e776]: 封神演义
+              - generic [ref=e777]: 佩饰
+            - generic "属性加成" [ref=e778]:
+              - generic [ref=e779]: "+5"
+              - generic [ref=e789]: "+18"
+        - button "乾坤圈 史诗 乾坤圈 封神演义 兵刃 属性加成" [ref=e792]:
+          - generic [ref=e793]:
+            - img "乾坤圈" [ref=e797]
+            - generic [ref=e798]: 史诗
+          - generic [ref=e799]:
+            - generic [ref=e800]:
+              - generic [ref=e801]:
+                - heading "乾坤圈" [level=3] [ref=e802]
+                - paragraph [ref=e803]: 封神演义
+              - generic [ref=e804]: 兵刃
+            - generic "属性加成" [ref=e805]:
+              - generic [ref=e806]: "+14"
+              - generic [ref=e816]: "+8"
+        - button "混天绫 史诗 混天绫 封神演义 佩饰 属性加成" [ref=e819]:
+          - generic [ref=e820]:
+            - img "混天绫" [ref=e824]
+            - generic [ref=e825]: 史诗
+          - generic [ref=e826]:
+            - generic [ref=e827]:
+              - generic [ref=e828]:
+                - heading "混天绫" [level=3] [ref=e829]
+                - paragraph [ref=e830]: 封神演义
+              - generic [ref=e831]: 佩饰
+            - generic "属性加成" [ref=e832]:
+              - generic [ref=e833]: "+12"
+              - generic [ref=e843]: "+10"
+        - button "杏黄旗 传说 杏黄旗 封神演义 佩饰 属性加成" [ref=e846]:
+          - generic [ref=e847]:
+            - img "杏黄旗" [ref=e851]
+            - generic [ref=e852]: 传说
+          - generic [ref=e853]:
+            - generic [ref=e854]:
+              - generic [ref=e855]:
+                - heading "杏黄旗" [level=3] [ref=e856]
+                - paragraph [ref=e857]: 封神演义
+              - generic [ref=e858]: 佩饰
+            - generic "属性加成" [ref=e859]:
+              - generic [ref=e860]: "+20"
+              - generic [ref=e870]: "+12"
+        - button "照妖镜 史诗 照妖镜 封神演义 佩饰 属性加成" [ref=e873]:
+          - generic [ref=e874]:
+            - img "照妖镜" [ref=e878]
+            - generic [ref=e879]: 史诗
+          - generic [ref=e880]:
+            - generic [ref=e881]:
+              - generic [ref=e882]:
+                - heading "照妖镜" [level=3] [ref=e883]
+                - paragraph [ref=e884]: 封神演义
+              - generic [ref=e885]: 佩饰
+            - generic "属性加成" [ref=e886]:
+              - generic [ref=e887]: "+12"
+              - generic [ref=e897]: "+12"
+        - button "莲花化身 传说 莲花化身 封神演义 consumable 属性加成" [ref=e900]:
+          - generic [ref=e901]:
+            - img "莲花化身" [ref=e905]
+            - generic [ref=e906]: 传说
+          - generic [ref=e907]:
+            - generic [ref=e908]:
+              - generic [ref=e909]:
+                - heading "莲花化身" [level=3] [ref=e910]
+                - paragraph [ref=e911]: 封神演义
+              - generic [ref=e912]: consumable
+            - generic "属性加成" [ref=e913]:
+              - generic [ref=e914]: "+15"
+              - generic [ref=e924]: "+500"
+              - generic [ref=e927]: "+200"
+    - generic [ref=e932]:
+      - button "关闭对话框" [ref=e933]
+      - dialog [ref=e934]:
+        - generic [ref=e935]:
+          - heading "如意金箍棒" [level=2] [ref=e936]
+          - button "关闭对话框" [active] [ref=e937]
+        - generic [ref=e942]:
+          - generic [ref=e943]:
+            - img "如意金箍棒" [ref=e944]
+            - generic [ref=e945]: 传说
+          - generic [ref=e946]:
+            - paragraph [ref=e947]: 西游记 · weapon
+            - paragraph [ref=e948]: 大禹治水时留下的定海神针，重一万三千五百斤，可大可小，随心如意。
+            - blockquote [ref=e949]: 西游记·第三回 四海千山皆拱伏 九幽十类尽除名
+          - generic [ref=e950]:
+            - generic [ref=e951]:
+              - generic [ref=e952]: power
+              - text: "+15"
+            - generic [ref=e953]:
+              - generic [ref=e954]: speed
+              - text: "+5"
+          - generic [ref=e955]:
+            - generic [ref=e960]:
+              - strong [ref=e961]: 装备功能需要登录
+              - generic [ref=e962]: 本次 React UI 不调用受保护的玩家装备接口。
+            - button "装备法宝" [disabled] [ref=e963]

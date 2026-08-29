@@ -1,0 +1,78 @@
+- generic [ref=e3]:
+  - complementary "主要导航" [ref=e4]:
+    - button "返回万卷浮生首页" [ref=e5]:
+      - generic [ref=e9]: 万卷
+    - generic [ref=e10]:
+      - button "书库" [ref=e11]
+      - button "角色 9+" [ref=e110]:
+        - generic [ref=e21]: 角色
+        - generic [ref=e111]: 9+
+      - button "法宝" [ref=e22]
+      - button "战斗" [ref=e28]
+      - button "剧情" [ref=e39]
+    - button "设置" [ref=e45]
+  - main [ref=e51]:
+    - generic [ref=e52]:
+      - generic [ref=e53]:
+        - generic [ref=e54]:
+          - text: 本地工作台
+          - heading "设置与 AI 配置" [level=1] [ref=e55]
+          - paragraph [ref=e56]: 管理界面偏好和公开模型列表；敏感密钥只停留在当前内存会话。
+        - button "保存设置" [ref=e57]
+      - tablist "设置分类" [ref=e62]:
+        - tab "外观" [ref=e63]
+        - tab "AI 配置" [active] [selected] [ref=e64]
+        - tab "本地数据" [ref=e65]
+      - tabpanel [ref=e112]:
+        - generic [ref=e117]:
+          - heading "生成引擎" [level=2] [ref=e118]
+          - paragraph [ref=e119]: 服务商和模型来自公开接口；配置不会提交到受保护的保存接口。
+        - generic [ref=e120]:
+          - generic [ref=e121]:
+            - generic [ref=e122]: AI 服务商
+            - combobox "AI 服务商" [ref=e123]:
+              - option "OpenAI" [selected]
+              - option "DeepSeek 深度求索"
+              - option "智谱 AI (GLM)"
+              - option "月之暗面 Kimi"
+              - option "通义千问 (Qwen)"
+              - option "MiniMax 稀宇"
+              - option "豆包 (Doubao)"
+              - option "阶跃星辰 StepFun"
+              - option "硅基流动 SiliconFlow"
+              - option "Anthropic Claude"
+              - option "小米 MiMo"
+              - option "百度文心 (ERNIE)"
+              - option "腾讯混元 (Hunyuan)"
+              - option "本地 Ollama"
+              - option "自定义"
+          - generic [ref=e124]:
+            - generic [ref=e125]: 模型
+            - combobox "模型" [ref=e126]:
+              - option "选择模型" [disabled]
+              - option "GPT-5.5"
+              - option "GPT-4o" [selected]
+              - option "GPT-4o mini"
+              - option "GPT-4 Turbo"
+              - option "o3"
+              - option "o1"
+        - generic [ref=e127]:
+          - generic [ref=e128]: API Key
+          - generic [ref=e129]:
+            - textbox "API Key 显示 API Key" [ref=e133]:
+              - /placeholder: 仅保存在当前内存会话
+            - button "显示 API Key" [ref=e134]
+        - generic [ref=e138]:
+          - generic [ref=e139]:
+            - generic [ref=e140]:
+              - generic [ref=e141]: 温度 (Temperature)
+              - strong [ref=e142]: "0.7"
+            - slider "温度 (Temperature) 0.7" [ref=e144] [cursor=pointer]: "1"
+          - generic [ref=e145]:
+            - generic [ref=e146]:
+              - generic [ref=e147]: 最大 Token
+              - strong [ref=e148]: "2048"
+            - slider "最大 Token 2048" [ref=e150] [cursor=pointer]: "2048"
+        - generic [ref=e155]:
+          - strong [ref=e156]: 当前为本地配置
+          - generic [ref=e157]: 登录、测试连接和云端保存不在本次 UI 范围内。

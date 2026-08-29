@@ -1,0 +1,71 @@
+- generic [ref=e3]:
+  - complementary "主要导航" [ref=e4]:
+    - button "返回万卷浮生首页" [ref=e5]:
+      - generic [ref=e9]: 万卷
+    - generic [ref=e10]:
+      - button "书库" [ref=e11]
+      - button "角色" [ref=e15]
+      - button "法宝" [ref=e22]
+      - button "战斗" [ref=e28]
+      - button "剧情" [ref=e39]
+    - button "设置" [ref=e45]
+  - main [ref=e51]:
+    - generic [ref=e52]:
+      - generic [ref=e53]:
+        - generic [ref=e54]:
+          - text: 本地演示藏卷
+          - heading "书库" [level=1] [ref=e55]
+          - paragraph [ref=e56]: 从典籍进入章节、人物与内容。本页不调用需要认证的书籍接口。
+        - button "典籍入卷" [ref=e57]
+      - generic [ref=e59]:
+        - generic [ref=e60]:
+          - generic [ref=e64]: 搜索典籍
+          - textbox "搜索典籍" [ref=e65]:
+            - /placeholder: 按书名或作者检索
+        - generic [ref=e66]: 5 部藏卷
+      - generic [ref=e69]:
+        - button "打开《西游记》" [ref=e70]:
+          - generic [ref=e71]: 藏
+          - generic [ref=e76]:
+            - generic [ref=e77]:
+              - heading "西游记" [level=3] [ref=e78]
+              - paragraph [ref=e79]: 吴承恩
+            - generic [ref=e80]:
+              - generic [ref=e81]: 3 角色
+              - generic [ref=e88]: 820,000 字
+        - button "打开《三国演义》" [ref=e89]:
+          - generic [ref=e90]: 藏
+          - generic [ref=e95]:
+            - generic [ref=e96]:
+              - heading "三国演义" [level=3] [ref=e97]
+              - paragraph [ref=e98]: 罗贯中
+            - generic [ref=e99]:
+              - generic [ref=e100]: 3 角色
+              - generic [ref=e107]: 730,000 字
+        - button "打开《水浒传》" [ref=e108]:
+          - generic [ref=e109]: 藏
+          - generic [ref=e114]:
+            - generic [ref=e115]:
+              - heading "水浒传" [level=3] [ref=e116]
+              - paragraph [ref=e117]: 施耐庵
+            - generic [ref=e118]:
+              - generic [ref=e119]: 3 角色
+              - generic [ref=e126]: 740,000 字
+        - button "打开《红楼梦》" [ref=e127]:
+          - generic [ref=e128]: 藏
+          - generic [ref=e133]:
+            - generic [ref=e134]:
+              - heading "红楼梦" [level=3] [ref=e135]
+              - paragraph [ref=e136]: 曹雪芹
+            - generic [ref=e137]:
+              - generic [ref=e138]: 3 角色
+              - generic [ref=e145]: 860,000 字
+        - button "打开《封神演义》" [ref=e146]:
+          - generic [ref=e147]: 藏
+          - generic [ref=e152]:
+            - generic [ref=e153]:
+              - heading "封神演义" [level=3] [ref=e154]
+              - paragraph [ref=e155]: 许仲琳
+            - generic [ref=e156]:
+              - generic [ref=e157]: 3 角色
+              - generic [ref=e164]: 610,000 字

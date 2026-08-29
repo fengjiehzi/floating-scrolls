@@ -1,0 +1,224 @@
+- generic [ref=e5]:
+  - banner [ref=e6]:
+    - heading "互动式世界观探索长卷" [level=1] [ref=e9]
+    - generic [ref=e230]:
+      - strong [ref=e231]: 藏书总目
+      - generic [ref=e232]: 检索、珍藏与本地入卷
+    - generic [ref=e18]:
+      - button "返回世界长卷" [ref=e233]
+      - button "我的书卷收藏" [ref=e229]
+  - main [ref=e236]:
+    - region [ref=e237]:
+      - generic [ref=e238]:
+        - text: 万卷在案 · 因果可寻
+        - heading "藏书总目" [level=2] [ref=e239]
+        - paragraph [ref=e240]: 从世界长卷回到案前，检索典籍、查看研读进度，或将自己的故事收入卷中。
+      - button "本地入卷" [active] [ref=e241] [cursor=pointer]
+    - region "藏书筛选与搜索" [ref=e243]:
+      - toolbar "筛选藏书" [ref=e244]:
+        - button "全部典籍" [pressed] [ref=e245] [cursor=pointer]
+        - button "正在研读" [ref=e246] [cursor=pointer]
+        - button "我的珍藏" [ref=e247] [cursor=pointer]
+        - button "已经完卷" [ref=e248] [cursor=pointer]
+        - button "本地入卷" [ref=e249] [cursor=pointer]
+      - generic [ref=e250]:
+        - generic [ref=e254]: 搜索典籍
+        - textbox "搜索典籍" [ref=e255]:
+          - /placeholder: 搜索书名、作者或卷中名士
+    - generic [ref=e614]:
+      - generic [ref=e615]:
+        - generic [ref=e616]:
+          - generic [ref=e617]:
+            - generic [ref=e618]:
+              - generic [ref=e619]:
+                - generic [ref=e620]: 案上续读
+                - generic [ref=e624]: 灵山三界 · 神魔试炼
+              - button "收藏典籍" [ref=e625]
+            - generic [ref=e628]:
+              - generic [ref=e629] [cursor=pointer]:
+                - img "西游记" [ref=e630]
+                - generic [ref=e632]: 点击查阅秘卷
+              - generic [ref=e633]:
+                - heading "西游记" [level=2] [ref=e634] [cursor=pointer]
+                - paragraph [ref=e635]: 【明代】吴承恩 著 · 约 82.0 万字
+                - paragraph [ref=e636]: “鸿蒙初辟原无姓，打破顽空须悟空。金箍当头，棒指灵霄。”
+                - paragraph [ref=e637]: 东胜神洲傲来国花果山石卵化猴，踏破九幽闹天宫。西行十万八千里，九九八十一难，每一次因果抉择，皆在重构三界神佛秩序。
+                - generic [ref=e639]:
+                  - generic [ref=e640]: 第 4 回 / 共 10 回
+                  - generic [ref=e644]: 40%
+          - generic [ref=e647]:
+            - generic [ref=e648]: 收录名士：孙悟空、唐僧、猪八戒、沙悟净、牛魔王、杨戬
+            - generic [ref=e655]:
+              - button "典籍秘卷" [ref=e656]
+              - button "继续推演" [ref=e657]
+        - generic [ref=e662]:
+          - generic [ref=e663]:
+            - generic [ref=e664]:
+              - heading "近期翻阅" [level=3] [ref=e665]
+              - generic [ref=e669]: 3 卷在案
+            - generic [ref=e670]:
+              - generic [ref=e671] [cursor=pointer]:
+                - generic [ref=e672]:
+                  - img "白蛇传" [ref=e673]
+                  - generic [ref=e674]:
+                    - paragraph [ref=e675]: 白蛇传
+                    - paragraph [ref=e676]: 第 1 回 · 民间经典
+                - generic [ref=e677]: 13%
+              - generic [ref=e681] [cursor=pointer]:
+                - generic [ref=e682]:
+                  - img "三国演义" [ref=e683]
+                  - generic [ref=e684]:
+                    - paragraph [ref=e685]: 三国演义
+                    - paragraph [ref=e686]: 第 3 回 · 罗贯中
+                - generic [ref=e687]: 30%
+              - generic [ref=e691] [cursor=pointer]:
+                - generic [ref=e692]:
+                  - img "红楼梦" [ref=e693]
+                  - generic [ref=e694]:
+                    - paragraph [ref=e695]: 红楼梦
+                    - paragraph [ref=e696]: 第 10 回 · 曹雪芹
+                - generic [ref=e697]: 100%
+          - paragraph [ref=e702]: 每一次翻阅，都会在因果树上留存印记
+      - generic [ref=e703]:
+        - generic [ref=e704]:
+          - heading "藏阁全帙 (8)" [level=3] [ref=e705]
+          - generic [ref=e707]: 点击任意书卷展开秘录或开始推演
+        - generic [ref=e708]:
+          - generic [ref=e710] [cursor=pointer]:
+            - generic [ref=e711]:
+              - img "西游记" [ref=e712]
+              - generic [ref=e714]:
+                - generic [ref=e715]: 明代
+                - button "收藏" [ref=e717]
+              - generic [ref=e720]:
+                - heading "西游记" [level=4] [ref=e721]
+                - paragraph [ref=e722]: 吴承恩 著 · 神魔志怪 · 释厄破妄
+            - generic [ref=e723]:
+              - paragraph [ref=e724]: 东胜神洲傲来国花果山石卵化猴，踏破九幽闹天宫。西行十万八千里，九九八十一难，每一次因果抉择，皆在重构三界神佛秩序。
+              - generic [ref=e726]:
+                - generic [ref=e727]: 研读中 · 第 4 / 10 回
+                - generic [ref=e728]: 40%
+              - generic [ref=e731]:
+                - generic [ref=e732]: 6 位名士
+                - button "推演" [ref=e738]
+          - generic [ref=e742] [cursor=pointer]:
+            - generic [ref=e743]:
+              - img "三国演义" [ref=e744]
+              - generic [ref=e746]:
+                - generic [ref=e747]: 明代
+                - button "收藏" [ref=e749]
+              - generic [ref=e752]:
+                - heading "三国演义" [level=4] [ref=e753]
+                - paragraph [ref=e754]: 罗贯中 著 · 历史演义 · 英雄权谋
+            - generic [ref=e755]:
+              - paragraph [ref=e756]: 东汉末年群雄并起，桃园三结义奠蜀汉基业，赤壁烽火裂三分鼎足。羽扇纶巾间定乾坤，锦囊妙计里定兴亡。
+              - generic [ref=e758]:
+                - generic [ref=e759]: 研读中 · 第 3 / 10 回
+                - generic [ref=e760]: 30%
+              - generic [ref=e763]:
+                - generic [ref=e764]: 5 位名士
+                - button "推演" [ref=e770]
+          - generic [ref=e774] [cursor=pointer]:
+            - generic [ref=e775]:
+              - img "封神演义" [ref=e776]
+              - generic [ref=e778]:
+                - generic [ref=e779]: 明代
+                - button "收藏" [ref=e781]
+              - generic [ref=e784]:
+                - heading "封神演义" [level=4] [ref=e785]
+                - paragraph [ref=e786]: 许仲琳 著 · 远古神战 · 阐截斗法
+            - generic [ref=e787]:
+              - paragraph [ref=e788]: 商周易代，阐截两教仙家各显神通。太公执榜定三百六十五位正神，莲花化身踏风火乾坤，诛仙万仙大阵激荡洪荒。
+              - generic [ref=e790]:
+                - generic [ref=e791]: 尚未启卷
+                - generic [ref=e792]: 10%
+              - generic [ref=e795]:
+                - generic [ref=e796]: 5 位名士
+                - button "推演" [ref=e802]
+          - generic [ref=e806] [cursor=pointer]:
+            - generic [ref=e807]:
+              - img "红楼梦" [ref=e808]
+              - generic [ref=e810]:
+                - generic [ref=e811]:
+                  - generic [ref=e812]: 清代
+                  - generic [ref=e813]: 完卷
+                - button "收藏" [ref=e817]
+              - generic [ref=e820]:
+                - heading "红楼梦" [level=4] [ref=e821]
+                - paragraph [ref=e822]: 曹雪芹 著 · 世情辞章 · 太虚情天
+            - generic [ref=e823]:
+              - paragraph [ref=e824]: 姑苏绛珠仙草偿泪前缘，贾府钟鸣鼎食与衰亡兴歇。太虚幻境警幻仙曲，十二金钗册页尽写浮生幻梦。
+              - generic [ref=e826]:
+                - generic [ref=e827]: 已通读全卷
+                - generic [ref=e828]: 100%
+              - generic [ref=e831]:
+                - generic [ref=e832]: 4 位名士
+                - button "推演" [ref=e838]
+          - generic [ref=e842] [cursor=pointer]:
+            - generic [ref=e843]:
+              - img "水浒传" [ref=e844]
+              - generic [ref=e846]:
+                - generic [ref=e847]: 明代
+                - button "收藏" [ref=e849]
+              - generic [ref=e852]:
+                - heading "水浒传" [level=4] [ref=e853]
+                - paragraph [ref=e854]: 施耐庵 著 · 绿林侠义 · 忠义啸聚
+            - generic [ref=e855]:
+              - paragraph [ref=e856]: 三十六天罡、七十二地煞啸聚梁山泊。景阳冈打虎豪情，风雪山神庙怒火，忠义堂前大纛高扬，尽显江湖快意恩仇。
+              - generic [ref=e858]:
+                - generic [ref=e859]: 尚未启卷
+                - generic [ref=e860]: 0%
+              - generic [ref=e862]:
+                - generic [ref=e863]: 4 位名士
+                - button "推演" [ref=e869]
+          - generic [ref=e873] [cursor=pointer]:
+            - generic [ref=e874]:
+              - img "白蛇传" [ref=e875]
+              - generic [ref=e877]:
+                - generic [ref=e878]: 宋代传续
+                - button "收藏" [ref=e880]
+              - generic [ref=e883]:
+                - heading "白蛇传" [level=4] [ref=e884]
+                - paragraph [ref=e885]: 民间经典 著 · 民间仙灵 · 宿命情劫
+            - generic [ref=e886]:
+              - paragraph [ref=e887]: 千年白蛇感念恩德化形凡世，断桥借伞定良缘。盗仙草、斗法海、水漫金山寺，一曲至死不渝的仙凡绝恋。
+              - generic [ref=e889]:
+                - generic [ref=e890]: 研读中 · 第 1 / 8 回
+                - generic [ref=e891]: 13%
+              - generic [ref=e894]:
+                - generic [ref=e895]: 4 位名士
+                - button "推演" [ref=e901]
+          - generic [ref=e905] [cursor=pointer]:
+            - generic [ref=e906]:
+              - img "史记" [ref=e907]
+              - generic [ref=e909]:
+                - generic [ref=e910]: 汉代
+                - button "收藏" [ref=e912]
+              - generic [ref=e915]:
+                - heading "史记" [level=4] [ref=e916]
+                - paragraph [ref=e917]: 司马迁 著 · 纪传体史诗 · 英雄列传
+            - generic [ref=e918]:
+              - paragraph [ref=e919]: 究天人之际，通古今之变，成一家之言。项羽本纪叱咤风云、破釜沉舟，刺客列传风萧水寒，展现中国古典气节风骨之极。
+              - generic [ref=e921]:
+                - generic [ref=e922]: 尚未启卷
+                - generic [ref=e923]: 0%
+              - generic [ref=e925]:
+                - generic [ref=e926]: 5 位名士
+                - button "推演" [ref=e932]
+          - generic [ref=e936] [cursor=pointer]:
+            - generic [ref=e937]:
+              - img "聊斋志异" [ref=e938]
+              - generic [ref=e940]:
+                - generic [ref=e941]: 清代
+                - button "收藏" [ref=e943]
+              - generic [ref=e946]:
+                - heading "聊斋志异" [level=4] [ref=e947]
+                - paragraph [ref=e948]: 蒲松龄 著 · 孤愤幻谭 · 幽冥狐鬼
+            - generic [ref=e949]:
+              - paragraph [ref=e950]: 草木成精、狐魅化仙、画皮摄魄、兰若幽魂。以奇异鬼怪之事刺讽世态炎凉，笔底生花处尽显至情至性。
+              - generic [ref=e952]:
+                - generic [ref=e953]: 尚未启卷
+                - generic [ref=e954]: 0%
+              - generic [ref=e956]:
+                - generic [ref=e957]: 5 位名士
+                - button "推演" [ref=e963]

@@ -1,0 +1,175 @@
+- generic [ref=e3]:
+  - complementary "主要导航" [ref=e4]:
+    - button "返回万卷浮生首页" [ref=e5]:
+      - generic [ref=e9]: 万卷
+    - generic [ref=e10]:
+      - button "书库 1" [ref=e356]:
+        - generic [ref=e14]: 书库
+        - generic [ref=e357]: "1"
+      - button "角色" [ref=e15]
+      - button "法宝" [ref=e22]
+      - button "战斗" [ref=e28]
+      - button "剧情" [ref=e39]
+    - button "设置" [ref=e45]
+  - main [ref=e406]:
+    - generic [ref=e407]:
+      - generic [ref=e408]:
+        - generic [ref=e409]:
+          - text: 典籍总目
+          - heading "书库" [level=1] [ref=e410]
+          - paragraph [ref=e411]: 这里收录你曾进入的故事。人物、章节与选择，会在一次次翻阅中沉淀成可重返的世界。
+        - button "典籍入卷" [ref=e412]
+      - region [ref=e414]:
+        - article [ref=e415]:
+          - generic [ref=e416]: 正在阅读
+          - generic [ref=e419]:
+            - generic [ref=e420]: 续读案卷
+            - heading "西游记" [level=2] [ref=e421]
+            - paragraph [ref=e422]: 吴承恩 · 名著典藏
+            - paragraph [ref=e423]: 西行取经与神魔劫难。每一次选择，都会让熟悉的西行路生出新的岔口。
+            - generic [ref=e424]:
+              - generic [ref=e425]: 3 位角色
+              - generic [ref=e431]: 820,000 字
+              - generic [ref=e432]: 5 小时前
+            - progressbar "《西游记》阅读进度" [ref=e433]:
+              - generic [ref=e434]:
+                - generic [ref=e435]: 第 4 / 10 章
+                - generic [ref=e436]: 40%
+            - button "继续阅读" [ref=e439]
+        - complementary [ref=e442]:
+          - generic [ref=e443]:
+            - heading "最近翻阅" [level=2] [ref=e448]
+            - generic [ref=e449]: 2 卷
+          - generic [ref=e450]:
+            - button "继续阅读《三国演义》" [ref=e451]:
+              - generic [ref=e452]: 正在阅读
+              - strong [ref=e453]: 三国演义
+              - generic [ref=e454]: 罗贯中 · 17 小时前
+            - button "继续阅读《红楼梦》" [ref=e457]:
+              - generic [ref=e458]: 已完成
+              - strong [ref=e459]: 红楼梦
+              - generic [ref=e460]: 曹雪芹 · 5 天前
+      - region [ref=e463]:
+        - generic [ref=e464]:
+          - generic [ref=e465]:
+            - heading "全部藏卷" [level=2] [ref=e466]
+            - paragraph [ref=e467]: 按阅读状态、收藏与来源快速找到下一段故事。
+          - generic [ref=e468]: 6 / 6 部
+        - generic [ref=e471]:
+          - toolbar "筛选藏书" [ref=e472]:
+            - button "全部" [pressed] [ref=e473]
+            - button "正在阅读" [ref=e474]
+            - button "已收藏" [ref=e475]
+            - button "已完成" [ref=e476]
+            - button "本地入卷" [ref=e477]
+          - generic [ref=e478]:
+            - generic [ref=e482]: 搜索典籍
+            - textbox "搜索典籍" [ref=e483]:
+              - /placeholder: 搜索书名、作者或角色
+        - generic [ref=e484]:
+          - article [ref=e485]:
+            - button "打开《聊斋补遗》" [ref=e486]:
+              - generic [ref=e487]:
+                - generic [ref=e488]: 聊斋补遗
+                - generic [ref=e492]: 未开始
+              - generic [ref=e494]:
+                - generic [ref=e495]:
+                  - generic [ref=e496]:
+                    - text: 本地入卷
+                    - heading "聊斋补遗" [level=3] [ref=e497]
+                  - generic [ref=e498]: 蒲松龄
+                - generic [ref=e499]:
+                  - generic [ref=e500]: 0 位角色
+                  - generic [ref=e506]: 0 字
+              - generic [ref=e507]: 入卷
+            - button "收藏《聊斋补遗》" [ref=e508]
+          - article [ref=e511]:
+            - button "打开《西游记》" [ref=e512]:
+              - generic [ref=e513]: 正在阅读
+              - generic [ref=e516]:
+                - generic [ref=e517]:
+                  - generic [ref=e518]:
+                    - text: 名著典藏
+                    - heading "西游记" [level=3] [ref=e519]
+                  - generic [ref=e520]: 吴承恩
+                - generic [ref=e521]:
+                  - generic [ref=e522]: 3 位角色
+                  - generic [ref=e528]: 820,000 字
+                - progressbar "《西游记》阅读进度" [ref=e529]:
+                  - generic [ref=e530]:
+                    - generic [ref=e531]: 第 4 / 10 章
+                    - generic [ref=e532]: 40%
+              - generic [ref=e535]: 入卷
+            - button "取消收藏《西游记》" [pressed] [ref=e536]
+          - article [ref=e539]:
+            - button "打开《三国演义》" [ref=e540]:
+              - generic [ref=e541]: 正在阅读
+              - generic [ref=e544]:
+                - generic [ref=e545]:
+                  - generic [ref=e546]:
+                    - text: 名著典藏
+                    - heading "三国演义" [level=3] [ref=e547]
+                  - generic [ref=e548]: 罗贯中
+                - generic [ref=e549]:
+                  - generic [ref=e550]: 3 位角色
+                  - generic [ref=e556]: 730,000 字
+                - progressbar "《三国演义》阅读进度" [ref=e557]:
+                  - generic [ref=e558]:
+                    - generic [ref=e559]: 第 2 / 10 章
+                    - generic [ref=e560]: 20%
+              - generic [ref=e563]: 入卷
+            - button "收藏《三国演义》" [ref=e564]
+          - article [ref=e567]:
+            - button "打开《水浒传》" [ref=e568]:
+              - generic [ref=e569]: 未开始
+              - generic [ref=e572]:
+                - generic [ref=e573]:
+                  - generic [ref=e574]:
+                    - text: 名著典藏
+                    - heading "水浒传" [level=3] [ref=e575]
+                  - generic [ref=e576]: 施耐庵
+                - generic [ref=e577]:
+                  - generic [ref=e578]: 3 位角色
+                  - generic [ref=e584]: 740,000 字
+                - progressbar "《水浒传》阅读进度" [ref=e585]:
+                  - generic [ref=e586]:
+                    - generic [ref=e587]: 第 0 / 10 章
+                    - generic [ref=e588]: 0%
+              - generic [ref=e590]: 入卷
+            - button "收藏《水浒传》" [ref=e591]
+          - article [ref=e594]:
+            - button "打开《红楼梦》" [ref=e595]:
+              - generic [ref=e596]: 已完成
+              - generic [ref=e599]:
+                - generic [ref=e600]:
+                  - generic [ref=e601]:
+                    - text: 名著典藏
+                    - heading "红楼梦" [level=3] [ref=e602]
+                  - generic [ref=e603]: 曹雪芹
+                - generic [ref=e604]:
+                  - generic [ref=e605]: 3 位角色
+                  - generic [ref=e611]: 860,000 字
+                - progressbar "《红楼梦》阅读进度" [ref=e612]:
+                  - generic [ref=e613]:
+                    - generic [ref=e614]: 第 10 / 10 章
+                    - generic [ref=e615]: 100%
+              - generic [ref=e618]: 入卷
+            - button "取消收藏《红楼梦》" [pressed] [ref=e619]
+          - article [ref=e622]:
+            - button "打开《封神演义》" [ref=e623]:
+              - generic [ref=e624]: 未开始
+              - generic [ref=e627]:
+                - generic [ref=e628]:
+                  - generic [ref=e629]:
+                    - text: 名著典藏
+                    - heading "封神演义" [level=3] [ref=e630]
+                  - generic [ref=e631]: 许仲琳
+                - generic [ref=e632]:
+                  - generic [ref=e633]: 3 位角色
+                  - generic [ref=e639]: 610,000 字
+                - progressbar "《封神演义》阅读进度" [ref=e640]:
+                  - generic [ref=e641]:
+                    - generic [ref=e642]: 第 0 / 10 章
+                    - generic [ref=e643]: 0%
+              - generic [ref=e645]: 入卷
+            - button "收藏《封神演义》" [ref=e646]

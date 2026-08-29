@@ -1,0 +1,129 @@
+- generic [ref=e5]:
+  - banner [ref=e6]:
+    - heading "互动式世界观探索长卷" [level=1] [ref=e9]
+    - tablist "篇章分类" [ref=e994]:
+      - tab "天下八荒" [active] [selected] [ref=e995] [cursor=pointer]
+      - tab "人间篇" [ref=e996] [cursor=pointer]
+      - tab "神魔篇" [ref=e997] [cursor=pointer]
+      - tab "王朝篇" [ref=e998] [cursor=pointer]
+      - tab "幽冥篇" [ref=e999] [cursor=pointer]
+    - generic [ref=e18]:
+      - button "打开藏书总目" [ref=e1000]
+      - button "我的书卷收藏" [ref=e229]
+  - main [ref=e1003]:
+    - generic [ref=e1004]:
+      - generic [ref=e1005]:
+        - generic [ref=e1006]: ✧ 世界经纬图 ✧
+        - paragraph [ref=e1010]: — 八大世界 · 势力经纬 · 因果纷争 —
+      - generic [ref=e1011]:
+        - button "向左探索" [disabled] [ref=e1014]
+        - generic "世界长卷，可拖拽或使用左右方向键探索" [ref=e1018]:
+          - generic [ref=e1019]:
+            - button "查阅《西游神魔》世界秘卷" [ref=e1069] [cursor=pointer]:
+              - generic [ref=e1070]: "01"
+              - img "西游神魔" [ref=e1072]
+              - generic [ref=e1074]:
+                - heading "西游神魔" [level=4] [ref=e1075]
+                - paragraph [ref=e1076]: 石破惊天 · 大圣归来
+                - button "探索中" [ref=e1077]
+              - generic [ref=e1078]:
+                - generic [ref=e1079]: 猴
+                - generic [ref=e1080]: 灵猴势力
+            - button "查阅《三国乱世》世界秘卷" [ref=e1081] [cursor=pointer]:
+              - generic [ref=e1082]: "02"
+              - img "三国乱世" [ref=e1084]
+              - generic [ref=e1086]:
+                - heading "三国乱世" [level=4] [ref=e1087]
+                - paragraph [ref=e1088]: 群雄逐鹿 · 赤壁烽烟
+                - button "已解锁" [ref=e1089]
+              - generic [ref=e1090]:
+                - generic [ref=e1091]: 汉
+                - generic [ref=e1092]: 汉室势力
+            - button "查阅《红楼太虚》世界秘卷" [ref=e1093] [cursor=pointer]:
+              - generic [ref=e1094]: "03"
+              - img "红楼太虚" [ref=e1096]
+              - generic [ref=e1098]:
+                - heading "红楼太虚" [level=4] [ref=e1099]
+                - paragraph [ref=e1100]: 繁华一梦 · 太虚幻境
+                - button "入卷" [ref=e1101]
+              - generic [ref=e1102]:
+                - generic [ref=e1103]: 梦
+                - generic [ref=e1104]: 太虚幻境
+            - button "查阅《封神杀劫》世界秘卷" [ref=e1105] [cursor=pointer]:
+              - generic [ref=e1106]: "04"
+              - img "封神杀劫" [ref=e1108]
+              - generic [ref=e1110]:
+                - heading "封神杀劫" [level=4] [ref=e1111]
+                - paragraph [ref=e1112]: 封神崛起 · 天命杀劫
+                - button "探索中" [ref=e1113]
+              - generic [ref=e1114]:
+                - generic [ref=e1115]: 神
+                - generic [ref=e1116]: 阐教势力
+            - button "查阅《白蛇水漫》世界秘卷" [ref=e1117] [cursor=pointer]:
+              - generic [ref=e1118]: "05"
+              - img "白蛇水漫" [ref=e1120]
+              - generic [ref=e1122]:
+                - heading "白蛇水漫" [level=4] [ref=e1123]
+                - paragraph [ref=e1124]: 千年情劫 · 水漫金山
+                - button "入卷" [ref=e1125]
+              - generic [ref=e1126]:
+                - generic [ref=e1127]: 蛇
+                - generic [ref=e1128]: 西湖势力
+            - button "查阅《史记霸业》世界秘卷" [ref=e1129] [cursor=pointer]:
+              - generic [ref=e1130]: "06"
+              - img "史记霸业" [ref=e1132]
+              - generic [ref=e1134]:
+                - heading "史记霸业" [level=4] [ref=e1135]
+                - paragraph [ref=e1136]: 兴衰更替 · 史笔如刀
+                - button "已解锁" [ref=e1137]
+              - generic [ref=e1138]:
+                - generic [ref=e1139]: 帝
+                - generic [ref=e1140]: 帝国势力
+            - button "查阅《水浒聚义》世界秘卷" [ref=e1141] [cursor=pointer]:
+              - generic [ref=e1142]: "07"
+              - img "水浒聚义" [ref=e1144]
+              - generic [ref=e1146]:
+                - heading "水浒聚义" [level=4] [ref=e1147]
+                - paragraph [ref=e1148]: 梁山聚义 · 忠义豪情
+                - button "探索中" [ref=e1149]
+              - generic [ref=e1150]:
+                - generic [ref=e1151]: 梁
+                - generic [ref=e1152]: 梁山势力
+            - button "查阅《聊斋幽冥》世界秘卷" [ref=e1020] [cursor=pointer]:
+              - generic [ref=e1021]: "08"
+              - img "聊斋幽冥" [ref=e1023]
+              - generic [ref=e1025]:
+                - heading "聊斋幽冥" [level=4] [ref=e1026]
+                - paragraph [ref=e1027]: 鬼狐有情 · 幽冥异志
+                - button "入卷" [ref=e1028]
+              - generic [ref=e1029]:
+                - generic [ref=e1030]: 幽
+                - generic [ref=e1031]: 幽冥势力
+        - button "向右探索" [ref=e1034] [cursor=pointer]
+      - generic [ref=e1038]: 拖拽长卷探索世界 · 惯性滑动体验更佳 ✧
+  - contentinfo [ref=e1045]:
+    - generic [ref=e1047]:
+      - generic [ref=e1048]: 88%
+      - generic [ref=e1049]: 已探索 7 / 8 世界
+    - generic [ref=e1050]:
+      - button "定位到西游神魔" [ref=e1153] [cursor=pointer]:
+        - img "西游神魔" [ref=e1154]
+      - button "定位到三国乱世" [ref=e1155] [cursor=pointer]:
+        - img "三国乱世" [ref=e1156]
+      - button "定位到红楼太虚" [ref=e1157] [cursor=pointer]:
+        - img "红楼太虚" [ref=e1158]
+      - button "定位到封神杀劫" [ref=e1159] [cursor=pointer]:
+        - img "封神杀劫" [ref=e1160]
+      - button "定位到白蛇水漫" [ref=e1161] [cursor=pointer]:
+        - img "白蛇水漫" [ref=e1162]
+      - button "定位到史记霸业" [ref=e1163] [cursor=pointer]:
+        - img "史记霸业" [ref=e1164]
+      - button "定位到水浒聚义" [ref=e1165] [cursor=pointer]:
+        - img "水浒聚义" [ref=e1166]
+      - button "定位到聊斋幽冥" [ref=e1052] [cursor=pointer]:
+        - img "聊斋幽冥" [ref=e1053]
+      - slider "长卷可见范围" [ref=e1054]
+    - generic [ref=e1055]:
+      - button "回溯往昔 上一卷" [disabled] [ref=e1056]
+      - button "时空定位" [ref=e1060] [cursor=pointer]
+      - button "前往未来 下一卷" [ref=e1065] [cursor=pointer]

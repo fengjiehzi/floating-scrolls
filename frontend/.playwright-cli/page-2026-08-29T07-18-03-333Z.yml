@@ -1,0 +1,26 @@
+- generic [ref=f3e3]:
+  - banner [ref=f3e4]:
+    - generic [ref=f3e5]:
+      - button "万卷浮生 首页" [ref=f3e6] [cursor=pointer]:
+        - generic [ref=f3e11]: 万卷浮生
+      - navigation "核心探索导航" [ref=f3e12]:
+        - button "书库" [ref=f3e13] [cursor=pointer]
+        - button "角色" [ref=f3e14] [cursor=pointer]
+        - button "法宝" [ref=f3e15] [cursor=pointer]
+        - button "浮生录" [ref=f3e16] [cursor=pointer]
+        - button "演武场" [ref=f3e17] [cursor=pointer]
+      - button "AI 设置" [ref=f3e19] [cursor=pointer]
+  - main [ref=f3e681]:
+    - generic [ref=f3e682]:
+      - generic [ref=f3e684]:
+        - text: 本地剧情演示
+        - heading "浮生录" [level=1] [ref=f3e685]
+        - paragraph [ref=f3e686]: 让典籍人物走入同一页故事，每次选择都会留下新的墨迹。
+      - generic [ref=f3e687]:
+        - generic [ref=f3e694]:
+          - text: 卷一待启
+          - heading "墨夜藏卷" [level=2] [ref=f3e695]
+          - paragraph [ref=f3e696]: 当前使用确定性的本地章节，不调用需要认证的 AI 剧情接口。
+        - generic [ref=f3e697]:
+          - generic [ref=f3e698]: 23 位角色可作为故事线索
+          - button "展开第一卷" [ref=f3e699]

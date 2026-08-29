@@ -40,11 +40,23 @@ function mapItem(item: ApiItem): Item {
   }
 }
 
-export async function fetchItems(): Promise<Item[]> {
-  const response = await fetch('/api/items', { headers: { Accept: 'application/json' } })
-  if (!response.ok) throw new Error(`法宝接口请求失败（${response.status}）`)
+import { FALLBACK_ITEMS } from '@/data/itemsData'
 
-  const data = await response.json() as { items?: ApiItem[] }
-  if (!Array.isArray(data.items)) throw new Error('法宝接口返回格式不正确')
-  return data.items.map(mapItem)
+export async function fetchItems(): Promise<Item[]> {
+  try {
+    const response = await fetch('/api/items', { headers: { Accept: 'application/json' } })
+    if (!response.ok) {
+      return FALLBACK_ITEMS
+    }
+
+    const data = await response.json() as { items?: ApiItem[] }
+    if (!Array.isArray(data.items) || data.items.length === 0) {
+      return FALLBACK_ITEMS
+    }
+
+    return data.items.map(mapItem)
+  } catch (err) {
+    console.warn('[itemApi] 后端接口离线或超时，使用内置法宝数据', err)
+    return FALLBACK_ITEMS
+  }
 }

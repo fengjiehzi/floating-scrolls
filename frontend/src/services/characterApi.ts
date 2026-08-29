@@ -113,32 +113,48 @@ function mapCharacter(character: ApiCharacter): Character {
   }
 }
 
+import { FALLBACK_CHARACTERS } from '@/data/charactersData'
+
 export async function fetchCharacters(): Promise<Character[]> {
-  const response = await fetch('/api/characters', {
-    headers: { Accept: 'application/json' },
-  })
+  try {
+    const response = await fetch('/api/characters', {
+      headers: { Accept: 'application/json' },
+    })
 
-  if (!response.ok) {
-    throw new Error(`角色接口请求失败（${response.status}）`)
+    if (!response.ok) {
+      return FALLBACK_CHARACTERS
+    }
+
+    const data = await response.json() as CharacterListResponse
+    if (!Array.isArray(data.characters) || data.characters.length === 0) {
+      return FALLBACK_CHARACTERS
+    }
+
+    return data.characters.map(mapCharacter)
+  } catch (err) {
+    console.warn('[characterApi] 后端接口离线或超时，使用内置典籍角色数据', err)
+    return FALLBACK_CHARACTERS
   }
-
-  const data = await response.json() as CharacterListResponse
-  if (!Array.isArray(data.characters)) {
-    throw new Error('角色接口返回格式不正确')
-  }
-
-  return data.characters.map(mapCharacter)
 }
 
 export async function fetchCharacterById(id: string): Promise<Character> {
-  const response = await fetch(`/api/characters/${encodeURIComponent(id)}`, {
-    headers: { Accept: 'application/json' },
-  })
+  try {
+    const response = await fetch(`/api/characters/${encodeURIComponent(id)}`, {
+      headers: { Accept: 'application/json' },
+    })
 
-  if (response.status === 404) throw new Error('未找到该角色')
-  if (!response.ok) throw new Error(`角色详情请求失败（${response.status}）`)
+    if (response.ok) {
+      const data = await response.json() as { character?: ApiCharacter }
+      if (data.character) {
+        return mapCharacter(data.character)
+      }
+    }
+  } catch (err) {
+    console.warn(`[characterApi] 无法连接后端获取角色 ${id}，使用内置数据`, err)
+  }
 
-  const data = await response.json() as { character?: ApiCharacter }
-  if (!data.character) throw new Error('角色详情返回格式不正确')
-  return mapCharacter(data.character)
+  const fallback = FALLBACK_CHARACTERS.find((c) => c.id === id)
+  if (fallback) return fallback
+
+  throw new Error('未找到该角色')
 }

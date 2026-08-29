@@ -1,0 +1,44 @@
+- generic [ref=e5]:
+  - banner [ref=e6]:
+    - heading "互动式世界观探索长卷" [level=1] [ref=e9]
+    - tablist "篇章分类" [ref=e11]:
+      - tab "天下八荒" [ref=e12] [cursor=pointer]
+      - tab "人间篇" [ref=e13] [cursor=pointer]
+      - tab "神魔篇" [ref=e14] [cursor=pointer]
+      - tab "王朝篇" [ref=e15] [cursor=pointer]
+      - tab "幽冥篇" [active] [selected] [ref=e16] [cursor=pointer]
+    - generic [ref=e18]:
+      - button "打开藏书总目" [ref=e228]
+      - button "我的书卷收藏" [ref=e229]
+  - main [ref=e40]:
+    - generic [ref=e41]:
+      - generic [ref=e42]:
+        - generic [ref=e43]: ✧ 世界经纬图 ✧
+        - paragraph [ref=e47]: — 八大世界 · 势力经纬 · 因果纷争 —
+      - generic [ref=e48]:
+        - button "向左探索" [disabled] [ref=e51]
+        - generic "世界长卷，可拖拽或使用左右方向键探索" [ref=e56]:
+          - button "查阅《聊斋幽冥》世界秘卷" [ref=e149] [cursor=pointer]:
+            - generic [ref=e150]: "08"
+            - img "聊斋幽冥" [ref=e152]
+            - generic [ref=e154]:
+              - heading "聊斋幽冥" [level=4] [ref=e155]
+              - paragraph [ref=e156]: 鬼狐有情 · 幽冥异志
+              - button "入卷" [ref=e158]
+            - generic [ref=e159]:
+              - generic [ref=e160]: 幽
+              - generic [ref=e161]: 幽冥势力
+        - button "向右探索" [ref=e164] [cursor=pointer]
+      - generic [ref=e169]: 拖拽长卷探索世界 · 惯性滑动体验更佳 ✧
+  - contentinfo [ref=e178]:
+    - generic [ref=e186]:
+      - generic [ref=e188]: 88%
+      - generic [ref=e189]: 已探索 7 / 8 世界
+    - generic [ref=e190]:
+      - button "定位到聊斋幽冥" [ref=e206] [cursor=pointer]:
+        - img "聊斋幽冥" [ref=e207]
+      - slider "长卷可见范围" [ref=e208]
+    - generic [ref=e209]:
+      - button "回溯往昔 上一卷" [disabled] [ref=e210]
+      - button "时空定位" [ref=e216] [cursor=pointer]
+      - button "前往未来 下一卷" [disabled] [ref=e222]

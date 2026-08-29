@@ -1,0 +1,27 @@
+- generic [ref=e3]:
+  - complementary "主要导航" [ref=e4]:
+    - button "返回万卷浮生首页" [ref=e5]:
+      - generic [ref=e9]: 万卷
+    - generic [ref=e10]:
+      - button "书库 1" [ref=e356]:
+        - generic [ref=e14]: 书库
+        - generic [ref=e357]: "1"
+      - button "角色" [ref=e15]
+      - button "法宝" [ref=e22]
+      - button "战斗" [ref=e28]
+      - button "剧情" [ref=e39]
+    - button "设置" [ref=e45]
+  - main [ref=e385]:
+    - generic [ref=e386]:
+      - generic [ref=e388]:
+        - text: 本地剧情演示
+        - heading "浮生录" [level=1] [ref=e389]
+        - paragraph [ref=e390]: 让典籍人物走入同一页故事，每次选择都会留下新的墨迹。
+      - generic [ref=e391]:
+        - generic [ref=e398]:
+          - text: 卷一待启
+          - heading "墨夜藏卷" [level=2] [ref=e399]
+          - paragraph [ref=e400]: 当前使用确定性的本地章节，不调用需要认证的 AI 剧情接口。
+        - generic [ref=e401]:
+          - generic [ref=e402]: 离线时仍可阅读演示章节
+          - button "展开第一卷" [ref=e403]

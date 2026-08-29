@@ -49,6 +49,7 @@ node_modules/
 
 # Trae editor
 .trae/
+.workbuddy/
 
 # Test files
 test.txt

@@ -1,0 +1,42 @@
+- generic [ref=e3]:
+  - complementary "主要导航" [ref=e4]:
+    - button "返回万卷浮生首页" [ref=e5]:
+      - generic [ref=e9]: 万卷
+    - generic [ref=e10]:
+      - button "书库" [ref=e11]
+      - button "角色" [ref=e15]
+      - button "法宝" [ref=e22]
+      - button "战斗" [ref=e28]
+      - button "剧情" [ref=e39]
+    - button "设置" [ref=e45]
+  - main [ref=e51]:
+    - generic [ref=e52]:
+      - generic [ref=e53]:
+        - generic [ref=e54]:
+          - text: 人物入卷
+          - heading "角色库" [level=1] [ref=e55]
+          - paragraph [ref=e56]: 浏览从典籍中醒来的角色，按出处与稀有度筛选，并进入完整卷宗。
+        - generic [ref=e57]:
+          - strong [ref=e58]: "0"
+          - generic [ref=e59]: 位已入卷
+      - region "角色筛选" [ref=e60]:
+        - generic [ref=e61]:
+          - generic [ref=e65]: 搜索角色
+          - textbox "搜索角色" [ref=e66]:
+            - /placeholder: 按角色或出处检索
+        - generic [ref=e67]:
+          - combobox "按出处筛选" [ref=e69]:
+            - option "全部出处" [selected]
+          - combobox "按稀有度筛选" [ref=e70]:
+            - option "全部稀有度" [selected]
+            - option "传说"
+            - option "史诗"
+            - option "稀有"
+            - option "普通"
+          - combobox "按战力排序" [ref=e71]:
+            - option "默认排序" [selected]
+            - option "战力从高到低"
+            - option "战力从低到高"
+      - status [ref=e72]:
+        - status [ref=e73]:
+          - paragraph [ref=e76]: 正在翻阅角色列传…

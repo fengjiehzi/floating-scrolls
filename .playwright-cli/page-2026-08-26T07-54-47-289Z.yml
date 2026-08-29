@@ -1,0 +1,92 @@
+- generic [ref=e3]:
+  - complementary "主要导航" [ref=e4]:
+    - button "返回万卷浮生首页" [ref=e5]:
+      - generic [ref=e9]: 万卷
+    - generic [ref=e10]:
+      - button "书库" [ref=e11]
+      - button "角色" [ref=e15]
+      - button "法宝" [ref=e22]
+      - button "战斗" [ref=e28]
+      - button "剧情" [ref=e39]
+    - button "设置" [ref=e45]
+  - main [ref=e51]:
+    - generic [ref=e52]:
+      - generic [ref=e53]:
+        - generic [ref=e54]:
+          - text: 典籍总目
+          - heading "书库" [level=1] [ref=e55]
+          - paragraph [ref=e56]: 这里收录你曾进入的故事。人物、章节与选择，会在一次次翻阅中沉淀成可重返的世界。
+        - button "典籍入卷" [ref=e57]
+      - region [ref=e59]:
+        - article [ref=e60]:
+          - generic [ref=e61]: 正在阅读
+          - generic [ref=e64]:
+            - generic [ref=e65]: 续读案卷
+            - heading "西游记" [level=2] [ref=e66]
+            - paragraph [ref=e67]: 吴承恩 · 名著典藏
+            - paragraph [ref=e68]: 西行取经与神魔劫难。每一次选择，都会让熟悉的西行路生出新的岔口。
+            - generic [ref=e69]:
+              - generic [ref=e70]: 3 位角色
+              - generic [ref=e76]: 820,000 字
+              - generic [ref=e77]: 5 小时前
+            - progressbar "《西游记》阅读进度" [ref=e78]:
+              - generic [ref=e79]:
+                - generic [ref=e80]: 第 4 / 10 章
+                - generic [ref=e81]: 40%
+            - button "继续阅读" [ref=e84]
+        - complementary [ref=e87]:
+          - generic [ref=e88]:
+            - heading "最近翻阅" [level=2] [ref=e93]
+            - generic [ref=e94]: 2 卷
+          - generic [ref=e95]:
+            - button "继续阅读《三国演义》" [ref=e96]:
+              - generic [ref=e97]: 正在阅读
+              - strong [ref=e98]: 三国演义
+              - generic [ref=e99]: 罗贯中 · 17 小时前
+            - button "继续阅读《红楼梦》" [ref=e102]:
+              - generic [ref=e103]: 已完成
+              - strong [ref=e104]: 红楼梦
+              - generic [ref=e105]: 曹雪芹 · 5 天前
+      - region [ref=e108]:
+        - generic [ref=e109]:
+          - generic [ref=e110]:
+            - heading "全部藏卷" [level=2] [ref=e111]
+            - paragraph [ref=e112]: 按阅读状态、收藏与来源快速找到下一段故事。
+          - generic [ref=e113]: 0 / 5 部
+        - generic [ref=e116]:
+          - toolbar "筛选藏书" [ref=e117]:
+            - button "全部" [ref=e118]
+            - button "正在阅读" [ref=e119]
+            - button "已收藏" [ref=e120]
+            - button "已完成" [ref=e121]
+            - button "本地入卷" [pressed] [ref=e122]
+          - generic [ref=e123]:
+            - generic [ref=e127]: 搜索典籍
+            - textbox "搜索典籍" [ref=e128]:
+              - /placeholder: 搜索书名、作者或角色
+        - status [ref=e323]:
+          - heading "没有找到对应典籍" [level=2] [ref=e326]
+          - paragraph [ref=e327]: 调整搜索词或筛选条件后再试。
+    - generic [ref=e328]:
+      - button "关闭对话框" [ref=e329]
+      - dialog [ref=e330]:
+        - generic [ref=e331]:
+          - heading "典籍入卷" [level=2] [ref=e332]
+          - button "关闭对话框" [active] [ref=e333]
+        - generic [ref=e338]:
+          - generic [ref=e339]: 本次新增仅保存在当前前端会话，不会上传到受保护接口。
+          - generic [ref=e344]:
+            - generic [ref=e345]: 书名
+            - textbox "书名" [ref=e346]:
+              - /placeholder: 请输入书名
+          - generic [ref=e347]:
+            - generic [ref=e348]: 作者
+            - textbox "作者" [ref=e349]:
+              - /placeholder: 请输入作者
+          - generic [ref=e350]:
+            - generic [ref=e351]: 简介
+            - textbox "简介" [ref=e352]:
+              - /placeholder: 请输入书籍简介
+          - generic [ref=e353]:
+            - button "取消" [ref=e354]
+            - button "加入当前会话" [disabled] [ref=e355]

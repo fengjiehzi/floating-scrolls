@@ -1,0 +1,164 @@
+- generic [ref=f6e3]:
+  - banner [ref=f6e4]:
+    - generic [ref=f6e5]:
+      - button "万卷浮生 首页" [ref=f6e6] [cursor=pointer]:
+        - generic [ref=f6e11]: 万卷浮生
+      - navigation "核心探索导航" [ref=f6e12]:
+        - button "书库" [ref=f6e13] [cursor=pointer]
+        - button "角色" [ref=f6e14] [cursor=pointer]
+        - button "法宝" [ref=f6e15] [cursor=pointer]
+        - button "浮生录" [ref=f6e16] [cursor=pointer]
+        - button "演武场" [ref=f6e17] [cursor=pointer]
+      - button "AI 设置" [ref=f6e19] [cursor=pointer]
+  - generic [ref=f6e25]:
+    - banner [ref=f6e26]:
+      - generic [ref=f6e27]: 世界经纬 · 篇章长卷
+      - tablist "篇章分类" [ref=f6e32]:
+        - tab "天下八荒" [selected] [ref=f6e33] [cursor=pointer]
+        - tab "人间篇" [ref=f6e34] [cursor=pointer]
+        - tab "神魔篇" [ref=f6e35] [cursor=pointer]
+        - tab "王朝篇" [ref=f6e36] [cursor=pointer]
+        - tab "幽冥篇" [ref=f6e37] [cursor=pointer]
+      - generic [ref=f6e38]:
+        - generic [ref=f6e39]:
+          - button "藏书阁" [ref=f6e40] [cursor=pointer]
+          - button "排行榜" [ref=f6e45] [cursor=pointer]
+          - button "珍藏" [ref=f6e54] [cursor=pointer]
+        - button [ref=f6e59] [cursor=pointer]:
+          - img "执笔者" [ref=f6e61]
+    - main [ref=f6e64]:
+      - region "世界经纬图" [ref=f6e65]:
+        - generic [ref=f6e66]:
+          - generic [ref=f6e67]: 世界经纬图
+          - paragraph [ref=f6e71]: 八大世界 · 势力经纬 · 因果纷争
+        - generic [ref=f6e72]:
+          - complementary "往昔卷轴柱" [ref=f6e73]:
+            - button "向左探索" [ref=f6e82] [cursor=pointer]
+            - generic [ref=f6e85]: 向左拖动探索往昔
+          - generic "世界长卷，可拖拽或使用左右方向键探索" [ref=f6e88]:
+            - generic [ref=f6e89]:
+              - article [ref=f6e91] [cursor=pointer]:
+                - button "查阅《西游神魔》世界秘卷" [ref=f6e92]
+                - generic [ref=f6e93]: "01"
+                - img "西游神魔" [ref=f6e95]
+                - generic [ref=f6e97]:
+                  - heading "西游神魔" [level=4] [ref=f6e98]
+                  - paragraph [ref=f6e99]: 石破惊天 · 大圣归来
+                  - paragraph [ref=f6e100]: “天地不仁，以万物为刍狗”
+                  - button "探索中" [ref=f6e101]
+                - generic [ref=f6e102]:
+                  - generic [ref=f6e103]: 猴
+                  - generic [ref=f6e104]: 灵猴势力
+              - article [ref=f6e105] [cursor=pointer]:
+                - button "查阅《三国乱世》世界秘卷" [ref=f6e106]
+                - generic [ref=f6e107]: "02"
+                - img "三国乱世" [ref=f6e109]
+                - generic [ref=f6e111]:
+                  - heading "三国乱世" [level=4] [ref=f6e112]
+                  - paragraph [ref=f6e113]: 群雄逐鹿 · 赤壁烽烟
+                  - paragraph [ref=f6e114]: “天下大势，分久必合”
+                  - button "已解锁" [ref=f6e115]
+                - generic [ref=f6e116]:
+                  - generic [ref=f6e117]: 汉
+                  - generic [ref=f6e118]: 汉室势力
+              - article [ref=f6e119] [cursor=pointer]:
+                - button "查阅《红楼太虚》世界秘卷" [ref=f6e120]
+                - generic [ref=f6e121]: "03"
+                - img "红楼太虚" [ref=f6e123]
+                - generic [ref=f6e125]:
+                  - heading "红楼太虚" [level=4] [ref=f6e126]
+                  - paragraph [ref=f6e127]: 繁华一梦 · 太虚幻境
+                  - paragraph [ref=f6e128]: “满纸荒唐言，一把辛酸泪”
+                  - button "入卷" [ref=f6e129]
+                - generic [ref=f6e130]:
+                  - generic [ref=f6e131]: 梦
+                  - generic [ref=f6e132]: 太虚幻境
+              - article [ref=f6e133] [cursor=pointer]:
+                - button "查阅《封神杀劫》世界秘卷" [ref=f6e134]
+                - generic [ref=f6e135]: "04"
+                - img "封神杀劫" [ref=f6e137]
+                - generic [ref=f6e139]:
+                  - heading "封神杀劫" [level=4] [ref=f6e140]
+                  - paragraph [ref=f6e141]: 封神崛起 · 天命杀劫
+                  - paragraph [ref=f6e142]: “顺天者昌，逆天者亡”
+                  - button "探索中" [ref=f6e143]
+                - generic [ref=f6e144]:
+                  - generic [ref=f6e145]: 神
+                  - generic [ref=f6e146]: 阐教势力
+              - article [ref=f6e147] [cursor=pointer]:
+                - button "查阅《白蛇水漫》世界秘卷" [ref=f6e148]
+                - generic [ref=f6e149]: "05"
+                - img "白蛇水漫" [ref=f6e151]
+                - generic [ref=f6e153]:
+                  - heading "白蛇水漫" [level=4] [ref=f6e154]
+                  - paragraph [ref=f6e155]: 千年情劫 · 水漫金山
+                  - paragraph [ref=f6e156]: “情不知所起，一往而深”
+                  - button "入卷" [ref=f6e157]
+                - generic [ref=f6e158]:
+                  - generic [ref=f6e159]: 蛇
+                  - generic [ref=f6e160]: 西湖势力
+              - article [ref=f6e161] [cursor=pointer]:
+                - button "查阅《史记霸业》世界秘卷" [ref=f6e162]
+                - generic [ref=f6e163]: "06"
+                - img "史记霸业" [ref=f6e165]
+                - generic [ref=f6e167]:
+                  - heading "史记霸业" [level=4] [ref=f6e168]
+                  - paragraph [ref=f6e169]: 兴衰更替 · 史笔如刀
+                  - paragraph [ref=f6e170]: “究天人之际，通古今之变”
+                  - button "已解锁" [ref=f6e171]
+                - generic [ref=f6e172]:
+                  - generic [ref=f6e173]: 帝
+                  - generic [ref=f6e174]: 帝国势力
+              - article [ref=f6e175] [cursor=pointer]:
+                - button "查阅《水浒聚义》世界秘卷" [ref=f6e176]
+                - generic [ref=f6e177]: "07"
+                - img "水浒聚义" [ref=f6e179]
+                - generic [ref=f6e181]:
+                  - heading "水浒聚义" [level=4] [ref=f6e182]
+                  - paragraph [ref=f6e183]: 梁山聚义 · 忠义豪情
+                  - paragraph [ref=f6e184]: “路见不平，拔刀相助”
+                  - button "探索中" [ref=f6e185]
+                - generic [ref=f6e186]:
+                  - generic [ref=f6e187]: 梁
+                  - generic [ref=f6e188]: 梁山势力
+              - article [ref=f6e189] [cursor=pointer]:
+                - button "查阅《聊斋幽冥》世界秘卷" [ref=f6e190]
+                - generic [ref=f6e191]: "08"
+                - img "聊斋幽冥" [ref=f6e193]
+                - generic [ref=f6e195]:
+                  - heading "聊斋幽冥" [level=4] [ref=f6e196]
+                  - paragraph [ref=f6e197]: 鬼狐有情 · 幽冥异志
+                  - paragraph [ref=f6e198]: “写鬼写妖高人一等”
+                  - button "入卷" [ref=f6e199]
+                - generic [ref=f6e200]:
+                  - generic [ref=f6e201]: 幽
+                  - generic [ref=f6e202]: 幽冥势力
+          - complementary "未来卷轴柱" [ref=f6e203]:
+            - button "向右探索" [ref=f6e212] [cursor=pointer]
+            - generic [ref=f6e215]: 向右拖动探索未来
+        - generic [ref=f6e218]: 拖拽长卷探索世界 · 惯性滑动体验更佳
+    - contentinfo [ref=f6e227]:
+      - region "世界探索进度" [ref=f6e228]:
+        - generic [ref=f6e229]:
+          - generic [ref=f6e230]: 世界探索进度
+          - generic [ref=f6e231]: 36%
+          - generic [ref=f6e232]: 已探索 3 / 8 世界
+        - generic [ref=f6e233]: 卷
+      - generic [ref=f6e239]:
+        - button "定位到西游神魔" [ref=f6e241] [cursor=pointer]
+        - button "定位到三国乱世" [ref=f6e242] [cursor=pointer]
+        - button "定位到红楼太虚" [ref=f6e243] [cursor=pointer]
+        - button "定位到封神杀劫" [ref=f6e244] [cursor=pointer]
+        - button "定位到白蛇水漫" [ref=f6e245] [cursor=pointer]
+        - button "定位到史记霸业" [ref=f6e246] [cursor=pointer]
+        - button "定位到水浒聚义" [ref=f6e247] [cursor=pointer]
+        - button "定位到聊斋幽冥" [ref=f6e248] [cursor=pointer]
+        - slider "长卷焦点范围" [ref=f6e249]
+      - navigation "时空导航" [ref=f6e253]:
+        - button "回溯往昔 上一卷" [active] [ref=f6e254] [cursor=pointer]:
+          - generic [ref=f6e255]: 回溯往昔
+          - generic [ref=f6e259]: 上一卷
+        - button "时空定位" [ref=f6e260] [cursor=pointer]
+        - button "前往未来 下一卷" [ref=f6e266] [cursor=pointer]:
+          - generic [ref=f6e267]: 前往未来
+          - generic [ref=f6e271]: 下一卷

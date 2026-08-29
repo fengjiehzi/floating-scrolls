@@ -1,0 +1,21 @@
+- generic [ref=f4e5]:
+  - banner [ref=f4e6]:
+    - generic "万卷浮生" [ref=f4e7]
+    - button "关闭导航" [expanded] [ref=f4e20]
+  - main:
+    - region "万卷浮生":
+      - paragraph: AI 互动典籍 · 群英跨卷相逢
+      - heading "万卷浮生" [level=1]
+      - paragraph: 一页入世，一念改命
+    - generic [ref=f4e14]:
+      - paragraph [ref=f4e15]: 从典籍入卷，在剧情中养成角色，收集法宝，最终走入演武场。
+      - button "开启书卷" [ref=f4e16]
+  - button "关闭导航" [ref=f4e24]
+  - navigation "移动端核心玩法入口" [ref=f4e25]:
+    - button "关闭" [active] [ref=f4e26]
+    - button "书库" [ref=f4e31]
+    - button "角色" [ref=f4e36]
+    - button "法宝" [ref=f4e41]
+    - button "浮生录" [ref=f4e46]
+    - button "演武场" [ref=f4e51]
+    - button "AI 设置" [ref=f4e56]

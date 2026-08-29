@@ -10,13 +10,14 @@ import { BattleResultView } from '@/views/BattleResultView'
 import { StoryView } from '@/views/StoryView'
 import { SettingsView } from '@/views/SettingsView'
 import { ToastContainer } from '@/components/Toast'
-import { Navigation } from '@/components/Navigation'
+import { GlobalBackground } from '@/components/GlobalBackground/GlobalBackground'
+import { GlobalHeader } from '@/components/GlobalHeader/GlobalHeader'
 import { useGameStore } from '@/store/gameStore'
 
 function Layout() {
   const location = useLocation()
   const isWelcome = location.pathname === '/'
-  const isImmersive = location.pathname.startsWith('/battle')
+  const isLibrary = location.pathname === '/library'
   const loadCharacters = useGameStore((state) => state.loadCharacters)
 
   useEffect(() => {
@@ -24,9 +25,10 @@ function Layout() {
   }, [loadCharacters])
 
   return (
-    <div className={`app-shell${isImmersive ? ' app-shell--immersive' : ''}`}>
-      {!isWelcome && !isImmersive && <Navigation />}
-      <div className={`app-main${isWelcome ? ' app-main--welcome' : ''}${isImmersive ? ' app-main--immersive' : ''}`}>
+    <div className={`app-shell ${isWelcome ? 'app-shell--welcome' : ''} ${isLibrary ? 'app-shell--library' : ''}`}>
+      <GlobalBackground />
+      <GlobalHeader />
+      <div className={`app-main ${isWelcome ? 'app-main--welcome' : ''} ${isLibrary ? 'app-main--library' : ''}`}>
         <Outlet />
       </div>
       <ToastContainer />

@@ -1,0 +1,21 @@
+- generic [ref=e3]:
+  - complementary "主要导航" [ref=e4]:
+    - button "返回万卷浮生首页" [ref=e5]:
+      - generic [ref=e9]: 万卷
+    - generic [ref=e10]:
+      - button "书库" [ref=e11]
+      - button "角色" [ref=e15]
+      - button "战斗" [ref=e22]
+      - button "剧情" [ref=e33]
+    - button "设置" [ref=e39]
+  - generic [ref=e46]:
+    - banner [ref=e47]:
+      - generic [ref=e48]:
+        - heading "角色列传" [level=1] [ref=e49]
+        - paragraph [ref=e50]: 收录从典籍中醒来的角色，查看属性、出处与当前形态。
+      - generic [ref=e51]:
+        - strong [ref=e52]: "0"
+        - generic [ref=e53]: 位已入卷
+    - textbox "按角色或出处检索" [ref=e58]
+    - status [ref=e60]:
+      - paragraph [ref=e63]: 正在翻阅角色列传…

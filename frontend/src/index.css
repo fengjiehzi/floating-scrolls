@@ -49,12 +49,12 @@
   }
   
   html {
-    background: var(--color-paper);
+    background: #080706;
     overflow-x: clip;
   }
   body {
     font-family: var(--font-body-family);
-    background-color: var(--color-bg-primary);
+    background: transparent;
     color: var(--color-text-primary);
     min-height: 100vh;
     overflow-x: clip;
@@ -117,7 +117,7 @@
 
   .app-main {
     min-height: 100dvh;
-    padding-left: 5.5rem;
+    padding-left: 0;
   }
 
   .app-main--welcome {
