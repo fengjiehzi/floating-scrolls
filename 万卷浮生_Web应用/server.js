@@ -36,8 +36,14 @@ const battleEngine = require('./battle-engine');
 const app = express();
 const PORT = process.env.PORT || 8888;
 
-// 中间件
-app.use(cors());
+// 中间件：生产环境默认仅允许同源请求；分离部署时通过 CORS_ORIGIN 配置白名单。
+const corsOrigins = (process.env.CORS_ORIGIN || '')
+    .split(',')
+    .map(origin => origin.trim())
+    .filter(Boolean);
+app.use(cors({
+    origin: corsOrigins.length > 0 ? corsOrigins : process.env.NODE_ENV !== 'production'
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

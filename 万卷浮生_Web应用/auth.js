@@ -1,10 +1,17 @@
 // auth.js - 注册/登录/JWT中间件
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 const db = require('./db');
 
-// JWT密钥（环境变量或默认值）
-const JWT_SECRET = process.env.JWT_SECRET || 'wanjuan_fusheng_secret_key_2024';
+// 生产环境必须显式配置；开发环境使用每次启动随机生成的临时密钥。
+if (process.env.NODE_ENV === 'production' && !process.env.JWT_SECRET) {
+    throw new Error('JWT_SECRET is required when NODE_ENV=production');
+}
+const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(32).toString('hex');
+if (!process.env.JWT_SECRET) {
+    console.warn('[auth] JWT_SECRET 未配置，当前开发会话使用临时密钥。');
+}
 const JWT_EXPIRES_IN = '7d'; // 7天有效期
 
 // 注册新用户

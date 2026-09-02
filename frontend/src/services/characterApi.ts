@@ -1,4 +1,5 @@
 import type { Character, CharacterSkill, CharacterStats } from '@/types'
+import { apiUrl } from '@/services/apiUrl'
 
 interface ApiCharacterStats {
   power: number
@@ -117,7 +118,7 @@ import { FALLBACK_CHARACTERS } from '@/data/charactersData'
 
 export async function fetchCharacters(): Promise<Character[]> {
   try {
-    const response = await fetch('/api/characters', {
+    const response = await fetch(apiUrl('/api/characters'), {
       headers: { Accept: 'application/json' },
     })
 
@@ -139,7 +140,7 @@ export async function fetchCharacters(): Promise<Character[]> {
 
 export async function fetchCharacterById(id: string): Promise<Character> {
   try {
-    const response = await fetch(`/api/characters/${encodeURIComponent(id)}`, {
+    const response = await fetch(apiUrl(`/api/characters/${encodeURIComponent(id)}`), {
       headers: { Accept: 'application/json' },
     })
 

@@ -1,4 +1,5 @@
 import type { Item, ItemStatsBonus } from '@/types'
+import { apiUrl } from '@/services/apiUrl'
 
 interface ApiItem {
   id: number | string
@@ -44,7 +45,7 @@ import { FALLBACK_ITEMS } from '@/data/itemsData'
 
 export async function fetchItems(): Promise<Item[]> {
   try {
-    const response = await fetch('/api/items', { headers: { Accept: 'application/json' } })
+    const response = await fetch(apiUrl('/api/items'), { headers: { Accept: 'application/json' } })
     if (!response.ok) {
       return FALLBACK_ITEMS
     }
