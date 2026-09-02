@@ -1,11 +1,15 @@
 {
   "name": "wanjuan-fusheng-web",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "万卷浮生 - AI角色卡牌PVP在线对战Web应用",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

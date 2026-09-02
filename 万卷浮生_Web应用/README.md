@@ -35,7 +35,7 @@ npm start
 
 ### 访问应用
 
-打开浏览器访问：`http://localhost:3000`
+打开浏览器访问：`http://localhost:8888`
 
 ### 游戏流程
 
@@ -228,8 +228,8 @@ battles (id, player1_id, player2_id, winner_id, rounds, created_at)
 复制 `.env.example` 为 `.env`，配置如下：
 
 ```env
-PORT=3000
-JWT_SECRET=your-secret-key
+PORT=8888
+JWT_SECRET=replace_with_a_long_random_value
 NODE_ENV=development
 ```
 
@@ -248,7 +248,7 @@ NODE_ENV=development
 ## 验证清单
 
 - [x] npm install 能成功安装依赖
-- [x] node server.js 能启动服务器，监听 3000 端口
+- [x] node server.js 能启动服务器，监听 8888 端口
 - [x] 数据库文件 data.db 自动创建，表结构正确
 - [x] 25 个角色自动初始化到 characters 表
 - [x] 31 件道具自动初始化到 items 表
