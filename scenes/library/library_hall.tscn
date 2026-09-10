@@ -1,0 +1,165 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/library_hall.gd" id="1_hall"]
+[ext_resource type="Texture2D" path="res://assets/art/backgrounds/welcome-world-base.png" id="2_mountains"]
+[ext_resource type="Script" path="res://scripts/ui/library_architecture.gd" id="3_architecture"]
+[ext_resource type="FontFile" path="res://assets/fonts/source-han-sans-sc.otf" id="4_font"]
+
+[sub_resource type="Gradient" id="Gradient_veil"]
+offsets = PackedFloat32Array(0, 0.27, 0.47, 1)
+colors = PackedColorArray(0.035, 0.067, 0.08, 0.99, 0.035, 0.067, 0.08, 0.94, 0.035, 0.067, 0.08, 0.27, 0.035, 0.067, 0.08, 0.12)
+
+[sub_resource type="GradientTexture2D" id="Texture_veil"]
+gradient = SubResource("Gradient_veil")
+fill_from = Vector2(0, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="Theme" id="Theme_hall"]
+default_font = ExtResource("4_font")
+default_font_size = 18
+Label/colors/font_color = Color(0.91, 0.88, 0.81, 1)
+Label/colors/font_outline_color = Color(0, 0, 0, 0.25)
+Label/constants/outline_size = 0
+
+[node name="LibraryHall" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+clip_contents = true
+theme = SubResource("Theme_hall")
+script = ExtResource("1_hall")
+
+[node name="Mountains" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_mountains")
+expand_mode = 1
+stretch_mode = 6
+modulate = Color(0.9, 0.99, 1, 1)
+
+[node name="Veil" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("Texture_veil")
+
+[node name="Composition" type="Node2D" parent="."]
+
+[node name="Architecture" type="Node2D" parent="Composition"]
+script = ExtResource("3_architecture")
+
+[node name="Books" type="Node2D" parent="Composition"]
+
+[node name="Xiyouji" type="Marker2D" parent="Composition/Books"]
+position = Vector2(464, 134)
+scale = Vector2(0.82, 0.82)
+
+[node name="Sanguo" type="Marker2D" parent="Composition/Books"]
+position = Vector2(650, 134)
+scale = Vector2(0.82, 0.82)
+
+[node name="Fengshen" type="Marker2D" parent="Composition/Books"]
+position = Vector2(836, 134)
+scale = Vector2(0.82, 0.82)
+
+[node name="Honglou" type="Marker2D" parent="Composition/Books"]
+position = Vector2(1022, 134)
+scale = Vector2(0.82, 0.82)
+
+[node name="Shuihu" type="Marker2D" parent="Composition/Books"]
+position = Vector2(404, 353)
+
+[node name="Baishe" type="Marker2D" parent="Composition/Books"]
+position = Vector2(611, 353)
+
+[node name="Shiji" type="Marker2D" parent="Composition/Books"]
+position = Vector2(818, 353)
+
+[node name="Liaozhai" type="Marker2D" parent="Composition/Books"]
+position = Vector2(1025, 353)
+
+[node name="Info" type="Control" parent="Composition"]
+offset_left = 38.0
+offset_top = 34.0
+offset_right = 314.0
+offset_bottom = 586.0
+mouse_filter = 2
+
+[node name="Eyebrow" type="Label" parent="Composition/Info"]
+offset_right = 276.0
+offset_bottom = 28.0
+theme_override_colors/font_color = Color(0.79, 0.65, 0.42, 1)
+theme_override_font_sizes/font_size = 14
+text = "藏 经 阁  /  八 卷 入 世"
+
+[node name="Heading" type="Label" parent="Composition/Info"]
+offset_top = 44.0
+offset_right = 276.0
+offset_bottom = 149.0
+theme_override_font_sizes/font_size = 43
+text = "灯下展卷\n一念浮生"
+
+[node name="Hint" type="Label" parent="Composition/Info"]
+offset_top = 168.0
+offset_right = 276.0
+offset_bottom = 212.0
+theme_override_colors/font_color = Color(0.62, 0.68, 0.66, 1)
+theme_override_font_sizes/font_size = 15
+text = "轻触阁中书卷，循一段原著入世。"
+autowrap_mode = 3
+
+[node name="BookTitle" type="Label" parent="Composition/Info"]
+offset_top = 240.0
+offset_right = 276.0
+offset_bottom = 280.0
+theme_override_colors/font_color = Color(0.94, 0.81, 0.58, 1)
+theme_override_font_sizes/font_size = 28
+
+[node name="BookMeta" type="Label" parent="Composition/Info"]
+offset_top = 287.0
+offset_right = 276.0
+offset_bottom = 311.0
+theme_override_colors/font_color = Color(0.66, 0.69, 0.65, 1)
+theme_override_font_sizes/font_size = 14
+
+[node name="Description" type="Label" parent="Composition/Info"]
+offset_top = 325.0
+offset_right = 276.0
+offset_bottom = 398.0
+theme_override_font_sizes/font_size = 16
+autowrap_mode = 3
+text_overrun_behavior = 3
+max_lines_visible = 3
+
+[node name="Progress" type="Label" parent="Composition/Info"]
+offset_top = 405.0
+offset_right = 276.0
+offset_bottom = 431.0
+theme_override_colors/font_color = Color(0.78, 0.67, 0.49, 1)
+theme_override_font_sizes/font_size = 14
+
+[node name="OpenBook" type="Button" parent="Composition/Info"]
+offset_top = 448.0
+offset_right = 276.0
+offset_bottom = 502.0
+mouse_default_cursor_shape = 2
+text = "进入书卷"
+
+[node name="Endings" type="Button" parent="Composition/Info"]
+offset_top = 512.0
+offset_right = 276.0
+offset_bottom = 562.0
+mouse_default_cursor_shape = 2
+text = "查看结局"

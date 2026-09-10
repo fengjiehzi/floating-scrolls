@@ -1,0 +1,13 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#191b20"/>
+      <stop offset="1" stop-color="#080b10"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="url(#ink)"/>
+  <rect x="54" y="54" width="404" height="404" rx="66" fill="none" stroke="#c9a45f" stroke-width="12"/>
+  <path d="M136 128h240v256H136z" fill="#ede1c7" opacity=".95"/>
+  <path d="M136 128c44 22 76 22 120 0 44 22 76 22 120 0v256c-44-22-76-22-120 0-44-22-76-22-120 0z" fill="#f4ead4" stroke="#8c2733" stroke-width="8"/>
+  <text x="256" y="315" text-anchor="middle" font-family="serif" font-size="180" fill="#311d1d">卷</text>
+</svg>
