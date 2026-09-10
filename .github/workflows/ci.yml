@@ -1,4 +1,4 @@
-name: CI
+name: Godot CI
 
 on:
   push:
@@ -9,69 +9,54 @@ permissions:
   contents: read
 
 jobs:
-  server:
-    name: Server smoke test
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: 万卷浮生_Web应用
+  validate:
+    name: Headless content and gameplay validation
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-          cache-dependency-path: 万卷浮生_Web应用/package-lock.json
-      - run: npm ci
-      - name: Check server syntax
+
+      - name: Download Godot 4.7.2
+        shell: pwsh
         run: |
-          node --check server.js
-          node --check auth.js
-          node --check ws-server.js
-          node --check ai-service.js
-          node --check battle-engine.js
-      - name: Smoke-test HTTP and WebSocket startup
-        shell: bash
-        env:
-          NODE_ENV: production
-          HOST: 127.0.0.1
-          PORT: 8888
-          JWT_SECRET: ci-only-not-a-production-secret
-          DB_PATH: ${{ runner.temp }}/floating-scrolls-ci.db
+          $archive = Join-Path $env:RUNNER_TEMP 'godot.zip'
+          $engineDir = Join-Path $env:RUNNER_TEMP 'godot'
+          Invoke-WebRequest 'https://github.com/godotengine/godot/releases/download/4.7.2-stable/Godot_v4.7.2-stable_win64.exe.zip' -OutFile $archive
+          Expand-Archive $archive -DestinationPath $engineDir
+          $engine = Get-ChildItem $engineDir -Filter '*_console.exe' | Select-Object -First 1 -ExpandProperty FullName
+          "GODOT_BIN=$engine" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: Verify migrated asset manifest
+        shell: pwsh
         run: |
-          npm start > "$RUNNER_TEMP/floating-scrolls-server.log" 2>&1 &
-          server_pid=$!
-          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          $failures = @()
+          foreach ($line in Get-Content 'assets/art/manifest.sha256') {
+            if (-not $line.Trim()) { continue }
+            if ($line -notmatch '^([0-9a-fA-F]{64})  (.+)$') {
+              $failures += "Invalid manifest line: $line"
+              continue
+            }
+            $expected = $Matches[1]
+            $path = $Matches[2]
+            if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
+              $failures += "Missing asset: $path"
+              continue
+            }
+            if ((Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash -ne $expected) {
+              $failures += "Hash mismatch: $path"
+            }
+          }
+          if ($failures.Count) { throw ($failures -join "`n") }
 
-          ready=false
-          for attempt in {1..20}; do
-            if node -e "fetch('http://127.0.0.1:8888/api/characters').then(r => { if (!r.ok) process.exit(1) })"; then
-              ready=true
-              break
-            fi
-            sleep 1
-          done
+      - name: Reject online runtime hooks
+        shell: pwsh
+        run: |
+          $patterns = @('/api', 'WebSocket', 'apiKey', 'VITE_API_BASE_URL')
+          $files = @('project.godot', 'export_presets.cfg') + @(Get-ChildItem scripts,scenes -Recurse -File | Select-Object -ExpandProperty FullName)
+          $hits = Select-String -LiteralPath $files -Pattern $patterns -SimpleMatch
+          if ($hits) { throw ($hits | Out-String) }
 
-          if [ "$ready" != true ]; then
-            cat "$RUNNER_TEMP/floating-scrolls-server.log"
-            exit 1
-          fi
-
-          node -e "const WebSocket=require('ws'); const ws=new WebSocket('ws://127.0.0.1:8888'); const timer=setTimeout(() => process.exit(1), 5000); ws.on('message', raw => { const data=JSON.parse(raw); if (data.type === 'error') { clearTimeout(timer); ws.close(); process.exit(0); } }); ws.on('error', () => process.exit(1));"
-
-  frontend:
-    name: Frontend lint and build
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontend
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-          cache-dependency-path: frontend/package-lock.json
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run build
+      - name: Run Godot headless suite
+        shell: pwsh
+        run: |
+          & $env:GODOT_BIN --headless --path . tests/test_runner.tscn
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

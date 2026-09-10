@@ -1,129 +1,58 @@
-# Contributing to Floating Scrolls
+# 参与《万卷浮生》开发
 
-感谢你参与 Floating Scrolls / 万卷浮生。项目希望把经典文学转化为可验证、可扩展的 AI-native interactive fiction 与 multiplayer game：LLM 负责角色和叙事生成，结构化状态负责可持续的游戏流程，WebSocket 负责跨作品实时互动。
+本仓库只维护 Godot 4.7.2 + GDScript 的离线游戏。提交应聚焦一个明确问题，不引入 Web 运行时、服务器、账号、云存档、动态内容生成或联网权限。
 
-## 项目结构
+## 开发环境
 
-- `万卷浮生_Web应用/`：当前可完整运行的 Express + SQLite + WebSocket 应用及原生前端。
-- `frontend/`：React + Vite + TypeScript 迁移版；并非所有完整应用功能都已迁移。
-- `docs/`：策划、设计、技术文档与 ADR。
+- Godot 4.7.2 与对应导出模板；
+- Windows 导出不需要额外工具链；
+- Android 导出使用 OpenJDK 17、Android SDK 35 工具链与 Godot 官方要求的 NDK/CMake；
+- 项目必须使用 Compatibility renderer 并保持横屏。
 
-请让改动聚焦在一个明确问题上。大规模重构、替换技术栈或改变核心玩法前，请先创建 Issue 讨论。
+## 内容模型
 
-## 开发环境要求
+运行时内容只通过以下 Godot 自定义 `Resource` 表达：
 
-- Node.js >= 18.0.0
-- npm >= 9.0.0（仓库提交 `package-lock.json`，请使用 npm）
-- SQLite 由 `better-sqlite3` 在本地自动创建，不需要单独安装数据库服务
-- 不需要 Redis
-- 使用 AI 功能时才需要相应模型服务商的 API Key
-- 开发 React 客户端时需要同时启动后端和 Vite 两个进程；完整原生客户端只需一个 Node 进程
+- `BookDefinition`
+- `CharacterDefinition`
+- `ItemDefinition`
+- `StoryGraph`
+- `BattleDefinition`
 
-## 本地开发
+所有引用使用稳定英文 ID。新增或修改内容时必须保证：
 
-完整应用：
+- ID 不重复；
+- 剧情节点可从起点到达；
+- 图片路径存在；
+- 人物、法宝、剧情与战斗不跨书卷错误引用；
+- 未完成战斗数据的人物只能作为未解锁图鉴资料。
 
-```bash
-cd 万卷浮生_Web应用
-npm ci
-cp .env.example .env
-npm run dev
+## 改动原则
+
+- 只修改当前任务需要的文件，不顺手重构相邻模块。
+- 不为单次需求增加抽象层或配置系统。
+- 场景通过信号与 `ContentRegistry`、`GameState`、`SaveService` 交互，不新增全局服务。
+- UI 使用 `Control`，触控目标不小于 `48×48`，不能依赖悬停才能操作。
+- 新素材必须放入 `assets/art/`，使用稳定英文文件名，并更新 `manifest.sha256`。
+
+## 提交前验证
+
+```powershell
+godot --headless --path . tests/test_runner.tscn
+godot --headless --path . --export-release "Windows Desktop"
+godot --headless --path . --export-debug "Android Debug"
 ```
 
-将 `.env` 中的 `JWT_SECRET` 替换为本地随机值，然后访问 <http://localhost:8888>。Windows PowerShell 可用 `Copy-Item .env.example .env`。
+UI 改动还需检查 `1280×720`、`1920×1080` 和 `2400×1080` 横屏，确认安全区、返回键、触控和文字没有裁切。
 
-React 迁移版：
+Android APK 必须确认：
 
-```bash
-cd frontend
-npm ci
-npm run dev
-```
+- 包名为 `com.fengjiehzi.wanjuanfusheng`；
+- 版本名为 `0.2.0-godot-alpha`；
+- 横屏启动；
+- 不申请 `INTERNET` 权限；
+- 断网状态可以从藏经阁完成任一结局。
 
-默认 Vite 开发代理会把 `/api` 转发到 `http://127.0.0.1:8888`。
+## Pull Request
 
-## Environment Variables
-
-复制示例文件，不要修改或提交真实密钥：
-
-- 服务端：`万卷浮生_Web应用/.env.example`
-- React 客户端：`frontend/.env.example`
-
-服务端实际读取以下变量：
-
-| 变量 | 说明 |
-| --- | --- |
-| `JWT_SECRET` | JWT 签名；生产环境必须设置 |
-| `HOST`, `PORT` | 服务监听地址与端口 |
-| `DB_PATH` | SQLite 文件路径 |
-| `CORS_ORIGIN` | 允许跨域的前端 Origin，可用逗号分隔多个值 |
-| `AI_PROVIDER`, `AI_MODEL` | 默认模型服务商与模型 |
-| `DEEPSEEK_API_KEY`, `ZHIPU_API_KEY`, `KIMI_API_KEY`, `QWEN_API_KEY` | 对应模型服务商凭据 |
-| `MINIMAX_API_KEY`, `DOUBAO_API_KEY`, `STEPFUN_API_KEY`, `SILICONFLOW_API_KEY` | 对应模型服务商凭据 |
-| `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `MIMO_API_KEY` | 对应模型服务商凭据 |
-| `BAIDU_API_KEY`, `TENCENT_API_KEY`, `OLLAMA_API_KEY` | 对应模型服务商凭据；本地 Ollama 通常无需 Key |
-| `VITE_API_BASE_URL` | React 客户端独立部署时的 API 基址 |
-
-不要在 Issue、日志、截图、测试数据或 PR 描述中粘贴真实 Secret。若凭据曾进入 Git 历史，请先在服务商处轮换。
-
-## Branch / Commit
-
-建议从最新 `main` 创建短生命周期分支：
-
-- `feat/*`：新功能
-- `fix/*`：缺陷修复
-- `docs/*`：文档
-- `chore/*`：维护与工具链
-
-Commit 推荐使用 Conventional Commits：`feat:`、`fix:`、`docs:`、`refactor:`、`test:`、`chore:`、`ci:`。
-
-## Code Style
-
-- `frontend/` 使用 TypeScript 与 ESLint，提交前运行 `npm run lint` 和 `npm run build`。
-- 服务端当前使用 CommonJS、4 空格缩进和分号；请匹配现有风格。
-- 不做与当前 Issue 无关的格式化或重构。
-- UI 改动应同时检查桌面与移动视口，并尊重现有 `frontend/design.md` 设计系统。
-
-## Testing
-
-当前尚无完整自动化单元测试套件。每次贡献至少应运行：
-
-```bash
-cd frontend
-npm run lint
-npm run build
-```
-
-服务端改动还应运行 `node --check` 检查相关 JavaScript 文件，并启动 `npm start` 验证首页、相关 API 和 WebSocket 初始化。请在 PR 中准确记录已执行命令和结果；欢迎贡献服务端单元测试、WebSocket 集成测试与浏览器端到端测试。
-
-## Pull Requests
-
-PR 请至少包含：
-
-- 改动目的与范围；
-- 关联 Issue（如有）；
-- 实际测试命令与结果；
-- UI 改动的桌面和移动端截图；
-- 已确认没有提交密钥、Cookie、私有数据或未授权素材；
-- 已确认改动聚焦，不夹带无关重构。
-
-## Issues
-
-欢迎创建：
-
-- Bug report；
-- Feature request；
-- 新的公版小说或角色支持；
-- AI model integration；
-- Battle balance issue；
-- Multiplayer / WebSocket issue。
-
-报告问题时请提供复现步骤、预期行为、实际行为、运行环境和必要日志，并移除所有敏感信息。
-
-## AI-generated Contributions
-
-允许使用 AI 辅助开发，但贡献者必须理解并对提交内容负责。请自行验证代码，不要提交未经检查的大量生成代码，也不要提交来源不明、未经授权的数据、文本或美术素材。
-
-## License
-
-向本项目提交贡献，即表示你同意按项目的 [MIT License](LICENSE) 授权该贡献。
+PR 请包含改动目的、实际测试命令与结果；涉及 UI 时附横屏截图。不要提交 `.godot/`、`.tools/`、`builds/`、本地存档、导出签名或来源不明的素材。

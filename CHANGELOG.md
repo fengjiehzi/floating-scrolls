@@ -1,37 +1,18 @@
-# Changelog
+# 版本记录
 
-All notable changes to Floating Scrolls will be documented in this file.
+## 未发布
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+- 藏经阁重建为独立 2.5D 场景，加入透视书卷、地台、廊柱、灯笼与分层山景。
+- 支持鼠标/触控选卷、选中抬升和桌面视差，并遵循减少动态效果设置。
+- 补齐结局图鉴，可按书卷查阅已见结局正文与收集进度，未解锁内容不提前展示。
+- 藏经阁和通关页增加结局入口；回看不改变当前路线，重开与读档后保留收藏。
+- 增加结局图鉴的显示、进度隔离、存档恢复和清空回归测试。
 
-## [Unreleased]
+## 0.2.0-godot-alpha - 2026-09-05
 
-### Planned
-
-- Expand automated unit, integration, and end-to-end test coverage.
-- Continue migrating the complete game flow to the React client.
-
-## [0.1.0] - 2026-09-02
-
-### Added
-
-- AI-assisted character extraction and branching interactive narrative APIs.
-- A built-in catalog of 23 literary characters and 31 legendary items.
-- Character growth, equipment, story saves, battle records, and leaderboards backed by SQLite.
-- Real-time player matching and battle communication over WebSocket, including bot opponents.
-- Multi-provider LLM configuration, including OpenAI-compatible and Anthropic-native endpoints.
-- React 19, Vite, TypeScript, Zustand, and Tailwind CSS migration preview.
-- Contributor guide, deployment guide, release notes, MIT license, and baseline GitHub Actions CI.
-
-### Changed
-
-- Production configuration now requires an explicit JWT secret and restricts CORS to same-origin unless an allowlist is configured.
-- React API requests can use the `VITE_API_BASE_URL` environment variable.
-- Repository-generated Playwright output, local tool state, and operating-system artifacts are excluded from version control.
-
-### Security
-
-- Removed the public static JWT default; development sessions now generate an ephemeral secret and production startup fails without `JWT_SECRET`.
-
-[Unreleased]: https://github.com/fengjiehzi/floating-scrolls/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/fengjiehzi/floating-scrolls/releases/tag/v0.1.0
+- 仓库重构为 Godot 4.7.2 + GDScript 的 2D 横屏离线游戏。
+- 保留八卷古籍资料，完整开放《西游记》12 节点纵切。
+- 实现 3 场主动回合制战斗、2 个原著事实一致的路线结局。
+- 实现图鉴、设置、单档自动存储、损坏存档降级和卷内重开。
+- 增加无插件 headless 内容、战斗与存档验收。
+- 输出 Windows 包和 Android arm64 Debug APK。
